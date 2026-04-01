@@ -1454,8 +1454,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         expStartTime = 0;
         expLastTime  = 0;
-        if (expAnimId) { cancelAnimationFrame(expAnimId); expAnimId = null; }
-        animateExplosion();
+        if (expAnimId) cancelAnimationFrame(expAnimId);
+        expAnimId = requestAnimationFrame(animateExplosion);
     }
 
     function animateExplosion(timestamp) {
