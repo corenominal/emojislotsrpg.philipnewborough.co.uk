@@ -1482,7 +1482,8 @@ document.addEventListener('DOMContentLoaded', () => {
             grad.addColorStop(1,    'rgba(0,0,0,0)');
             expCtx.save();
             expCtx.fillStyle = grad;
-            expCtx.fillRect(0, 0, W, H);
+            // Fill only the bloom area, not the whole canvas
+            expCtx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
             expCtx.restore();
             expGlow = Math.max(0, expGlow - 3.6 * dt);
         }
@@ -1498,8 +1499,6 @@ document.addEventListener('DOMContentLoaded', () => {
             expCtx.globalAlpha = Math.pow(ring.life, 0.65);
             expCtx.strokeStyle = ring.color;
             expCtx.lineWidth   = Math.max(0.5, ring.width * ring.life);
-            expCtx.shadowBlur  = 12;
-            expCtx.shadowColor = ring.color;
             expCtx.beginPath();
             expCtx.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
             expCtx.stroke();
@@ -1521,7 +1520,6 @@ document.addEventListener('DOMContentLoaded', () => {
             expCtx.globalAlpha = alpha;
 
             if (p.type === 'beam') {
-                // Draw beam as a fixed-length glowing line behind the head
                 const spd  = Math.hypot(p.vx, p.vy) || 1;
                 const nx   = p.vx / spd;
                 const ny   = p.vy / spd;
@@ -1529,8 +1527,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const tailY = p.y - ny * p.beamLen;
 
                 expCtx.lineCap     = 'round';
-                expCtx.shadowBlur  = 14;
-                expCtx.shadowColor = p.color;
                 expCtx.strokeStyle = p.color;
                 expCtx.lineWidth   = Math.max(0.5, p.width * p.life);
                 expCtx.beginPath();
@@ -1539,9 +1535,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 expCtx.stroke();
 
             } else if (p.type === 'orb') {
-                expCtx.shadowBlur  = p.size * 2;
-                expCtx.shadowColor = p.color;
-                expCtx.fillStyle   = p.color;
+                expCtx.fillStyle = p.color;
                 expCtx.beginPath();
                 expCtx.arc(p.x, p.y, Math.max(0.5, p.size * Math.pow(p.life, 0.3)), 0, Math.PI * 2);
                 expCtx.fill();
@@ -1560,8 +1554,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     expCtx.fillText(p.emoji, tp.x, tp.y);
                 }
                 expCtx.globalAlpha  = alpha;
-                expCtx.shadowBlur   = 10;
-                expCtx.shadowColor  = '#ffe135';
                 expCtx.translate(p.x, p.y);
                 expCtx.rotate(p.rot);
                 expCtx.font         = `${p.size}px serif`;
