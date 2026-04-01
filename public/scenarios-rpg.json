@@ -308,7 +308,7 @@
           "chance": 0.5,
           "success": {
             "text": "You land a win immediately! Darren slinks away, red-faced.",
-            "creditChange": 20,
+            "creditChange": 50,
             "gameOver": false
           },
           "failure": {
@@ -472,7 +472,7 @@
           "text": "Swap it for credits at the counter.",
           "outcome": "fixed",
           "textSuccess": "The clerk likes the look of it. She swaps it for two free spins.",
-          "creditChange": 10,
+          "creditChange": 20,
           "gameOver": false
         },
         {
@@ -495,12 +495,12 @@
           "chance": 0.5,
           "success": {
             "text": "The next spin is a winner! Praise the Troll!",
-            "creditChange": 10,
+            "creditChange": 50,
             "gameOver": false
           },
           "failure": {
             "text": "The hair comes off in your hand. You feel cursed.",
-            "creditChange": -10,
+            "creditChange": -20,
             "gameOver": false
           }
         },
@@ -524,7 +524,7 @@
           "chance": 0.5,
           "success": {
             "text": "You win the match! The prize is a pouch of 'Arcade Gold'.",
-            "creditChange": 20,
+            "creditChange": 50,
             "gameOver": false
           },
           "failure": {
@@ -651,35 +651,6 @@
       ]
     },
     {
-      "id": "the_walk_home",
-      "title": "RAINY REALITY",
-      "flavorText": "The sun is setting. If you aren't home soon, Mum will know you weren't at 'The Library.'",
-      "options": [
-        {
-          "text": "Five more minutes...",
-          "outcome": "random",
-          "chance": 0.4,
-          "success": {
-            "text": "You hit a final win just in time! You sprint home.",
-            "creditChange": 10,
-            "gameOver": false
-          },
-          "failure": {
-            "text": "You lose track of time. Mum is waiting at the front door. You're grounded.",
-            "creditChange": 0,
-            "gameOver": true
-          }
-        },
-        {
-          "text": "Cash out and run.",
-          "outcome": "fixed",
-          "textSuccess": "Smart move. You live to play another day.",
-          "creditChange": 0,
-          "gameOver": false
-        }
-      ]
-    },
-    {
       "id": "dodgy_tips",
       "title": "DODGY ADVICE",
       "flavorText": "A guy in a shell suit whispers, 'The machine on the end is payin' out. I just saw a guy win a fiver.'",
@@ -690,12 +661,12 @@
           "chance": 0.3,
           "success": {
             "text": "He was right! It's hot! You land a win immediately.",
-            "creditChange": 20,
+            "creditChange": 50,
             "gameOver": false
           },
           "failure": {
             "text": "It was a lie. He just wanted your machine. Now you're on a dud.",
-            "creditChange": -10,
+            "creditChange": -20,
             "gameOver": false
           }
         },
@@ -748,7 +719,7 @@
           "chance": 0.5,
           "success": {
             "text": "The machine looks cool and rewards you with a win!",
-            "creditChange": 10,
+            "creditChange": 20,
             "gameOver": false
           },
           "failure": {
