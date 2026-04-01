@@ -225,8 +225,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const SPIN_BASE_TIMES = [2000, 3000, 4000]; // min stop delay (ms) per wheel
     const spinSpeeds      = [125, 100, 75];     // rotation interval (ms) per wheel
 
+    const EMOJI_FONT_FAMILY = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
     let ROW_HEIGHT = 70, EMOJI_SIZE = 52, WHEEL_GAP = 10;
-    let fontStr = `${EMOJI_SIZE}px serif`;
+    let fontStr = `${EMOJI_SIZE}px ${EMOJI_FONT_FAMILY}`;
     let cachedGradients = null;
 
     // ── Wheel state ───────────────────────────────────────────────────────────
@@ -840,7 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
         EMOJI_SIZE = Math.round(Math.max(28, Math.min(72, ch * 0.18)));
         ROW_HEIGHT = Math.round(EMOJI_SIZE * 1.35);
         WHEEL_GAP  = Math.round(Math.max(6, Math.min(24, cw * 0.02)));
-        fontStr    = `${EMOJI_SIZE}px serif`;
+        fontStr    = `${EMOJI_SIZE}px ${EMOJI_FONT_FAMILY}`;
         canvas.width  = cw * dpr;
         canvas.height = ch * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1081,7 +1082,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Emoji with phosphor glow
             swCtx.shadowBlur  = 8;
             swCtx.shadowColor = 'rgba(255,255,255,0.80)';
-            swCtx.font        = `${emojiSz}px serif`;
+            swCtx.font        = `${emojiSz}px ${EMOJI_FONT_FAMILY}`;
             swCtx.fillStyle   = '#ffffff';
             swCtx.fillText(SW_SEGMENTS[i].emoji, 0, -lblSz * 0.9);
 
@@ -1548,7 +1549,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let t = 0; t < p.trail.length; t++) {
                     const tp = p.trail[t];
                     expCtx.globalAlpha  = (t / p.trail.length) * alpha * 0.3;
-                    expCtx.font         = `${p.size * 0.55}px serif`;
+                    expCtx.font         = `${p.size * 0.55}px ${EMOJI_FONT_FAMILY}`;
                     expCtx.textAlign    = 'center';
                     expCtx.textBaseline = 'middle';
                     expCtx.fillText(p.emoji, tp.x, tp.y);
@@ -1556,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 expCtx.globalAlpha  = alpha;
                 expCtx.translate(p.x, p.y);
                 expCtx.rotate(p.rot);
-                expCtx.font         = `${p.size}px serif`;
+                expCtx.font         = `${p.size}px ${EMOJI_FONT_FAMILY}`;
                 expCtx.textAlign    = 'center';
                 expCtx.textBaseline = 'middle';
                 expCtx.fillText(p.emoji, 0, 0);
