@@ -1,0 +1,856 @@
+[
+    {
+      "id": "big_gaz_tax",
+      "title": "THE TAX MAN",
+      "flavorText": "Big Gaz from Year 11 looms over you, smelling of Brut and damp denim. 'Alright, kid? That looks like my tenner you're playing with. Give us half or I'll give you a reason to visit the A&E.'",
+      "options": [
+        {
+          "text": "Kick him in the shins and run!",
+          "outcome": "random",
+          "chance": 0.4,
+          "success": {
+            "text": "You connect! Gaz howls, and you vanish into the maze of machines. You kept your cash!",
+            "creditChange": 0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You miss! Gaz grabs your collar and shakes you until every penny drops out of your pockets.",
+            "setCreditsToZero": true,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Pay the 'tax' to keep the peace.",
+          "outcome": "fixed",
+          "textSuccess": "Gaz grunts, pockets half your coins, and wanders off to find someone smaller.",
+          "creditMultiplier": 0.5,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "ghost_machine",
+      "title": "THE 256th LEVEL",
+      "flavorText": "The cabinet next to you flickers into a 'kill screen.' A digital voice seems to whisper your name through the static. The joystick starts moving on its own.",
+      "options": [
+        {
+          "text": "Touch the static-charged glass.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "A surge of neon energy hits you! The symbols on your machine align into a perfect jackpot.",
+            "creditChange": 50,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "A static shock throws you back! You dropped your change in the confusion.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Back away slowly.",
+          "outcome": "fixed",
+          "textSuccess": "You don't play with digital ghosts. You move to a safer machine.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "string_trick",
+      "title": "THE 10p MYTH",
+      "flavorText": "A shifty kid shows you a 10p piece with a hole drilled through it, attached to a fishing line. 'Infinite credits, mate. Want a go?'",
+      "options": [
+        {
+          "text": "Try the string trick.",
+          "outcome": "random",
+          "chance": 0.2,
+          "success": {
+            "text": "It works! You click-clack your way to 10 free spins before the line snaps.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The line snaps immediately. The manager is right behind you with a heavy hand on your shoulder.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "No thanks, that's cheating.",
+          "outcome": "fixed",
+          "textSuccess": "You play it straight. Your conscience is clean, if not your pockets.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "nosy_neighbor",
+      "title": "NEIGHBOURHOOD WATCH",
+      "flavorText": "You spot Mrs. Higgins, your mum's nosy neighbor, peering through the window. If she sees you here, you're dead meat.",
+      "options": [
+        {
+          "text": "Duck into the 'After Burner' cockpit.",
+          "outcome": "random",
+          "chance": 0.8,
+          "success": {
+            "text": "She passes by. You stay hidden until the coast is clear.",
+            "creditChange": 0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "She spots your bright red coat! She's already heading to your house.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Boldly walk past her.",
+          "outcome": "random",
+          "chance": 0.3,
+          "success": {
+            "text": "She doesn't recognize you without your school tie! You feel like a master of disguise.",
+            "creditChange": 0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "'Wait until I tell your mother!' she shrieks. You bolt, but it's too late.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "neon_trance",
+      "title": "NEON OVERLOAD",
+      "flavorText": "The arcade lights dim, and the slot symbols start to glow purple. The background music shifts into a heavy synth bassline. You feel like you're inside the machine.",
+      "options": [
+        {
+          "text": "Enter the Flow State.",
+          "outcome": "random",
+          "chance": 0.6,
+          "success": {
+            "text": "Your reflexes become pixel-perfect. You hit a massive winning streak!",
+            "creditChange": 100,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You snap out of it with a splitting headache. You've been staring at a blank screen for five minutes.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Shake it off.",
+          "outcome": "fixed",
+          "textSuccess": "You rub your eyes. It was probably just the sugar from the Tizer.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "chippy_scraps",
+      "title": "CONE OF SCRAPS",
+      "flavorText": "The smell of salt and vinegar drifts in. You're starving. A kid offers you a 'cone of scraps' for 10p.",
+      "options": [
+        {
+          "text": "Buy the greasy scraps (10p).",
+          "outcome": "fixed",
+          "textSuccess": "The warm grease restores your spirit. You feel lucky.",
+          "creditChange": -10,
+          "gameOver": false
+        },
+        {
+          "text": "Starve for the Jackpot.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "Your hunger makes you sharp and desperate. You land a win!",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "Your stomach rumbles so loud you lose focus and mistime a 'Hold'.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "konami_code",
+      "title": "THE KONAMI LEGEND",
+      "flavorText": "You find a scrap of paper with 'Up, Up, Down, Down, Left, Right...' scribbled on it. Could it work on a slot machine?",
+      "options": [
+        {
+          "text": "Input the code on the buttons.",
+          "outcome": "random",
+          "chance": 0.1,
+          "success": {
+            "text": "The machine beeps and doubles your current balance! Magic!",
+            "creditMultiplier": 2.0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The machine locks up and displays an ERROR CODE. It looks like it's eating your coins.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Ignore the nonsense.",
+          "outcome": "fixed",
+          "textSuccess": "Life isn't a video game. You stick to the reels.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "vending_kick",
+      "title": "THE SNACK TRAP",
+      "flavorText": "Your Mars Bar is stuck in the vending machine. It's dangling by a thread. A well-placed kick might free it.",
+      "options": [
+        {
+          "text": "Give it a 'Tactical Kick'.",
+          "outcome": "random",
+          "chance": 0.4,
+          "success": {
+            "text": "Two bars drop! You sell the extra to a kid for 30p.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The machine tips. A tilt-alarm sounds. The manager is livid. 'OUT!'",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Walk away in defeat.",
+          "outcome": "fixed",
+          "textSuccess": "You lost your 30p and you're still hungry. Typical.",
+          "creditChange": -10,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "old_geezer",
+      "title": "THE FRUITIE WHISPERER",
+      "flavorText": "An old bloke in a flat cap leans over. 'The Nudge logic is stuck, son. Hit it on the next cherry, she’ll cough up the lot.'",
+      "options": [
+        {
+          "text": "Trust the 'Pro'.",
+          "outcome": "random",
+          "chance": 0.3,
+          "success": {
+            "text": "The machine whirs and dumps a load of 10ps! The geezer was a genius.",
+            "creditChange": 50,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The machine eats your credit. The bloke just shrugs and wanders off.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Ignore him.",
+          "outcome": "fixed",
+          "textSuccess": "You play your own game. No advice needed.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "power_cut",
+      "title": "DARKNESS FALLS",
+      "flavorText": "The lights flicker and die. Total darkness in the arcade. You hear the sound of a change machine groaning nearby.",
+      "options": [
+        {
+          "text": "Reach into the hopper in the dark.",
+          "outcome": "random",
+          "chance": 0.1,
+          "success": {
+            "text": "You grab a handful of cold metal coins! You're rich!",
+            "creditChange": 100,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The lights come back on. You're caught red-handed by the manager.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Stand perfectly still.",
+          "outcome": "fixed",
+          "textSuccess": "The lights return. You're safe, but no richer. You missed your chance.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "school_rival",
+      "title": "THE SHOWDOWN",
+      "flavorText": "Your rival, Darren, shows up with a £20 note. 'I'll have that jackpot before you've even had your tea, loser.'",
+      "options": [
+        {
+          "text": "Challenge him to a 'Profit-Off'.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "You land a win immediately! Darren slinks away, red-faced.",
+            "creditChange": 20,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "Darren hits a win on the machine next to you and laughs. You feel like a total failure.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Ignore the berk.",
+          "outcome": "fixed",
+          "textSuccess": "You focus on the symbols. Darren is just noise.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "broken_joystick",
+      "title": "STICKY SITUATION",
+      "flavorText": "Someone has smeared a lolly over the 'Hold' buttons. They're nearly impossible to press.",
+      "options": [
+        {
+          "text": "Clean it with your shirt.",
+          "outcome": "fixed",
+          "textSuccess": "Your shirt is ruined, but the buttons are responsive again.",
+          "creditChange": 0,
+          "gameOver": false
+        },
+        {
+          "text": "Hammer the buttons anyway.",
+          "outcome": "random",
+          "chance": 0.4,
+          "success": {
+            "text": "The brute force works! You hit the hold and score a win.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The button gets stuck 'Down'. The machine eats three spins in a row.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "the_vicar",
+      "title": "HOLY INTERVENTION",
+      "flavorText": "The local Vicar is walking through the arcade for some reason. He's looking right at you.",
+      "options": [
+        {
+          "text": "Pretend you're looking for your Dad.",
+          "outcome": "random",
+          "chance": 0.6,
+          "success": {
+            "text": "'A dutiful son,' he beams, and moves on to give a lecture to the manager.",
+            "creditChange": 0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "'Gambling is a vice, young man.' He's already walking toward your house to have a 'chat' with Mum.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Hide under the stool.",
+          "outcome": "fixed",
+          "textSuccess": "You stay low until his cassock disappears. Close one.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "mystery_token",
+      "title": "THE FORBIDDEN COIN",
+      "flavorText": "You find a strange, heavy brass token on the floor. It doesn't look like legal tender, but it might fit the slot.",
+      "options": [
+        {
+          "text": "Try the token.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "The machine goes wild! It registers as a £5 credit!",
+            "creditChange": 50,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The machine jams. An alarm goes off. 'Where'd you get that fake coin, kid?'",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Pocket it as a souvenir.",
+          "outcome": "fixed",
+          "textSuccess": "A nice little memento of a weird day.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "arcade_clerk",
+      "title": "THE BORED CLERK",
+      "flavorText": "The girl behind the glass counter looks bored out of her mind. She's fiddling with a key.",
+      "options": [
+        {
+          "text": "Try to flirt/charm her.",
+          "outcome": "random",
+          "chance": 0.3,
+          "success": {
+            "text": "She laughs and gives you a 'test play' for free. 'Don't tell the boss.'",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "'Run along, kid. You're too young to be in here anyway.'",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Just buy more change.",
+          "outcome": "fixed",
+          "textSuccess": "Business as usual.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "rainy_rush",
+      "title": "THE DOWNPOUR",
+      "flavorText": "A sudden British downpour sends a crowd of wet teenagers into the arcade. It's getting crowded and hot.",
+      "options": [
+        {
+          "text": "Guard your machine.",
+          "outcome": "fixed",
+          "textSuccess": "You stay put. It's claustrophobic, but you have your spot.",
+          "creditChange": 0,
+          "gameOver": false
+        },
+        {
+          "text": "Sell your spot to a wet teen.",
+          "outcome": "fixed",
+          "textSuccess": "He gives you 50p just to have a stool to sit on. Result!",
+          "creditChange": 10,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "mystery_tape",
+      "title": "THE TOP SECRET MIX",
+      "flavorText": "You find a cassette tape on the floor. It's hand-labeled: 'THE ULTIMATE BEAT.'",
+      "options": [
+        {
+          "text": "Swap it for credits at the counter.",
+          "outcome": "fixed",
+          "textSuccess": "The clerk likes the look of it. She swaps it for two free spins.",
+          "creditChange": 10,
+          "gameOver": false
+        },
+        {
+          "text": "Keep it.",
+          "outcome": "fixed",
+          "textSuccess": "You'll listen to it later on your Walkman. You feel cooler already.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "troll_charm",
+      "title": "THE LUCKY TROLL",
+      "flavorText": "A neon-haired Troll doll is sitting on the machine. Someone must have forgotten it.",
+      "options": [
+        {
+          "text": "Rub its hair for luck.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "The next spin is a winner! Praise the Troll!",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The hair comes off in your hand. You feel cursed.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Toss it in the bin.",
+          "outcome": "fixed",
+          "textSuccess": "Rubbish belongs in the bin.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "laser_tag",
+      "title": "TRON DREAMS",
+      "flavorText": "The back room is flashing with red lasers. A game is starting. 'You in, kid? 50p entry.'",
+      "options": [
+        {
+          "text": "Enter the Laser Arena.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "You win the match! The prize is a pouch of 'Arcade Gold'.",
+            "creditChange": 20,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You get 'shot' immediately. Waste of 50p.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Stick to the slots.",
+          "outcome": "fixed",
+          "textSuccess": "Lasers are for kids. You're here for the jackpot.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "broken_glass",
+      "title": "SHATTERED DREAMS",
+      "flavorText": "A pint glass shatters near your feet. The floor is covered in shards and spilled cider.",
+      "options": [
+        {
+          "text": "Keep playing carefully.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "You navigate the danger and hit a win. True pro.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You cut your finger. The manager kicks you out for your own safety.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Call the cleaner.",
+          "outcome": "fixed",
+          "textSuccess": "He takes his time. The machine 'cools down' while you wait.",
+          "creditChange": -10,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "arcade_cat",
+      "title": "THE LUCKY GINGA",
+      "flavorText": "The arcade's resident ginger cat jumps onto your machine and starts purring.",
+      "options": [
+        {
+          "text": "Feed it a bit of your Mars Bar.",
+          "outcome": "fixed",
+          "textSuccess": "The cat is happy. The machine seems to like it too. +5 Credits.",
+          "creditChange": 10,
+          "gameOver": false
+        },
+        {
+          "text": "Shoo it away.",
+          "outcome": "fixed",
+          "textSuccess": "The cat hisses. You feel a wave of bad luck wash over you.",
+          "creditChange": -10,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "photo_booth_find",
+      "title": "BOOTH BOUNTY",
+      "flavorText": "You see a set of photos sticking out of the booth. Beside them is a forgotten pound coin.",
+      "options": [
+        {
+          "text": "Take the pound.",
+          "outcome": "random",
+          "chance": 0.4,
+          "success": {
+            "text": "You got it! A clean £1 gain.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The owner returns just as you grab it. 'Oi! That's mine!'",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Leave it be.",
+          "outcome": "fixed",
+          "textSuccess": "Your karma remains intact.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "tizer_spill",
+      "title": "TIZER TRAP",
+      "flavorText": "A kid spills a full bottle of Tizer over your machine. Everything is now neon-orange and sticky.",
+      "options": [
+        {
+          "text": "Clean it with your sleeve.",
+          "outcome": "fixed",
+          "textSuccess": "You're a mess, but the machine is playable.",
+          "creditChange": 0,
+          "gameOver": false
+        },
+        {
+          "text": "Complain to the manager.",
+          "outcome": "random",
+          "chance": 0.2,
+          "success": {
+            "text": "He gives you a free credit and yells at the kid. Result!",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "'Not my problem, kid. Move to another machine.'",
+            "creditChange": 0,
+            "gameOver": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "the_walk_home",
+      "title": "RAINY REALITY",
+      "flavorText": "The sun is setting. If you aren't home soon, Mum will know you weren't at 'The Library.'",
+      "options": [
+        {
+          "text": "Five more minutes...",
+          "outcome": "random",
+          "chance": 0.4,
+          "success": {
+            "text": "You hit a final win just in time! You sprint home.",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You lose track of time. Mum is waiting at the front door. You're grounded.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Cash out and run.",
+          "outcome": "fixed",
+          "textSuccess": "Smart move. You live to play another day.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "dodgy_tips",
+      "title": "DODGY ADVICE",
+      "flavorText": "A guy in a shell suit whispers, 'The machine on the end is payin' out. I just saw a guy win a fiver.'",
+      "options": [
+        {
+          "text": "Switch to that machine.",
+          "outcome": "random",
+          "chance": 0.3,
+          "success": {
+            "text": "He was right! It's hot! You land a win immediately.",
+            "creditChange": 20,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "It was a lie. He just wanted your machine. Now you're on a dud.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Stay put.",
+          "outcome": "fixed",
+          "textSuccess": "You know your own machine best.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "the_big_boss",
+      "title": "THE MANAGER'S GAZE",
+      "flavorText": "The manager is doing a walkabout. He's looking at the ages of everyone in the slot section.",
+      "options": [
+        {
+          "text": "Look busy and mature.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "He ignores you. You look older in the neon light.",
+            "creditChange": 0,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "'You're too young to be here, lad. Hop it.'",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Hide in the toilets.",
+          "outcome": "fixed",
+          "textSuccess": "The smell is terrible, but you dodge the eviction.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "lucky_charm_2",
+      "title": "THE LUCKY DICE",
+      "flavorText": "You find a pair of fuzzy dice on a stool. They look like they fell off a cool car.",
+      "options": [
+        {
+          "text": "Hang them on the machine.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "The machine looks cool and rewards you with a win!",
+            "creditChange": 10,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "They fall off and jam the coin return. Damn.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Leave them.",
+          "outcome": "fixed",
+          "textSuccess": "Fuzzy dice are so 1970s.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "arcade_music",
+      "title": "BEAT BOX",
+      "flavorText": "A new song comes on the jukebox. It's your favorite synth-pop hit. Your rhythm is peaking.",
+      "options": [
+        {
+          "text": "Tap the buttons to the beat.",
+          "outcome": "random",
+          "chance": 0.6,
+          "success": {
+            "text": "The music guides your hand! You hit a perfect 'Hold' sequence.",
+            "creditChange": 20,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "You're so distracted by the dancing that you miss a jackpot.",
+            "creditChange": -10,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "Ignore the music.",
+          "outcome": "fixed",
+          "textSuccess": "Focus is key. The music is just background noise.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "the_swap",
+      "title": "THE TRADE",
+      "flavorText": "A kid wants to trade his stack of 10p coins for your 'borrowed' tenner. He says it's easier to carry.",
+      "options": [
+        {
+          "text": "Accept the trade.",
+          "outcome": "random",
+          "chance": 0.5,
+          "success": {
+            "text": "He actually gave you £12 in change! You're up by two quid!",
+            "creditChange": 20,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The stack was short. You've been conned. You lost £2.",
+            "creditChange": -20,
+            "gameOver": false
+          }
+        },
+        {
+          "text": "No deal.",
+          "outcome": "fixed",
+          "textSuccess": "Keep your notes safe. Change is easy to get.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
+    },
+    {
+      "id": "last_spin_luck",
+      "title": "THE FINAL STAND",
+      "flavorText": "You're down to your last few coins. This is it. The end of the road... or is it?",
+      "options": [
+        {
+          "text": "Put everything into one last spin.",
+          "outcome": "random",
+          "chance": 0.2,
+          "success": {
+            "text": "MIRACLE! The machine erupts! You're back in the game!",
+            "creditChange": 100,
+            "gameOver": false
+          },
+          "failure": {
+            "text": "The reels stop. Nothing. Silence. Time to head home.",
+            "creditChange": 0,
+            "gameOver": true
+          }
+        },
+        {
+          "text": "Cash out and go home now.",
+          "outcome": "fixed",
+          "textSuccess": "You leave with a shred of dignity and enough for a bus fare.",
+          "creditChange": 0,
+          "gameOver": true
+        }
+      ]
+    }
+]

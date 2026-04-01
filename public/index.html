@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emoji Slots RPG</title>
+<!-- Favicon -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16x16.png">
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<!-- Web App Manifest -->
+<link rel="manifest" href="manifest.json">
+<!-- Theme Colour -->
+<meta name="theme-color" content="#0f0a3d">
+<!-- Opengraph start -->
+<meta property="og:title" content="Emoji Slots RPG" />
+<meta property="og:description" content="Spin emoji reels in a neon 1988 arcade. Hold, nudge, and dodge the 💩." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/img/og-image-1200x630.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<!-- Opengraph end -->
+<!-- Stylesheets -->
+<link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
+<link rel="stylesheet" href="css/main.css?v=a1ae2e90">
+<!-- CodeMirror end -->
+<!-- JavaScript -->
+<script defer src="js/vendor/howler.js"></script>
+<script defer src="js/main.js?v=5c7b471f"></script>
+<!-- Service Worker registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+                // When the page becomes visible again (e.g. PWA resumed from background),
+                // check for a newer SW so updates aren't missed between sessions.
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') {
+                        registration.update();
+                    }
+                });
+            });
+        });
+        // When a new SW takes control (after an update), reload to get fresh assets.
+        // The firstSW guard prevents a reload on the very first install.
+        const firstSW = !navigator.serviceWorker.controller;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!firstSW) {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+</head>
+<body>
+    <main class="machine">
+        <div class="signage" aria-label="Emoji Slots">
+            <div class="signage-lights">
+                <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+            </div>
+            <div class="signage-text">EMOJI SLOTS</div>
+            <div class="signage-lights">
+                <span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span><span class="bulb"></span>
+            </div>
+        </div>
+
+        <span class="coins" hidden>100</span>
+
+        <div class="info">
+            <span class="flash"><img src="img/coin_color.svg" alt="coin" class="score-coin"> 100</span>
+        </div>
+
+        <div class="nudge-btns nudge-up-btns">
+            <button class="btn-nudge-up" data-wheel="0">▲</button>
+            <button class="btn-nudge-up" data-wheel="1">▲</button>
+            <button class="btn-nudge-up" data-wheel="2">▲</button>
+        </div>
+
+        <canvas id="wheels-canvas" class="wheels"></canvas>
+
+        <div class="nudge-btns nudge-down-btns">
+            <button class="btn-nudge-down" data-wheel="0">▼</button>
+            <button class="btn-nudge-down" data-wheel="1">▼</button>
+            <button class="btn-nudge-down" data-wheel="2">▼</button>
+        </div>
+
+        <div class="hold-btns">
+            <button class="btn-hold" data-wheel="0">Hold</button>
+            <button class="btn-hold" data-wheel="1">Hold</button>
+            <button class="btn-hold" data-wheel="2">Hold</button>
+        </div>
+
+        <div class="action-btns">
+            <button id="btn-spin" class="btn btn-spin ready">Play</button>
+            <button id="btn-collect" class="btn btn-collect">Collect</button>
+        </div>
+
+        <div class="pay-table">
+            <div class="pay-heading">Win Conditions</div>
+            <div class="pay-grid">
+                <div class="pay-row pay-row--head">
+                    <span></span><span>× 2</span><span>× 3</span>
+                </div>
+                <div class="pay-row"><span>🍒</span><span>+10</span><span>+20</span></div>
+                <div class="pay-row"><span>🍄</span><span>+10</span><span>+20</span></div>
+                <div class="pay-row"><span>🥝</span><span>+10</span><span>+30</span></div>
+                <div class="pay-row"><span>🍉</span><span>+10</span><span>+30</span></div>
+                <div class="pay-row"><span>🍋</span><span>+10</span><span>+40</span></div>
+                <div class="pay-row"><span>🍆</span><span>+20</span><span>+40</span></div>
+                <div class="pay-row"><span>🌶️</span><span>+20</span><span>+50</span></div>
+                <div class="pay-row"><span>🍇</span><span>+20</span><span>+60</span></div>
+                <div class="pay-row"><span>💯</span><span>+30</span><span>+100</span></div>
+                <div class="pay-row"><span>🦄</span><span>+50</span><span>+150</span></div>
+                <div class="pay-row pay-row--poop"><span>💩</span><span>−20</span><span>−100</span></div>
+                <div class="pay-row pay-row--skull"><span>💀</span><span>nothing</span><span>DEATH</span></div>
+            </div>
+            <div class="pay-footnote">Match left 2 wheels or all 3 · wins unlock bonus feature</div>
+        </div>
+    </main>
+    <canvas id="wheel-canvas"></canvas>
+    <canvas id="explosion-canvas"></canvas>
+
+    <div id="game-over-modal" class="game-over-modal" hidden>
+        <div class="game-over-modal__inner">
+            <div class="game-over-modal__body">
+                <p>The neon glow of the Emoji Slots machine fades into a mocking "Game Over" flicker. Your pockets are light, the metallic scent of copper replaced by the cold, empty air of the arcade exit.</p>
+                <p>Pushing back through the heavy glass doors, the British clouds have returned to reclaim the sky. The tenner is gone, the "borrowed" dream is dead, and the walk home feels twice as long as the run here.</p>
+                <p class="game-over-modal__kicker">You aren't a millionaire; you're just a kid who's going to have a very long talk with Mum about her purse.</p>
+            </div>
+            <p class="game-over-modal__time-prompt">If only you could go back in time&hellip;</p>
+            <button id="btn-time-travel" class="btn-time-travel">&#x23F0; Time Travel</button>
+        </div>
+    </div>
+
+    <div id="welcome-modal" class="welcome-modal">
+        <div class="welcome-modal__inner">
+            <div class="welcome-modal__year">1988</div>
+            <div class="welcome-modal__body">
+                <p>Saturday morning. The school gates are locked, and for once, the British clouds have parted. You've "borrowed" a tenner from your mum's purse and you're heading into town to the play at the arcade, the excitement of the day ahead making your heart race.</p>
+                <p>Pushing through the heavy glass doors, you're hit by it: that classic arcade funk. It's a thick cocktail of stale Benson &amp; Hedges, damp carpet, and the ozone hum of a hundred CRT monitors. You ignore the "Out of Order" signs and the grizzled punters by the bar. You aren't here for Pac-Man. You're here for the Emoji Slots.</p>
+                <p class="welcome-modal__kicker">By the time the sun goes down, you won't just be a kid with a stolen tenner - you'll be a millionaire.</p>
+            </div>
+            <button id="btn-enter" class="btn-enter">Insert Coin</button>
+        </div>
+    </div>
+    
+    <!-- Welcome Back modal (shown when returning player has saved coins) -->
+    <div id="welcome-back-modal" class="welcome-back-modal" hidden>
+        <div class="welcome-back-modal__inner">
+            <div class="welcome-back-modal__header" id="welcome-back-header"></div>
+            <div class="welcome-back-modal__body">
+                <p>The arcade hums back to life with a static pop. One by one, the row of Fruit Machines flicker into their attract modes, dancing with 8-bit patterns. You shake the rain off your parka and step back onto the sticky carpet.</p>
+                <p>The smell of ozone and stale tobacco is exactly how you left it. Your favourite machine the Emoji Slots is still warm, its digital eyes blinking as if it remembers your face. Your "borrowed" tenner is still waiting in the hopper.</p>
+            </div>
+            <div class="welcome-back-modal__actions">
+                <button id="btn-continue" class="btn-continue">Continue</button>
+                <button id="btn-reset-game" class="btn-reset-game">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RPG Event modal -->
+    <div id="rpg-modal" class="rpg-modal" hidden>
+        <div class="rpg-modal__inner">
+            <div class="rpg-modal__scanlines" aria-hidden="true"></div>
+            <div class="rpg-modal__header">
+                <span class="rpg-modal__tag">RANDOM ENCOUNTER</span>
+                <h2 class="rpg-modal__title" id="rpg-title"></h2>
+            </div>
+            <p class="rpg-modal__flavor" id="rpg-flavor"></p>
+            <div class="rpg-modal__dice-area" id="rpg-dice-area" hidden>
+                <div class="rpg-dice" id="rpg-dice">🎲</div>
+                <div class="rpg-dice-label" id="rpg-dice-label"></div>
+            </div>
+            <div class="rpg-modal__options" id="rpg-options"></div>
+            <div class="rpg-modal__result" id="rpg-result" hidden>
+                <p id="rpg-result-text"></p>
+            </div>
+            <button class="rpg-modal__continue" id="rpg-continue" hidden>Continue</button>
+        </div>
+    </div>
+
+    <!-- Settings modal -->
+    <div id="settings-modal" class="settings-modal" hidden>
+        <div class="settings-modal__inner">
+            <div class="settings-modal__header">
+                <h2>Settings</h2>
+                <button id="settings-close" class="settings-modal__close" aria-label="Close settings">✕</button>
+            </div>
+            <div class="settings-modal__body">
+                <div class="settings-row settings-row--slider">
+                    <label for="settings-sfx-volume" class="settings-slider-label">SFX Volume</label>
+                    <input id="settings-sfx-volume" type="range" min="0" max="1" step="0.05" class="settings-slider">
+                </div>
+                <div class="settings-row settings-row--slider">
+                    <label for="settings-bgm-volume" class="settings-slider-label">Music Volume</label>
+                    <input id="settings-bgm-volume" type="range" min="0" max="1" step="0.05" class="settings-slider">
+                </div>
+                <div class="settings-row settings-row--reset">
+                    <button id="settings-reset" class="btn btn--small settings-reset" type="button">Reset Game</button>
+                    <div id="settings-reset-confirm" class="settings-reset-confirm" hidden>
+                        <span>Clear coins and reload?</span>
+                        <div class="settings-reset-confirm__actions">
+                            <button id="settings-reset-confirm-yes" class="btn btn--tiny btn--confirm">Confirm</button>
+                            <button id="settings-reset-confirm-no" class="btn btn--tiny btn--cancel">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="settings-reset__help">Clear your coins and reload the game (confirmation required).</div>
+                </div>
+            </div>
+            <div class="settings-modal__footer">
+                <span id="app-version" class="settings-version"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings trigger button (bottom-right) — cassette variant -->
+    <button id="settings-toggle" class="settings-button settings-button--cassette" aria-label="Open settings">
+        <span class="cassette-shell">
+            <span class="cassette-window">
+                <span class="cassette-reel cassette-reel--left" aria-hidden="true"></span>
+                <span class="cassette-reel cassette-reel--right" aria-hidden="true"></span>
+            </span>
+            <span class="cassette-label">SETTINGS</span>
+        </span>
+    </button>
+</body>
+</html>

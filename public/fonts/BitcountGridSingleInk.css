@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "BitcountGridSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght_20260331_162924";
+  src: url("BitcountGridSingleInk.woff2") format("woff2"),
+       url("BitcountGridSingleInk.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0021-002C, U+002E-0039, U+003B-007E;
+}
