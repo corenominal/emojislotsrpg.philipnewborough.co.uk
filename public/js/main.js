@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas    = document.getElementById('wheels-canvas');
     const ctx       = canvas.getContext('2d');
     const dpr       = window.devicePixelRatio || 1;
+    const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     // Settings UI wiring (settings modal + floating button)
     const settingsToggleBtn = document.getElementById('settings-toggle');
@@ -895,7 +896,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.font         = fontStr;
             ctx.textAlign    = 'center';
             ctx.textBaseline = 'middle';
-            if (wheelSpinning[i]) ctx.filter = 'blur(1.5px)';
+            // Safari can drop emoji glyphs in canvas when filters are active.
+            if (wheelSpinning[i] && !IS_SAFARI) ctx.filter = 'blur(1.5px)';
+            ctx.fillStyle = '#0f0b1f';
 
             const halfH = H / 2;
             for (let j = 0; j < reel.length; j++) {
