@@ -823,34 +823,5 @@
           "gameOver": false
         }
       ]
-    },
-    {
-      "id": "last_spin_luck",
-      "title": "THE FINAL STAND",
-      "flavorText": "You're down to your last few coins. This is it. The end of the road... or is it?",
-      "options": [
-        {
-          "text": "Put everything into one last spin.",
-          "outcome": "random",
-          "chance": 0.2,
-          "success": {
-            "text": "MIRACLE! The machine erupts! You're back in the game!",
-            "creditChange": 100,
-            "gameOver": false
-          },
-          "failure": {
-            "text": "The reels stop. Nothing. Silence. Time to head home.",
-            "creditChange": 0,
-            "gameOver": true
-          }
-        },
-        {
-          "text": "Cash out and go home now.",
-          "outcome": "fixed",
-          "textSuccess": "You leave with a shred of dignity and enough for a bus fare.",
-          "creditChange": 0,
-          "gameOver": true
-        }
-      ]
     }
 ]
