@@ -976,6 +976,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let expGlowOrigin = { x: 0, y: 0 };
     let expAnimId     = null;
     let expFrame      = 0;
+    let expStartTime  = 0;
+    let expLastTime   = 0;
 
     function resizeExplosionCanvas() {
         expCanvas.width  = Math.round(window.innerWidth  * dpr);
@@ -1382,13 +1384,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const beamCount = epic ? 20 : 12;
         for (let i = 0; i < beamCount; i++) {
             const angle = (i / beamCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.18;
-            const speed = (epic ? 22 : 16) + Math.random() * 14;
+            const speed = ((epic ? 22 : 16) + Math.random() * 14) * 60;
             expParticles.push({
                 type: 'beam',
                 x: ox, y: oy,
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
-                life: 1, decay: 0.007 + Math.random() * 0.006,
+                life: 1, decay: 0.42 + Math.random() * 0.36,
                 beamLen: (epic ? 170 : 110) + Math.random() * 90,
                 width: (epic ? 3.5 : 2.5) + Math.random() * 2,
                 color: BEAM_COLORS[i % BEAM_COLORS.length],
@@ -1396,16 +1398,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ── Sparkle orbs ── vivid glowing dots flying straight out ─────────
-        const sparkCount = epic ? 100 : 65;
+        const sparkCount = epic ? 80 : 50;
         for (let i = 0; i < sparkCount; i++) {
             const angle = Math.random() * Math.PI * 2;
-            const speed = 5 + Math.random() * (epic ? 24 : 18);
+            const speed = (5 + Math.random() * (epic ? 24 : 18)) * 60;
             expParticles.push({
                 type: 'orb',
                 x: ox, y: oy,
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
-                life: 1, decay: 0.012 + Math.random() * 0.018,
+                life: 1, decay: 0.72 + Math.random() * 1.08,
                 size: 2.5 + Math.random() * 7,
                 color: SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)],
             });
@@ -1415,49 +1417,56 @@ document.addEventListener('DOMContentLoaded', () => {
         const emojiCount = epic ? 24 : 14;
         for (let i = 0; i < emojiCount; i++) {
             const angle = (i / emojiCount) * Math.PI * 2;
-            const speed = (epic ? 13 : 9) + Math.random() * 10;
+            const speed = ((epic ? 13 : 9) + Math.random() * 10) * 60;
             const sz    = 30 + Math.random() * (epic ? 36 : 24);
             expParticles.push({
                 type: 'emoji',
                 x: ox, y: oy,
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
-                life: 1, decay: 0.005 + Math.random() * 0.006,
+                life: 1, decay: 0.30 + Math.random() * 0.36,
                 size: sz, emoji,
                 rot: Math.random() * Math.PI * 2,
-                rotSpd: (Math.random() - 0.5) * 0.22,
+                rotSpd: (Math.random() - 0.5) * 13.2,
                 trail: [],
             });
         }
 
         // ── Shockwave rings ── timed to stagger outward like VS level-up ───
+        // delays are now in seconds; speeds are now pixels per second
         const ringDefs = epic
-            ? [{ delay:  0, speed: 20, col: '#ffffff', w: 6 },
-               { delay:  6, speed: 25, col: '#ffe135', w: 4 },
-               { delay: 13, speed: 18, col: '#5ac8fa', w: 3 },
-               { delay: 21, speed: 22, col: '#bf5af2', w: 3 }]
-            : [{ delay:  0, speed: 16, col: '#ffffff', w: 5 },
-               { delay:  7, speed: 20, col: '#ffe135', w: 3 },
-               { delay: 15, speed: 14, col: '#5ac8fa', w: 2 }];
+            ? [{ delay: 0,     speed: 1200, col: '#ffffff', w: 6 },
+               { delay: 0.1,   speed: 1500, col: '#ffe135', w: 4 },
+               { delay: 0.217, speed: 1080, col: '#5ac8fa', w: 3 },
+               { delay: 0.35,  speed: 1320, col: '#bf5af2', w: 3 }]
+            : [{ delay: 0,     speed: 960,  col: '#ffffff', w: 5 },
+               { delay: 0.117, speed: 1200, col: '#ffe135', w: 3 },
+               { delay: 0.25,  speed: 840,  col: '#5ac8fa', w: 2 }];
         for (const def of ringDefs) {
             expRings.push({
                 x: ox, y: oy, r: 0,
                 delay: def.delay,
                 speed: def.speed,
-                life: 1, decay: 0.011,
+                life: 1, decay: 0.66,
                 color: def.col, width: def.w,
             });
         }
 
+        expStartTime = 0;
+        expLastTime  = 0;
         if (expAnimId) { cancelAnimationFrame(expAnimId); expAnimId = null; }
         animateExplosion();
     }
 
-    function animateExplosion() {
+    function animateExplosion(timestamp) {
+        if (!expStartTime) { expStartTime = timestamp; expLastTime = timestamp; }
+        const dt      = Math.min((timestamp - expLastTime) / 1000, 0.05); // cap at 50 ms
+        expLastTime   = timestamp;
+        const elapsed = (timestamp - expStartTime) / 1000;
+
         const W = window.innerWidth;
         const H = window.innerHeight;
         expCtx.clearRect(0, 0, W, H);
-        expFrame++;
 
         let alive = false;
 
@@ -1475,21 +1484,21 @@ document.addEventListener('DOMContentLoaded', () => {
             expCtx.fillStyle = grad;
             expCtx.fillRect(0, 0, W, H);
             expCtx.restore();
-            expGlow = Math.max(0, expGlow - 0.06);
+            expGlow = Math.max(0, expGlow - 3.6 * dt);
         }
 
         // ── Shockwave rings ────────────────────────────────────────────────
         for (const ring of expRings) {
-            if (expFrame < ring.delay) { alive = true; continue; }
+            if (elapsed < ring.delay) { alive = true; continue; }
             if (ring.life <= 0) continue;
             alive = true;
-            ring.r   += ring.speed;
-            ring.life = Math.max(0, ring.life - ring.decay);
+            ring.r   += ring.speed * dt;
+            ring.life = Math.max(0, ring.life - ring.decay * dt);
             expCtx.save();
             expCtx.globalAlpha = Math.pow(ring.life, 0.65);
             expCtx.strokeStyle = ring.color;
             expCtx.lineWidth   = Math.max(0.5, ring.width * ring.life);
-            expCtx.shadowBlur  = 28;
+            expCtx.shadowBlur  = 12;
             expCtx.shadowColor = ring.color;
             expCtx.beginPath();
             expCtx.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
@@ -1503,9 +1512,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alive = true;
 
             // Straight-line travel — no gravity, no drag
-            p.x   += p.vx;
-            p.y   += p.vy;
-            p.life = Math.max(0, p.life - p.decay);
+            p.x   += p.vx * dt;
+            p.y   += p.vy * dt;
+            p.life = Math.max(0, p.life - p.decay * dt);
             const alpha = Math.pow(p.life, 0.55);
 
             expCtx.save();
@@ -1520,7 +1529,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const tailY = p.y - ny * p.beamLen;
 
                 expCtx.lineCap     = 'round';
-                expCtx.shadowBlur  = 28;
+                expCtx.shadowBlur  = 14;
                 expCtx.shadowColor = p.color;
                 expCtx.strokeStyle = p.color;
                 expCtx.lineWidth   = Math.max(0.5, p.width * p.life);
@@ -1529,17 +1538,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 expCtx.lineTo(tailX, tailY);
                 expCtx.stroke();
 
-                // Soft wider outer glow pass
-                expCtx.globalAlpha *= 0.35;
-                expCtx.shadowBlur   = 50;
-                expCtx.lineWidth   *= 3.5;
-                expCtx.beginPath();
-                expCtx.moveTo(p.x, p.y);
-                expCtx.lineTo(tailX, tailY);
-                expCtx.stroke();
-
             } else if (p.type === 'orb') {
-                expCtx.shadowBlur  = p.size * 5;
+                expCtx.shadowBlur  = p.size * 2;
                 expCtx.shadowColor = p.color;
                 expCtx.fillStyle   = p.color;
                 expCtx.beginPath();
@@ -1547,10 +1547,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 expCtx.fill();
 
             } else if (p.type === 'emoji') {
-                if (p.rot !== undefined) p.rot += p.rotSpd;
+                if (p.rot !== undefined) p.rot += p.rotSpd * dt;
                 // Light trail
                 p.trail.push({ x: p.x, y: p.y });
-                if (p.trail.length > 7) p.trail.shift();
+                if (p.trail.length > 5) p.trail.shift();
                 for (let t = 0; t < p.trail.length; t++) {
                     const tp = p.trail[t];
                     expCtx.globalAlpha  = (t / p.trail.length) * alpha * 0.3;
@@ -1560,7 +1560,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     expCtx.fillText(p.emoji, tp.x, tp.y);
                 }
                 expCtx.globalAlpha  = alpha;
-                expCtx.shadowBlur   = 18;
+                expCtx.shadowBlur   = 10;
                 expCtx.shadowColor  = '#ffe135';
                 expCtx.translate(p.x, p.y);
                 expCtx.rotate(p.rot);
