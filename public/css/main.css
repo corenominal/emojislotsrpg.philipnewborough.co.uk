@@ -1643,6 +1643,10 @@ main.machine {
 /* ── Scenario picker modal (secret cheat) ────────────────────────────── */
 .about-modal__avatar {
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .scenario-picker-modal {
