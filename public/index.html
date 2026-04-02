@@ -24,11 +24,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=a1ae2e90">
+<link rel="stylesheet" href="css/main.css?v=a1773687">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=49030db7"></script>
+<script defer src="js/main.js?v=c62f8882"></script>
 <!-- Service Worker registration -->
 <script>
     if ('serviceWorker' in navigator) {
@@ -182,6 +182,28 @@
         </div>
     </div>
 
+    <!-- About modal -->
+    <div id="about-modal" class="about-modal" hidden>
+        <div class="about-modal__inner">
+            <div class="about-modal__header">
+                <h2>About</h2>
+                <button id="about-close" class="about-modal__close" aria-label="Close about">✕</button>
+            </div>
+            <div class="about-modal__body">
+                <div class="about-modal__description">
+                    <p>Step into a glowing neon arcade, circa 1988. Emoji Slots is a browser-based fruit machine with full UK pub-style mechanics: spin three emoji reels, hold wheels between spins, nudge them up or down into line, and gamble your winnings through bonus rounds — Higher/Lower, Pick a Box, and Spin the Wheel. Random arcade encounters throw RPG-style events into the mix. Match cherries, unicorns, or the elusive 💯 to fill your pockets. Hit a triple 💩 and watch your coins vanish. Hit 💀💀💀 and it's game over. Built with a synthwave CRT aesthetic, arcade sound effects, and background music. Your coins are saved — come back any time.</p>
+                </div>
+                <div class="about-modal__author">
+                    <img src="img/philip-newborough-yellow-512x512-rounded.png" alt="Philip Newborough" class="about-modal__avatar">
+                    <div class="about-modal__author-info">
+                        <p class="about-modal__bio">Author: Philip Newborough<br>Web developer and tech enthusiast. When I'm not coding, I can be found performing Grumpa duties, reading Warhammer 40,000 fiction, listening to tech podcasts or riding my bike.</p>
+                        <a href="https://philipnewborough.co.uk" class="about-modal__link" target="_blank" rel="noopener noreferrer">philipnewborough.co.uk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Settings modal -->
     <div id="settings-modal" class="settings-modal" hidden>
         <div class="settings-modal__inner">
@@ -215,6 +237,12 @@
             </div>
         </div>
     </div>
+
+    <!-- About trigger button (above settings) -->
+    <button id="about-toggle" class="about-button" aria-label="About this app">
+        <span class="about-button__icon">ℹ</span>
+        <span class="about-button__label">ABOUT</span>
+    </button>
 
     <!-- Settings trigger button (bottom-right) — cassette variant -->
     <button id="settings-toggle" class="settings-button settings-button--cassette" aria-label="Open settings">

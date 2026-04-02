@@ -150,6 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (settingsCloseBtn) settingsCloseBtn.addEventListener('click', closeSettings);
     if (settingsModalEl) settingsModalEl.addEventListener('click', (e) => { if (e.target === settingsModalEl) closeSettings(); });
 
+    // About modal wiring
+    const aboutToggleBtn = document.getElementById('about-toggle');
+    const aboutModalEl   = document.getElementById('about-modal');
+    const aboutCloseBtn  = document.getElementById('about-close');
+    function openAbout()  { if (aboutModalEl) { aboutModalEl.hidden = false; } }
+    function closeAbout() { if (aboutModalEl) { aboutModalEl.hidden = true; } }
+    if (aboutToggleBtn) aboutToggleBtn.addEventListener('click', openAbout);
+    if (aboutCloseBtn)  aboutCloseBtn.addEventListener('click', closeAbout);
+    if (aboutModalEl)   aboutModalEl.addEventListener('click', (e) => { if (e.target === aboutModalEl) closeAbout(); });
+
     // Settings: Reset Game — use inline confirm UI (no native confirm)
     const settingsResetBtn = document.getElementById('settings-reset');
     const settingsResetConfirm = document.getElementById('settings-reset-confirm');
