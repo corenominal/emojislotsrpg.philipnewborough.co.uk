@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         glitch:   new Howl({ src: './audio/glitch.mp3' }),
         rewind:   new Howl({ src: './audio/rewind.mp3' }),
         cat:      new Howl({ src: './audio/cat.mp3' }),
+        troll:    new Howl({ src: './audio/troll.mp3' }),
     };
     window.sfx = sfx;
 
@@ -736,7 +737,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         trollModal.hidden = false;
-        sfx.glitch.play();
+        sfx.troll.stop();
+        sfx.troll.play();
     }
 
     function closeTrollModal() {
