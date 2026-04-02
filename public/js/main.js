@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         poop:     new Howl({ src: './audio/poop.mp3' }),
         bleep:    new Howl({ src: './audio/bleep.mp3' }),
         spinner:  new Howl({ src: './audio/spinner.mp3' }),
+        glitch:   new Howl({ src: './audio/glitch.mp3' }),
+        rewind:   new Howl({ src: './audio/rewind.mp3' }),
     };
 
     // Background music (plays after Insert Coin) — track chosen randomly on first play
@@ -491,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         rpgModal.hidden = false;
+        sfx.glitch.play();
 
         // Re-enable option buttons 1 second after the modal is revealed
         setTimeout(() => {
@@ -1955,7 +1958,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeTravelBtn = e.target.closest('#btn-time-travel');
         if (timeTravelBtn) {
             localStorage.removeItem('emojimachine.coins');
-            window.location.reload();
+            sfx.rewind.play();
+            sfx.rewind.once('end', () => window.location.reload());
             return;
         }
 
