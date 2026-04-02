@@ -1957,8 +1957,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const timeTravelBtn = e.target.closest('#btn-time-travel');
         if (timeTravelBtn) {
+            timeTravelBtn.disabled = true;
             localStorage.removeItem('emojimachine.coins');
             sfx.rewind.play();
+
+            // Collect all visible page elements to randomly vanish during rewind
+            const vanishTargets = [
+                ...document.querySelectorAll('.machine > *'),
+                document.querySelector('.game-over-modal__title'),
+                document.querySelector('.game-over-modal__body'),
+                document.querySelector('.game-over-modal__time-prompt'),
+                timeTravelBtn,
+            ].filter(Boolean);
+
+            // Shuffle (Fisher-Yates)
+            for (let i = vanishTargets.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [vanishTargets[i], vanishTargets[j]] = [vanishTargets[j], vanishTargets[i]];
+            }
+
+            // Spread disappearances across the first 3.6s of the 4s SFX
+            vanishTargets.forEach(el => {
+                const delay = Math.random() * 3600;
+                setTimeout(() => el.classList.add('time-travel-vanish'), delay);
+            });
+
             sfx.rewind.once('end', () => window.location.reload());
             return;
         }
