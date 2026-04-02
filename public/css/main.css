@@ -43,6 +43,8 @@ body {
              max(12px, env(safe-area-inset-right))
              max(16px, env(safe-area-inset-bottom))
              max(12px, env(safe-area-inset-left));
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 main.machine {
