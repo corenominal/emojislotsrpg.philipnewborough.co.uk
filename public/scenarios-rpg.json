@@ -496,7 +496,8 @@
           "success": {
             "text": "The next spin is a winner! Praise the Troll!",
             "creditChange": 50,
-            "gameOver": false
+            "gameOver": false,
+            "function": "showTrollCharm"
           },
           "failure": {
             "text": "The hair comes off in your hand. You feel cursed.",

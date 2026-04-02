@@ -1549,6 +1549,11 @@ main.machine {
 }
 
 /* ── Fluffy dice ─────────────────────────────────────────────────────────── */
+@keyframes dice-swing {
+    0%, 100% { transform: rotate(-12deg); }
+    50%       { transform: rotate(12deg); }
+}
+
 .fluffy-dice {
     position: absolute;
     top: 0;
@@ -1557,4 +1562,26 @@ main.machine {
     height: auto;
     pointer-events: none;
     z-index: 10;
+    transform-origin: top center;
+    animation: dice-swing 1.6s ease-in-out infinite;
+}
+
+/* ── Troll charm ─────────────────────────────────────────────────────────── */
+@keyframes troll-rainbow {
+    0%   { filter: hue-rotate(0deg)   saturate(1.4) brightness(1.1); }
+    25%  { filter: hue-rotate(90deg)  saturate(1.6) brightness(1.2); }
+    50%  { filter: hue-rotate(180deg) saturate(1.4) brightness(1.1); }
+    75%  { filter: hue-rotate(270deg) saturate(1.6) brightness(1.2); }
+    100% { filter: hue-rotate(360deg) saturate(1.4) brightness(1.1); }
+}
+
+.troll-charm {
+    position: absolute;
+    right: -8px;
+    width: 65px;
+    height: auto;
+    pointer-events: none;
+    z-index: 10;
+    transform: translateY(-50%);
+    animation: troll-rainbow 3s linear infinite;
 }
