@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         epicWin:  new Howl({ src: './audio/win-epic.mp3' }),
         lose:     new Howl({ src: './audio/lose.mp3' }),
         poop:     new Howl({ src: './audio/poop.mp3' }),
+        bleep:    new Howl({ src: './audio/bleep.mp3' }),
         spinner:  new Howl({ src: './audio/spinner.mp3' }),
     };
 
@@ -653,6 +654,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `${guess === 'higher' ? '▲ Higher?' : '▼ Lower?'} <span style="font-size:1.35em;color:#00e5ff;display:inline-block;min-width:1.5em;text-align:center">${display}</span>` +
                 `<br><span style="font-size:0.55em;opacity:0.65">collect to bank: +${hlCoins}</span>`;
             if (elapsed < ANIM_DURATION) {
+                sfx.bleep.stop();
+                sfx.bleep.play();
                 flickerTimer = setTimeout(tickFlicker, interval);
             } else {
                 finishResolve();
@@ -768,6 +771,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const interval = Math.round(60 + 140 * progress);
             infoSpan.className = 'pb-game';
             infoSpan.innerHTML = `Opening box ${idx + 1}... ${EMOJIS[Math.floor(Math.random() * EMOJIS.length)]}`;
+            sfx.bleep.stop();
+            sfx.bleep.play();
             if (elapsed < ANIM_DURATION) {
                 setTimeout(tickFlicker, interval);
             } else {
