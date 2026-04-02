@@ -1575,6 +1575,16 @@ main.machine {
     100% { filter: hue-rotate(360deg) saturate(1.4) brightness(1.1); }
 }
 
+@keyframes troll-shimmy {
+    0%, 75%  { transform: translateY(-50%) translateX(0); }
+    77%      { transform: translateY(-50%) translateX(-15px); }
+    79%      { transform: translateY(-50%) translateX(10px); }
+    81%      { transform: translateY(-50%) translateX(-12px); }
+    83%      { transform: translateY(-50%) translateX(8px); }
+    85%      { transform: translateY(-50%) translateX(-6px); }
+    87%, 100% { transform: translateY(-50%) translateX(0); }
+}
+
 .troll-charm {
     position: absolute;
     right: -8px;
@@ -1582,6 +1592,6 @@ main.machine {
     height: auto;
     pointer-events: none;
     z-index: 10;
-    transform: translateY(-50%);
-    animation: troll-rainbow 3s linear infinite;
+    animation: troll-rainbow 3s linear infinite,
+               troll-shimmy 10s ease-in-out infinite;
 }
