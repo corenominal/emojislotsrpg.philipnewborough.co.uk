@@ -24,14 +24,15 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=e20fd22e">
+<link rel="stylesheet" href="css/main.css?v=a5fbd700">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=4d221d1d"></script>
+<script defer src="js/main.js?v=6267bf14"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
+<script defer src="js/scripts/show-wizard-charm.js"></script>
 <!-- Service Worker registration -->
 <script>
     if ('serviceWorker' in navigator) {
@@ -314,6 +315,26 @@
         <span class="about-button__icon">ℹ</span>
         <span class="about-button__label">ABOUT</span>
     </button>
+
+    <!-- Wizard charm info modal -->
+    <div id="wizard-modal" class="wizard-modal" hidden>
+        <div class="wizard-modal__inner">
+            <div class="wizard-modal__scanlines" aria-hidden="true"></div>
+            <div class="wizard-modal__header">
+                <span class="wizard-modal__tag">WIZARD'S BLESSING</span>
+                <h2 class="wizard-modal__title">Zoltan's Gift</h2>
+            </div>
+            <div class="wizard-modal__wizard-area">
+                <img src="img/wizard.png" alt="Wizard charm" class="wizard-modal__wizard">
+            </div>
+            <p class="wizard-modal__flavor">Zoltan has blessed this machine. All slot machine wins are amplified tenfold by ancient arcade magic. The wizard watches over your every spin — the reels shall be generous.</p>
+            <div class="wizard-modal__buff">
+                <span class="wizard-modal__buff-icon">🧙</span>
+                <span class="wizard-modal__buff-label">All wins &times;10 until game reset</span>
+            </div>
+            <button class="wizard-modal__btn" id="wizard-modal-close">Back to the reels</button>
+        </div>
+    </div>
 
     <!-- Settings trigger button (bottom-right) — cassette variant -->
     <button id="settings-toggle" class="settings-button settings-button--cassette" aria-label="Open settings">

@@ -825,5 +825,28 @@
           "gameOver": false
         }
       ]
+    },
+    {
+      "id": "zoltan_machine",
+      "_debug": "__debugScenario('zoltan_machine')",
+      "title": "ZOLTAN KNOWS ALL",
+      "flavorText": "In the corner, half-hidden behind a broken air-hockey table, stands a dusty fortune-teller cabinet. 'ZOLTAN — ALL IS KNOWN.' A painted wizard stares at you through cracked glass. The coin slot glows faintly.",
+      "options": [
+        {
+          "text": "Feed Zoltan a coin and ask your fortune.",
+          "outcome": "fixed",
+          "textSuccess": "The cabinet whirrs and clanks. Gears grind somewhere deep inside. A scroll of paper emerges: 'GREAT FORTUNE APPROACHES.' A small wizard figurine clatters into the coin tray — Zoltan's blessing upon you.",
+          "creditChange": 0,
+          "gameOver": false,
+          "function": "showWizardCharm"
+        },
+        {
+          "text": "Ignore the old machine — fortune favours the bold.",
+          "outcome": "fixed",
+          "textSuccess": "You leave Zoltan to his dusty corner. The wizard's painted eyes seem to follow you as you walk away.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
     }
 ]

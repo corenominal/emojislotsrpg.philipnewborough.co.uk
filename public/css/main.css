@@ -2181,3 +2181,202 @@ main.machine {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.6; }
 }
+
+/* ── Wizard charm ─────────────────────────────────────────────────────────── */
+
+@keyframes wizard-float {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%       { transform: translateY(-12px) rotate(4deg); }
+}
+
+@keyframes wizard-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(180, 80, 255, 0.7)) drop-shadow(0 0 18px rgba(100, 0, 200, 0.4)); }
+    50%       { filter: drop-shadow(0 0 18px rgba(220, 120, 255, 1)) drop-shadow(0 0 36px rgba(160, 20, 255, 0.7)); }
+}
+
+.wizard-charm {
+    position: fixed;
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 116px);
+    width: 62px;
+    height: auto;
+    cursor: pointer;
+    z-index: 301;
+    animation: wizard-float 2.4s ease-in-out infinite,
+               wizard-glow  2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+/* ── Wizard pay table modifier ─────────────────────────────────────────── */
+
+.pay-table.wizard-active .pay-heading::after {
+    content: ' 🧙';
+}
+
+.pay-table.wizard-active .pay-row:not(.pay-row--poop):not(.pay-row--skull):not(.pay-row--head) span:not(:first-child) {
+    color: #c77dff;
+    text-shadow: 0 0 8px rgba(180, 80, 255, 0.5);
+}
+
+.wizard-pay-note {
+    display: block;
+    margin-top: 4px;
+    color: #c77dff;
+    text-shadow: 0 0 8px rgba(180, 80, 255, 0.5);
+    font-size: 0.9em;
+}
+
+/* ── Wizard modal ─────────────────────────────────────────────────────────── */
+
+.wizard-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 350;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.10) 3px,
+            rgba(0, 0, 0, 0.10) 4px
+        ),
+        radial-gradient(ellipse at 50% 40%, rgba(20, 6, 40, 0.97) 0%, rgba(10, 2, 22, 0.99) 72%);
+    animation: modal-fadein 0.35s ease both;
+}
+.wizard-modal[hidden] { display: none; }
+
+.wizard-modal__inner {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(20, 6, 40, 0.97);
+    border: 2px solid rgba(180, 80, 255, 0.4);
+    border-radius: 12px;
+    padding: 22px 24px 20px;
+    box-shadow:
+        0 0 40px rgba(160, 40, 255, 0.2),
+        0 0 80px rgba(100, 0, 200, 0.12),
+        inset 0 2px 8px rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    text-align: center;
+}
+
+.wizard-modal__scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
+    );
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.wizard-modal__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.wizard-modal__tag {
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c77dff;
+    text-shadow: 0 0 10px #c77dff;
+}
+
+.wizard-modal__title {
+    margin: 0;
+    font-size: clamp(15px, 3.5vw, 22px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #e0b0ff;
+    text-shadow: 0 0 14px rgba(180, 80, 255, 0.7);
+    text-transform: uppercase;
+}
+
+.wizard-modal__wizard-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.wizard-modal__wizard {
+    width: clamp(60px, 14vw, 80px);
+    height: auto;
+    filter: drop-shadow(0 0 14px rgba(180, 80, 255, 0.65));
+    animation: wizard-float 2.4s ease-in-out infinite;
+}
+
+.wizard-modal__flavor {
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    color: rgba(210, 170, 255, 0.85);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.wizard-modal__buff {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(160, 40, 255, 0.12);
+    border: 1px solid rgba(180, 80, 255, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.wizard-modal__buff-icon {
+    font-size: 1.5rem;
+}
+
+.wizard-modal__buff-label {
+    font-size: 0.88rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c77dff;
+    text-shadow: 0 0 8px rgba(180, 80, 255, 0.5);
+}
+
+.wizard-modal__btn {
+    font-family: inherit;
+    width: 100%;
+    padding: clamp(12px, 2.4vw, 18px) 0;
+    border: 0;
+    border-radius: 8px;
+    font-size: clamp(13px, 3vw, 17px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(180deg, #b44fff, #7a1fc0);
+    color: #1a0030;
+    box-shadow: 0 0 22px rgba(160, 40, 255, 0.4);
+    position: relative;
+    z-index: 2;
+}
+.wizard-modal__btn:active {
+    transform: scale(0.97);
+}

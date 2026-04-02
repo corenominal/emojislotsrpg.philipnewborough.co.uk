@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rewind:   new Howl({ src: './audio/rewind.mp3' }),
         cat:      new Howl({ src: './audio/cat.mp3' }),
         troll:    new Howl({ src: './audio/troll.mp3' }),
+        wizard:   new Howl({ src: './audio/wizard.mp3' }),
     };
     window.sfx = sfx;
 
@@ -130,14 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Maps charm function name → localStorage key and → scenario ID.
     // Used to persist, restore, and exclude charm scenarios after a resume.
     const CHARM_STORAGE_KEYS = {
-        showArcadeCat:  'emojimachine.charm.cat',
-        showFluffyDice: 'emojimachine.charm.dice',
-        showTrollCharm: 'emojimachine.charm.troll',
+        showArcadeCat:   'emojimachine.charm.cat',
+        showFluffyDice:  'emojimachine.charm.dice',
+        showTrollCharm:  'emojimachine.charm.troll',
+        showWizardCharm: 'emojimachine.charm.wizard',
     };
     const CHARM_SCENARIO_IDS = {
-        showArcadeCat:  'arcade_cat',
-        showFluffyDice: 'lucky_charm_2',
-        showTrollCharm: 'troll_charm',
+        showArcadeCat:   'arcade_cat',
+        showFluffyDice:  'lucky_charm_2',
+        showTrollCharm:  'troll_charm',
+        showWizardCharm: 'zoltan_machine',
     };
 
     // Load saved coins from localStorage (persisted score)
@@ -186,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (aboutToggleBtn) aboutToggleBtn.addEventListener('click', openAbout);
     if (aboutCloseBtn)  aboutCloseBtn.addEventListener('click', closeAbout);
     if (aboutModalEl)   aboutModalEl.addEventListener('click', (e) => { if (e.target === aboutModalEl) closeAbout(); });
+
+    // Wizard charm info modal wiring
+    const wizardModalEl  = document.getElementById('wizard-modal');
+    const wizardCloseBtn = document.getElementById('wizard-modal-close');
+    function closeWizardModal() { if (wizardModalEl) wizardModalEl.hidden = true; }
+    if (wizardCloseBtn) wizardCloseBtn.addEventListener('click', closeWizardModal);
+    if (wizardModalEl)  wizardModalEl.addEventListener('click', (e) => { if (e.target === wizardModalEl) closeWizardModal(); });
 
     // Settings: Reset Game — use inline confirm UI (no native confirm)
     const settingsResetBtn = document.getElementById('settings-reset');
@@ -2133,6 +2143,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Check for Wizard charm multiplier (x10 all wins)
+        const wizardMultiplier = (() => { try { return localStorage.getItem('emojimachine.charm.wizard') === '1' ? 10 : 1; } catch (e) { return 1; } })();
+
         // Wins go straight to a bonus feature — no coins awarded yet
         if (allSame && c[0] !== '💩') {
             sfx.epicWin.stop();
@@ -2140,7 +2153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gamblePendingPair    = anyPair;
             gamblePendingAllSame = true;
             triggerWinExplosion(c[0], true);
-            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).three);
+            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).three * wizardMultiplier);
             return;
         }
         if (firstTwo && c[0] !== '💩') {
@@ -2148,7 +2161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gamblePendingPair    = anyPair;
             gamblePendingAllSame = false;
             triggerWinExplosion(c[0], false);
-            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).two);
+            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).two * wizardMultiplier);
             return;
         }
 
