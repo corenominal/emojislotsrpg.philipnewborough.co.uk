@@ -1,6 +1,7 @@
 [
     {
       "id": "big_gaz_tax",
+      "_debug": "__debugScenario('big_gaz_tax')",
       "title": "THE TAX MAN",
       "flavorText": "Big Gaz from Year 11 looms over you, smelling of Brut and damp denim. 'Alright, kid? That looks like my tenner you're playing with. Give us half or I'll give you a reason to visit the A&E.'",
       "options": [
@@ -30,6 +31,7 @@
     },
     {
       "id": "ghost_machine",
+      "_debug": "__debugScenario('ghost_machine')",
       "title": "THE 256th LEVEL",
       "flavorText": "The cabinet next to you flickers into a 'kill screen.' A digital voice seems to whisper your name through the static. The joystick starts moving on its own.",
       "options": [
@@ -59,6 +61,7 @@
     },
     {
       "id": "string_trick",
+      "_debug": "__debugScenario('string_trick')",
       "title": "THE 10p MYTH",
       "flavorText": "A shifty kid shows you a 10p piece with a hole drilled through it, attached to a fishing line. 'Infinite credits, mate. Want a go?'",
       "options": [
@@ -88,6 +91,7 @@
     },
     {
       "id": "nosy_neighbor",
+      "_debug": "__debugScenario('nosy_neighbor')",
       "title": "NEIGHBOURHOOD WATCH",
       "flavorText": "You spot Mrs. Higgins, your mum's nosy neighbor, peering through the window. If she sees you here, you're dead meat.",
       "options": [
@@ -125,6 +129,7 @@
     },
     {
       "id": "neon_trance",
+      "_debug": "__debugScenario('neon_trance')",
       "title": "NEON OVERLOAD",
       "flavorText": "The arcade lights dim, and the slot symbols start to glow purple. The background music shifts into a heavy synth bassline. You feel like you're inside the machine.",
       "options": [
@@ -154,6 +159,7 @@
     },
     {
       "id": "chippy_scraps",
+      "_debug": "__debugScenario('chippy_scraps')",
       "title": "CONE OF SCRAPS",
       "flavorText": "The smell of salt and vinegar drifts in. You're starving. A kid offers you a 'cone of scraps' for 10p.",
       "options": [
@@ -183,6 +189,7 @@
     },
     {
       "id": "konami_code",
+      "_debug": "__debugScenario('konami_code')",
       "title": "THE KONAMI LEGEND",
       "flavorText": "You find a scrap of paper with 'Up, Up, Down, Down, Left, Right...' scribbled on it. Could it work on a slot machine?",
       "options": [
@@ -212,6 +219,7 @@
     },
     {
       "id": "vending_kick",
+      "_debug": "__debugScenario('vending_kick')",
       "title": "THE SNACK TRAP",
       "flavorText": "Your Mars Bar is stuck in the vending machine. It's dangling by a thread. A well-placed kick might free it.",
       "options": [
@@ -241,6 +249,7 @@
     },
     {
       "id": "old_geezer",
+      "_debug": "__debugScenario('old_geezer')",
       "title": "THE FRUITIE WHISPERER",
       "flavorText": "An old bloke in a flat cap leans over. 'The Nudge logic is stuck, son. Hit it on the next cherry, she’ll cough up the lot.'",
       "options": [
@@ -270,6 +279,7 @@
     },
     {
       "id": "power_cut",
+      "_debug": "__debugScenario('power_cut')",
       "title": "DARKNESS FALLS",
       "flavorText": "The lights flicker and die. Total darkness in the arcade. You hear the sound of a change machine groaning nearby.",
       "options": [
@@ -299,6 +309,7 @@
     },
     {
       "id": "school_rival",
+      "_debug": "__debugScenario('school_rival')",
       "title": "THE SHOWDOWN",
       "flavorText": "Your rival, Darren, shows up with a £20 note. 'I'll have that jackpot before you've even had your tea, loser.'",
       "options": [
@@ -328,6 +339,7 @@
     },
     {
       "id": "broken_joystick",
+      "_debug": "__debugScenario('broken_joystick')",
       "title": "STICKY SITUATION",
       "flavorText": "Someone has smeared a lolly over the 'Hold' buttons. They're nearly impossible to press.",
       "options": [
@@ -357,6 +369,7 @@
     },
     {
       "id": "the_vicar",
+      "_debug": "__debugScenario('the_vicar')",
       "title": "HOLY INTERVENTION",
       "flavorText": "The local Vicar is walking through the arcade for some reason. He's looking right at you.",
       "options": [
@@ -386,6 +399,7 @@
     },
     {
       "id": "mystery_token",
+      "_debug": "__debugScenario('mystery_token')",
       "title": "THE FORBIDDEN COIN",
       "flavorText": "You find a strange, heavy brass token on the floor. It doesn't look like legal tender, but it might fit the slot.",
       "options": [
@@ -415,6 +429,7 @@
     },
     {
       "id": "arcade_clerk",
+      "_debug": "__debugScenario('arcade_clerk')",
       "title": "THE BORED CLERK",
       "flavorText": "The girl behind the glass counter looks bored out of her mind. She's fiddling with a key.",
       "options": [
@@ -444,6 +459,7 @@
     },
     {
       "id": "rainy_rush",
+      "_debug": "__debugScenario('rainy_rush')",
       "title": "THE DOWNPOUR",
       "flavorText": "A sudden British downpour sends a crowd of wet teenagers into the arcade. It's getting crowded and hot.",
       "options": [
@@ -465,6 +481,7 @@
     },
     {
       "id": "mystery_tape",
+      "_debug": "__debugScenario('mystery_tape')",
       "title": "THE TOP SECRET MIX",
       "flavorText": "You find a cassette tape on the floor. It's hand-labeled: 'THE ULTIMATE BEAT.'",
       "options": [
@@ -486,6 +503,7 @@
     },
     {
       "id": "troll_charm",
+      "_debug": "__debugScenario('troll_charm')",
       "title": "THE LUCKY TROLL",
       "flavorText": "A neon-haired Troll doll is sitting on the machine. Someone must have forgotten it.",
       "options": [
@@ -516,6 +534,7 @@
     },
     {
       "id": "laser_tag",
+      "_debug": "__debugScenario('laser_tag')",
       "title": "TRON DREAMS",
       "flavorText": "The back room is flashing with red lasers. A game is starting. 'You in, kid? 50p entry.'",
       "options": [
@@ -545,6 +564,7 @@
     },
     {
       "id": "broken_glass",
+      "_debug": "__debugScenario('broken_glass')",
       "title": "SHATTERED DREAMS",
       "flavorText": "A pint glass shatters near your feet. The floor is covered in shards and spilled cider.",
       "options": [
@@ -574,6 +594,7 @@
     },
     {
       "id": "arcade_cat",
+      "_debug": "__debugScenario('arcade_cat')",
       "title": "THE LUCKY GINGA",
       "flavorText": "The arcade's resident ginger cat jumps onto your machine and starts purring.",
       "options": [
@@ -596,6 +617,7 @@
     },
     {
       "id": "photo_booth_find",
+      "_debug": "__debugScenario('photo_booth_find')",
       "title": "BOOTH BOUNTY",
       "flavorText": "You see a set of photos sticking out of the booth. Beside them is a forgotten pound coin.",
       "options": [
@@ -625,6 +647,7 @@
     },
     {
       "id": "tizer_spill",
+      "_debug": "__debugScenario('tizer_spill')",
       "title": "TIZER TRAP",
       "flavorText": "A kid spills a full bottle of Tizer over your machine. Everything is now neon-orange and sticky.",
       "options": [
@@ -654,6 +677,7 @@
     },
     {
       "id": "dodgy_tips",
+      "_debug": "__debugScenario('dodgy_tips')",
       "title": "DODGY ADVICE",
       "flavorText": "A guy in a shell suit whispers, 'The machine on the end is payin' out. I just saw a guy win a fiver.'",
       "options": [
@@ -683,6 +707,7 @@
     },
     {
       "id": "the_big_boss",
+      "_debug": "__debugScenario('the_big_boss')",
       "title": "THE MANAGER'S GAZE",
       "flavorText": "The manager is doing a walkabout. He's looking at the ages of everyone in the slot section.",
       "options": [
@@ -712,6 +737,7 @@
     },
     {
       "id": "lucky_charm_2",
+      "_debug": "__debugScenario('lucky_charm_2')",
       "title": "THE LUCKY DICE",
       "flavorText": "You find a pair of fuzzy dice on a stool. They look like they fell off a cool car.",
       "options": [
@@ -742,6 +768,7 @@
     },
     {
       "id": "arcade_music",
+      "_debug": "__debugScenario('arcade_music')",
       "title": "BEAT BOX",
       "flavorText": "A new song comes on the jukebox. It's your favorite synth-pop hit. Your rhythm is peaking.",
       "options": [
@@ -771,6 +798,7 @@
     },
     {
       "id": "the_swap",
+      "_debug": "__debugScenario('the_swap')",
       "title": "THE TRADE",
       "flavorText": "A kid wants to trade his stack of 10p coins for your 'borrowed' tenner. He says it's easier to carry.",
       "options": [
