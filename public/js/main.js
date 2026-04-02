@@ -2005,13 +2005,17 @@ document.addEventListener('DOMContentLoaded', () => {
             try { localStorage.setItem('emojimachine.coins', String(n)); } catch (e) { /* ignore */ }
         };
 
+        const countStep = diff => diff >= 1000 ? 100 : diff >= 100 ? 10 : 1;
+
         if (afterSpin && newCoins <= 0) {
             if (oldCoins > 0) {
                 const downTotal = oldCoins;
-                const downDelay = Math.round(Math.max(8, Math.min(100, 2000 / downTotal)));
+                const step = countStep(downTotal);
+                const downDelay = Math.round(Math.max(8, Math.min(100, 2000 / (downTotal / step))));
                 const id = setInterval(() => {
                     sfx.coinDown.play();
-                    coinsEl.textContent = --oldCoins;
+                    oldCoins = Math.max(0, oldCoins - step);
+                    coinsEl.textContent = oldCoins;
                     showCount(oldCoins);
                     if (oldCoins === 0) clearInterval(id);
                 }, downDelay);
@@ -2019,10 +2023,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setGameOver();
         } else if (oldCoins > newCoins) {
             const downTotal = oldCoins - newCoins;
-            const downDelay = Math.round(Math.max(8, Math.min(100, 2000 / downTotal)));
+            const step = countStep(downTotal);
+            const downDelay = Math.round(Math.max(8, Math.min(100, 2000 / (downTotal / step))));
             const id = setInterval(() => {
                 sfx.coinDown.play();
-                coinsEl.textContent = --oldCoins;
+                oldCoins = Math.max(newCoins, oldCoins - step);
+                coinsEl.textContent = oldCoins;
                 showCount(oldCoins);
                 if (oldCoins === newCoins || oldCoins === 0) {
                     clearInterval(id);
@@ -2032,18 +2038,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Win — speed scales with total: large wins tick much faster
             const total = newCoins - oldCoins;
-            const START_DELAY = Math.round(Math.max(8,  Math.min(100, 2000 / total)));
+            const step = countStep(total);
+            const ticks = total / step;
+            const START_DELAY = Math.round(Math.max(8,  Math.min(100, 2000 / ticks)));
             const END_DELAY   = Math.round(Math.max(4,  START_DELAY / 4));
-            let step = 0;
+            let tickCount = 0;
             const tick = () => {
                 sfx.coinUp.play();
-                coinsEl.textContent = ++oldCoins;
+                oldCoins = Math.min(newCoins, oldCoins + step);
+                coinsEl.textContent = oldCoins;
                 showCount(oldCoins);
-                step++;
+                tickCount++;
                 if (oldCoins === newCoins) {
                     return;
                 }
-                const progress = total > 1 ? step / (total - 1) : 1;
+                const progress = ticks > 1 ? tickCount / (ticks - 1) : 1;
                 setTimeout(tick, Math.round(START_DELAY + (END_DELAY - START_DELAY) * progress));
             };
             setTimeout(tick, START_DELAY);
