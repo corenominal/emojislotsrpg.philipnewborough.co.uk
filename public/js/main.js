@@ -725,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             trollResultEl.hidden = false;
             if (won) {
-                const gain     = Math.min(Math.max(Math.floor(coins * 0.25), 20), 100);
+                const gain     = Math.min(Math.max(Math.floor(coins * 0.25), 20), 10000);
                 const newTotal = coins + gain;
                 trollResultEl.className  = 'troll-modal__result success';
                 trollResultTextEl.textContent = `The troll cackles and showers you with grubby coins! You gain ${gain} coins!`;
