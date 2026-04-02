@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         epicWin:  new Howl({ src: './audio/win-epic.mp3' }),
         lose:     new Howl({ src: './audio/lose.mp3' }),
         poop:     new Howl({ src: './audio/poop.mp3' }),
+        spinner:  new Howl({ src: './audio/spinner.mp3' }),
     };
 
     // Background music (plays after Insert Coin) — track chosen randomly on first play
@@ -1262,6 +1263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeWheelCanvas();
         swCanvas.classList.add('active');
         drawWheel();
+        sfx.spinner.play();
 
         // Weighted random outcome
         const weights = SW_SEGMENTS.map(s =>
@@ -1299,6 +1301,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 swAngle  = targetAngle;
                 swAnimId = null;
                 drawWheel();
+                sfx.spinner.stop();
                 setTimeout(() => resolveSpinTheWheel(winSeg), 500);
             }
         };
