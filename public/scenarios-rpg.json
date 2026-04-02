@@ -581,7 +581,8 @@
           "outcome": "fixed",
           "textSuccess": "The cat is happy. The machine seems to like it too. +5 Credits.",
           "creditChange": 10,
-          "gameOver": false
+          "gameOver": false,
+          "function": "showArcadeCat"
         },
         {
           "text": "Shoo it away.",
