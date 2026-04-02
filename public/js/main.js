@@ -143,6 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
         showWizardCharm: 'zoltan_machine',
     };
 
+    // Clears all localStorage items except volume settings.
+    function clearGameStorage() {
+        try {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k !== 'volume.sfx' && k !== 'volume.bgm') keysToRemove.push(k);
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+        } catch (err) { /* ignore */ }
+    }
+
     // Load saved coins from localStorage (persisted score)
     try {
         const savedRaw = localStorage.getItem('emojimachine.coins');
@@ -212,10 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             settingsResetBtn.hidden = false;
         });
         settingsResetYes.addEventListener('click', (e) => {
-            try {
-                localStorage.removeItem('emojimachine.coins');
-                Object.values(CHARM_STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
-            } catch (err) { /* ignore */ }
+            clearGameStorage();
             window.location.reload();
         });
     }
@@ -2015,6 +2024,31 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => gameOverModal.classList.add('game-over-modal--in'));
     }
 
+    function setWinner() {
+        clearTimeout(resetInfo);
+        stopGambleFlicker();
+        gambleActive = false;
+        hlActive     = false;
+        hlResolving  = false;
+        pbActive     = false;
+        pbChosen     = -1;
+        pbResolving  = false;
+        if (swAnimId) { cancelAnimationFrame(swAnimId); swAnimId = null; }
+        swCanvas.classList.remove('active');
+        swActive   = false;
+        swSpinning = false;
+        updateNudgeButtonsHL();
+        updateHoldButtonsPB();
+        btnCollect.classList.remove('ready');
+        sfx.epicWin.play();
+        infoSpan.className = 'flash';
+        infoSpan.innerHTML = '🏆 MILLIONAIRE! 🏆';
+        btnSpin.className  = 'btn gameover';
+        const winnerModal = document.getElementById('winner-modal');
+        winnerModal.removeAttribute('hidden');
+        requestAnimationFrame(() => winnerModal.classList.add('winner-modal--in'));
+    }
+
     function updateHoldButtons() {
         holdBtns.forEach((btn, i) => {
             btn.classList.toggle('held',     wheelsHeld[i]);
@@ -2096,6 +2130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showCount(oldCoins);
                 tickCount++;
                 if (oldCoins === newCoins) {
+                    if (newCoins >= 1000000) setTimeout(() => setWinner(), 500);
                     return;
                 }
                 const progress = ticks > 1 ? tickCount / (ticks - 1) : 1;
@@ -2104,7 +2139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(tick, START_DELAY);
         }
 
-        if (afterSpin && newCoins >= 10) {
+        if (afterSpin && newCoins >= 10 && newCoins < 1000000) {
             resetInfo = setTimeout(() => {
                 setReadyInfo();
                 checkRpgTrigger();
@@ -2330,7 +2365,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const resetGameBtn = e.target.closest('#btn-reset-game');
         if (resetGameBtn) {
-            try { localStorage.removeItem('emojimachine.coins'); } catch (err) { /* ignore */ }
+            clearGameStorage();
             window.location.reload();
             return;
         }
@@ -2338,7 +2373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeTravelBtn = e.target.closest('#btn-time-travel');
         if (timeTravelBtn) {
             timeTravelBtn.disabled = true;
-            localStorage.removeItem('emojimachine.coins');
+            clearGameStorage();
             sfx.rewind.play();
 
             // Collect all visible page elements to randomly vanish during rewind
@@ -2357,6 +2392,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Spread disappearances across the first 3.6s of the 4s SFX
+            vanishTargets.forEach(el => {
+                const delay = Math.random() * 3600;
+                setTimeout(() => el.classList.add('time-travel-vanish'), delay);
+            });
+
+            sfx.rewind.once('end', () => window.location.reload());
+            return;
+        }
+
+        const winnerRewindBtn = e.target.closest('#btn-winner-rewind');
+        if (winnerRewindBtn) {
+            winnerRewindBtn.disabled = true;
+            clearGameStorage();
+            sfx.rewind.play();
+
+            const vanishTargets = [
+                ...document.querySelectorAll('.machine > *'),
+                document.querySelector('.winner-modal__title'),
+                document.querySelector('.winner-modal__body'),
+                document.querySelector('.winner-modal__rewind-prompt'),
+                winnerRewindBtn,
+            ].filter(Boolean);
+
+            for (let i = vanishTargets.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [vanishTargets[i], vanishTargets[j]] = [vanishTargets[j], vanishTargets[i]];
+            }
+
             vanishTargets.forEach(el => {
                 const delay = Math.random() * 3600;
                 setTimeout(() => el.classList.add('time-travel-vanish'), delay);

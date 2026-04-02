@@ -24,11 +24,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=a5fbd700">
+<link rel="stylesheet" href="css/main.css?v=f4a4a91f">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=6267bf14"></script>
+<script defer src="js/main.js?v=7bd9587d"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
@@ -136,6 +136,20 @@
             </div>
             <p class="game-over-modal__time-prompt">If only you could go back in time&hellip;</p>
             <button id="btn-time-travel" class="btn-time-travel">&#x23F0; Time Travel</button>
+        </div>
+    </div>
+
+    <!-- Winner modal (shown when player reaches 1,000,000 coins) -->
+    <div id="winner-modal" class="winner-modal" hidden>
+        <div class="winner-modal__inner">
+            <h2 class="winner-modal__title">&#x1F3C6; Millionaire! &#x1F3C6;</h2>
+            <div class="winner-modal__body">
+                <p>The machine erupts. A klaxon screams from somewhere deep inside it, and coins cascade from the hopper in a thunderous copper waterfall, bouncing and spinning across the sticky arcade carpet. The grizzled regulars at the bar spin round on their stools. Pac-Man dies, unnoticed.</p>
+                <p>A security light swings to find you. The manager bursts out of a back room, clipboard in hand, expression cycling through disbelief and grim resignation. The counter on screen reads seven figures — and every single one of them is yours.</p>
+                <p class="winner-modal__kicker">Mum's tenner paid off. You actually did it. You're a millionaire &mdash; and the sun hasn't even gone down yet.</p>
+            </div>
+            <p class="winner-modal__rewind-prompt">Legends always go back for one more spin&hellip;</p>
+            <button id="btn-winner-rewind" class="btn-winner-rewind">&#x23F0; Play Again</button>
         </div>
     </div>
 
