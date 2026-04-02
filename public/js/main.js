@@ -20,7 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
         spinner:  new Howl({ src: './audio/spinner.mp3' }),
         glitch:   new Howl({ src: './audio/glitch.mp3' }),
         rewind:   new Howl({ src: './audio/rewind.mp3' }),
+        cat:      new Howl({ src: './audio/cat.mp3' }),
     };
+    window.sfx = sfx;
 
     // Background music (plays after Insert Coin) — track chosen randomly on first play
     const bgmTracks = ['./audio/arcade-tide.mp3', './audio/pixel-tide.mp3'];

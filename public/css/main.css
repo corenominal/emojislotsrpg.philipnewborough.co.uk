@@ -1543,7 +1543,7 @@ main.machine {
     left: 0;
     width: 80px;
     height: auto;
-    pointer-events: none;
+    cursor: pointer;
     z-index: 10;
     animation: cat-bob 1.2s ease-in-out infinite;
 }
