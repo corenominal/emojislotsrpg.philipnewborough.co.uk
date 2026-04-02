@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const resolvedLabel = `Roll ${needed}+ to succeed (rolled ${roll})`;
 
         // Disable options while rolling
-        rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; });
+        rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = true; });
 
         animateDice(faceName, 1800, duringLabel, () => {
             rpgDiceLabelEl.textContent = resolvedLabel;
@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled    = true;
             btn.onclick = () => {
                 // Disable all options immediately
-                rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; });
+                rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = true; });
                 resolveRpgOutcome(option, scenario, null);
             };
             rpgOptionsEl.appendChild(btn);
@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Re-enable option buttons 1 second after the modal is revealed
         setTimeout(() => {
             rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = false; });
-        }, 3000);
+        }, 1000);
     }
 
     // Called at the end of a fully-settled spin (no pending nudges / win features)

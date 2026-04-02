@@ -1119,6 +1119,19 @@ main.machine {
     border-color: var(--unicorn);
     box-shadow: 0 0 16px rgba(199,125,255,0.25);
 }
+.rpg-option-btn:disabled {
+    cursor: not-allowed;
+    color: rgba(199,125,255,0.55);
+    background: rgba(199,125,255,0.03);
+    border-color: rgba(199,125,255,0.2);
+    box-shadow: none;
+    opacity: 0.65;
+}
+.rpg-option-btn:disabled:hover {
+    background: rgba(199,125,255,0.03);
+    border-color: rgba(199,125,255,0.2);
+    box-shadow: none;
+}
 .rpg-option-btn:active { transform: scale(0.98); }
 
 /* Result text */
