@@ -2041,7 +2041,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try { localStorage.setItem('emojimachine.coins', String(n)); } catch (e) { /* ignore */ }
         };
 
-        const countStep = diff => diff >= 1000 ? 100 : diff >= 100 ? 10 : 1;
+        const countStep = diff => diff >= 100000 ? 10000 : diff >= 10000 ? 1000 : diff >= 1000 ? 100 : diff >= 100 ? 10 : 1;
 
         if (afterSpin && newCoins <= 0) {
             if (oldCoins > 0) {
