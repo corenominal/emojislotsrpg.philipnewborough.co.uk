@@ -470,6 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = document.createElement('button');
             btn.className   = 'rpg-option-btn';
             btn.textContent = option.text;
+            btn.disabled    = true;
             btn.onclick = () => {
                 // Disable all options immediately
                 rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; });
@@ -479,6 +480,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         rpgModal.hidden = false;
+
+        // Re-enable option buttons 1 second after the modal is revealed
+        setTimeout(() => {
+            rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = false; });
+        }, 1000);
     }
 
     // Called at the end of a fully-settled spin (no pending nudges / win features)
@@ -541,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCollect.classList.remove('ready');
         btnSpin.classList.remove('ready');
         if (won) {
+            sfx.epicWin.stop();
             sfx.epicWin.play();
             gambleCoins *= 2;
             infoSpan.className = 'flash-fast';
@@ -654,6 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const finishResolve = () => {
             if (correct) {
+                sfx.epicWin.stop();
                 sfx.epicWin.play();
                 hlCoins  *= 2;
                 hlCurrent = next;
@@ -774,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const reveal = buildReveal();
             if (outcome === 'big') {
                 const bigCoins = pbCoins * 3;
+                sfx.epicWin.stop();
                 sfx.epicWin.play();
                 infoSpan.className = 'flash-fast';
                 infoSpan.innerHTML = `💰 JACKPOT! ×3! +${bigCoins}!<br><span style="font-size:0.55em;opacity:0.7">${reveal}</span>`;
@@ -1317,6 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSpin.textContent = 'Play';
         if (seg.type === 'mult') {
             const won = Math.round(swCoins * seg.value);
+            sfx.epicWin.stop();
             sfx.epicWin.play();
             infoSpan.className = 'flash-fast';
             infoSpan.innerHTML = `🎡 ${seg.emoji} ${seg.label}! +${won}`;
@@ -1738,6 +1748,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Wins go straight to a bonus feature — no coins awarded yet
         if (allSame && c[0] !== '💩') {
+            sfx.epicWin.stop();
             sfx.epicWin.play();
             gamblePendingPair    = anyPair;
             gamblePendingAllSame = true;
