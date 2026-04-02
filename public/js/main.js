@@ -429,6 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     setGameOver();
                     return;
                 }
+                if (data.function && typeof window[data.function] === 'function') {
+                    window[data.function]();
+                }
                 const change = data.creditChange || (data.creditMultiplier ? Math.round(curCoins * (data.creditMultiplier - 1)) : 0);
                 if (change !== 0 && !data.setCreditsToZero) {
                     const newC = Math.max(0, curCoins + change);
@@ -459,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (afterAll) afterAll();
     }
 
-    async function triggerEvent() {
+    async function triggerEvent(forcedScenario) {
         rpgActive = true;
         rpgPending = false;
 
@@ -469,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scenarios = await loadScenarios();
         if (!scenarios.length) { rpgActive = false; btnSpin.classList.add('ready'); setReadyInfo(); return; }
 
-        const scenario = pickScenario(scenarios);
+        const scenario = forcedScenario || pickScenario(scenarios);
 
         rpgTitleEl.textContent  = scenario.title;
         rpgFlavorEl.textContent = scenario.flavorText;
@@ -500,6 +503,23 @@ document.addEventListener('DOMContentLoaded', () => {
             rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = false; });
         }, 1000);
     }
+
+    // Debug helper — call from the browser console to immediately trigger a scenario by ID.
+    // e.g. __debugScenario('big_gaz_tax')  or  __debugScenario() for a random one.
+    window.__debugScenario = async (id) => {
+        if (rpgActive) { console.warn('[debug] RPG modal already open'); return; }
+        const scenarios = await loadScenarios();
+        let scenario;
+        if (id) {
+            scenario = scenarios.find(s => s.id === id);
+            if (!scenario) {
+                console.warn(`[debug] No scenario found with id "${id}". Available ids:`, scenarios.map(s => s.id));
+                return;
+            }
+        }
+        rpgPending = false;
+        triggerEvent(scenario);
+    };
 
     // Called at the end of a fully-settled spin (no pending nudges / win features)
     function checkRpgTrigger() {

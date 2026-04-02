@@ -1530,3 +1530,14 @@ main.machine {
     color: #fff;
     border-color: rgba(255,255,255,0.5);
 }
+
+/* ── Fluffy dice ─────────────────────────────────────────────────────────── */
+.fluffy-dice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: auto;
+    pointer-events: none;
+    z-index: 10;
+}

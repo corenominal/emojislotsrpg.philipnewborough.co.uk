@@ -720,7 +720,8 @@
           "success": {
             "text": "The machine looks cool and rewards you with a win!",
             "creditChange": 20,
-            "gameOver": false
+            "gameOver": false,
+            "function": "showFluffyDice"
           },
           "failure": {
             "text": "They fall off and jam the coin return. Damn.",
