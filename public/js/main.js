@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Re-enable option buttons 1 second after the modal is revealed
         setTimeout(() => {
             rpgOptionsEl.querySelectorAll('.rpg-option-btn').forEach(b => { b.disabled = false; });
-        }, 1000);
+        }, 3000);
     }
 
     // Called at the end of a fully-settled spin (no pending nudges / win features)
