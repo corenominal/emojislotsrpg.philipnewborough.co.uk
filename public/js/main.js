@@ -202,6 +202,56 @@ document.addEventListener('DOMContentLoaded', () => {
     if (aboutCloseBtn)  aboutCloseBtn.addEventListener('click', closeAbout);
     if (aboutModalEl)   aboutModalEl.addEventListener('click', (e) => { if (e.target === aboutModalEl) closeAbout(); });
 
+    // Secret scenario picker — click the profile picture 6× within 2 s to open
+    const aboutAvatarEl         = document.getElementById('about-avatar');
+    const scenarioPickerModal   = document.getElementById('scenario-picker-modal');
+    const scenarioPickerList    = document.getElementById('scenario-picker-list');
+    const scenarioPickerCloseBtn = document.getElementById('scenario-picker-close');
+
+    let _avatarClickCount = 0;
+    let _avatarClickTimer = null;
+
+    if (aboutAvatarEl) {
+        aboutAvatarEl.addEventListener('click', () => {
+            _avatarClickCount++;
+            clearTimeout(_avatarClickTimer);
+            _avatarClickTimer = setTimeout(() => { _avatarClickCount = 0; }, 2000);
+            if (_avatarClickCount >= 6) {
+                _avatarClickCount = 0;
+                clearTimeout(_avatarClickTimer);
+                openScenarioPicker();
+            }
+        });
+    }
+
+    async function openScenarioPicker() {
+        if (!scenarioPickerModal || !scenarioPickerList) return;
+        const scenarios = await loadScenarios();
+        scenarioPickerList.innerHTML = '';
+        scenarios.forEach(s => {
+            const btn = document.createElement('button');
+            btn.className   = 'scenario-picker-modal__item';
+            btn.textContent = s.title;
+            btn.onclick = () => {
+                closeScenarioPicker();
+                closeAbout();
+                if (!rpgActive) {
+                    rpgPending = false;
+                    triggerEvent(s);
+                }
+            };
+            scenarioPickerList.appendChild(btn);
+        });
+        scenarioPickerModal.hidden = false;
+    }
+
+    function closeScenarioPicker() {
+        if (scenarioPickerModal) scenarioPickerModal.hidden = true;
+    }
+
+    if (scenarioPickerCloseBtn) scenarioPickerCloseBtn.addEventListener('click', closeScenarioPicker);
+    if (scenarioPickerModal)    scenarioPickerModal.addEventListener('click', (e) => { if (e.target === scenarioPickerModal) closeScenarioPicker(); });
+
     // Wizard charm info modal wiring
     const wizardModalEl  = document.getElementById('wizard-modal');
     const wizardCloseBtn = document.getElementById('wizard-modal-close');

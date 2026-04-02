@@ -24,11 +24,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=f4a4a91f">
+<link rel="stylesheet" href="css/main.css?v=687c5689">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=7bd9587d"></script>
+<script defer src="js/main.js?v=bb6271e1"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
@@ -280,13 +280,24 @@
                     <p>Step into a glowing neon arcade, circa 1988. Emoji Slots is a browser-based fruit machine with full UK pub-style mechanics: spin three emoji reels, hold wheels between spins, nudge them up or down into line, and gamble your winnings through bonus rounds — Higher/Lower, Pick a Box, and Spin the Wheel. Random arcade encounters throw RPG-style events into the mix. Match cherries, unicorns, or the elusive 💯 to fill your pockets. Hit a triple 💩 and watch your coins vanish. Hit 💀💀💀 and it's game over. Built with a synthwave CRT aesthetic, arcade sound effects, and background music. Your coins are saved — come back any time.</p>
                 </div>
                 <div class="about-modal__author">
-                    <img src="img/philip-newborough-yellow-512x512-rounded.png" alt="Philip Newborough" class="about-modal__avatar">
+                    <img src="img/philip-newborough-yellow-512x512-rounded.png" alt="Philip Newborough" class="about-modal__avatar" id="about-avatar">
                     <div class="about-modal__author-info">
                         <p class="about-modal__bio">Author: Philip Newborough<br>Web developer and tech enthusiast. When I'm not coding, I can be found performing Grumpa duties, reading Warhammer 40,000 fiction, listening to tech podcasts or riding my bike.</p>
                         <a href="https://philipnewborough.co.uk" class="about-modal__link" target="_blank" rel="noopener noreferrer">philipnewborough.co.uk</a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Scenario picker modal (secret: click profile picture 6× to open) -->
+    <div id="scenario-picker-modal" class="scenario-picker-modal" hidden>
+        <div class="scenario-picker-modal__inner">
+            <div class="scenario-picker-modal__header">
+                <h2>Select Scenario</h2>
+                <button id="scenario-picker-close" class="scenario-picker-modal__close" aria-label="Close scenario picker">✕</button>
+            </div>
+            <div class="scenario-picker-modal__list" id="scenario-picker-list"></div>
         </div>
     </div>
 
