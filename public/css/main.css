@@ -1762,8 +1762,213 @@ main.machine {
     right: -8px;
     width: 65px;
     height: auto;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
     z-index: 10;
     animation: troll-rainbow 3s linear infinite,
                troll-shimmy 10s ease-in-out infinite;
+}
+
+/* ── Troll's Gambit modal ─────────────────────────────────────────────────── */
+.troll-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 350;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.10) 3px,
+            rgba(0, 0, 0, 0.10) 4px
+        ),
+        radial-gradient(ellipse at 50% 40%, rgba(4, 18, 4, 0.97) 0%, rgba(2, 10, 2, 0.99) 72%);
+    animation: modal-fadein 0.35s ease both;
+}
+.troll-modal[hidden] { display: none; }
+
+.troll-modal__inner {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background: rgba(4, 18, 4, 0.97);
+    border: 2px solid rgba(80, 200, 80, 0.35);
+    border-radius: 12px;
+    padding: 22px 24px 20px;
+    box-shadow: 0 0 40px rgba(60, 180, 60, 0.12), 0 0 80px rgba(40, 140, 40, 0.07), inset 0 2px 8px rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+}
+
+.troll-modal__scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.06) 3px,
+        rgba(0,0,0,0.06) 4px
+    );
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.troll-modal__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.troll-modal__tag {
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6ddd6d;
+    text-shadow: 0 0 10px #6ddd6d;
+}
+
+.troll-modal__title {
+    margin: 0;
+    font-size: clamp(15px, 3.5vw, 22px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #a8f0a8;
+    text-shadow: 0 0 12px rgba(80, 200, 80, 0.55);
+    text-transform: uppercase;
+}
+
+.troll-modal__flavor {
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    color: rgba(160, 220, 140, 0.85);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.troll-modal__troll-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.troll-modal__troll {
+    width: clamp(60px, 14vw, 90px);
+    height: auto;
+    filter: drop-shadow(0 0 12px rgba(80, 200, 80, 0.5));
+}
+
+.troll-modal__troll.reacting {
+    animation: troll-react 0.55s ease both;
+}
+
+@keyframes troll-react {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.35) rotate(-8deg); }
+    55%  { transform: scale(0.9)  rotate(5deg); }
+    75%  { transform: scale(1.1)  rotate(-3deg); }
+    100% { transform: scale(1)    rotate(0deg); }
+}
+
+.troll-modal__result {
+    margin: 16px 0 0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(80, 180, 80, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+.troll-modal__result[hidden] { display: none; }
+.troll-modal__result p {
+    margin: 0;
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    line-height: 1.6;
+    color: rgba(160, 220, 140, 0.9);
+}
+.troll-modal__result.success { border-color: rgba(48, 209, 88, 0.4); }
+.troll-modal__result.failure { border-color: rgba(255, 45, 85, 0.4); }
+.troll-modal__result.success p { color: #30d158; }
+.troll-modal__result.failure p { color: var(--accent); }
+
+.troll-modal__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.troll-modal__btn {
+    font-family: inherit;
+    flex: 1;
+    padding: clamp(12px, 2.4vw, 18px) 0;
+    border: 0;
+    border-radius: 8px;
+    font-size: clamp(13px, 3vw, 17px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+.troll-modal__btn--poke {
+    background: linear-gradient(180deg, #6ddd6d, #3da83d);
+    color: #021002;
+    animation: troll-btn-pulse 1s ease-in-out infinite;
+    box-shadow: 0 0 22px rgba(80, 200, 80, 0.4), 0 0 6px rgba(80, 200, 80, 0.25);
+}
+.troll-modal__btn--poke:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    animation: none;
+    box-shadow: none;
+}
+.troll-modal__btn--poke:not(:disabled):active {
+    transform: scale(0.97);
+    animation-play-state: paused;
+}
+
+.troll-modal__btn--leave {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(160, 220, 140, 0.7);
+    border: 1px solid rgba(80, 180, 80, 0.25);
+}
+.troll-modal__btn--leave:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+.troll-modal__btn--leave:not(:disabled):active {
+    transform: scale(0.97);
+}
+
+.troll-modal__btn--continue {
+    width: 100%;
+    margin-top: 18px;
+    background: linear-gradient(180deg, #6ddd6d, #3da83d);
+    color: #021002;
+    box-shadow: 0 0 22px rgba(80, 200, 80, 0.4);
+}
+.troll-modal__btn--continue:active {
+    transform: scale(0.97);
+}
+
+@keyframes troll-btn-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.6; }
 }

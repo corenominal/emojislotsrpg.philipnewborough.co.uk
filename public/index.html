@@ -24,11 +24,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=f182f9f0">
+<link rel="stylesheet" href="css/main.css?v=8ff44728">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=caad3f47"></script>
+<script defer src="js/main.js?v=fc1fa671"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
@@ -203,6 +203,29 @@
                 <p id="lucky-dice-result-text"></p>
             </div>
             <button class="lucky-dice-modal__btn" id="lucky-dice-btn"></button>
+        </div>
+    </div>
+
+    <!-- Troll's Gambit modal -->
+    <div id="troll-modal" class="troll-modal" hidden>
+        <div class="troll-modal__inner">
+            <div class="troll-modal__scanlines" aria-hidden="true"></div>
+            <div class="troll-modal__header">
+                <span class="troll-modal__tag">TROLL'S GAMBIT</span>
+                <h2 class="troll-modal__title">Poke the Troll?</h2>
+            </div>
+            <p class="troll-modal__flavor" id="troll-flavor"></p>
+            <div class="troll-modal__troll-area">
+                <img src="img/troll.png" alt="Lucky troll" class="troll-modal__troll" id="troll-emoji">
+            </div>
+            <div class="troll-modal__result" id="troll-result" hidden>
+                <p id="troll-result-text"></p>
+            </div>
+            <div class="troll-modal__actions" id="troll-actions">
+                <button class="troll-modal__btn troll-modal__btn--poke" id="troll-poke-btn">Poke it!</button>
+                <button class="troll-modal__btn troll-modal__btn--leave" id="troll-leave-btn">Leave it alone</button>
+            </div>
+            <button class="troll-modal__btn troll-modal__btn--continue" id="troll-continue-btn" hidden></button>
         </div>
     </div>
 

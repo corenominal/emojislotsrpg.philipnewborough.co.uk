@@ -329,6 +329,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const luckyDiceBtn          = document.getElementById('lucky-dice-btn');
     const LUCKY_DICE_COOLDOWN   = 3 * 60 * 1000; // 3 minutes in ms
 
+    // Troll's Gambit DOM refs + constant
+    const trollModal         = document.getElementById('troll-modal');
+    const trollFlavorEl      = document.getElementById('troll-flavor');
+    const trollEmojiEl       = document.getElementById('troll-emoji');
+    const trollResultEl      = document.getElementById('troll-result');
+    const trollResultTextEl  = document.getElementById('troll-result-text');
+    const trollActionsEl     = document.getElementById('troll-actions');
+    const trollPokeBtn       = document.getElementById('troll-poke-btn');
+    const trollLeaveBtn      = document.getElementById('troll-leave-btn');
+    const trollContinueBtn   = document.getElementById('troll-continue-btn');
+    const TROLL_COOLDOWN     = 5 * 60 * 1000; // 5 minutes in ms
+
     async function loadScenarios() {
         if (rpgScenarios) return rpgScenarios;
         try {
@@ -644,8 +656,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ── Troll's Gambit ────────────────────────────────────────────────────────
+
+    function openTrollModal() {
+        if (!trollModal) return;
+        // Reset state
+        trollEmojiEl.classList.remove('reacting');
+        trollResultEl.hidden = true;
+        trollResultEl.className = 'troll-modal__result';
+        trollResultTextEl.textContent = '';
+        trollActionsEl.hidden = false;
+        trollPokeBtn.disabled = false;
+        trollLeaveBtn.disabled = false;
+        trollContinueBtn.hidden = true;
+        trollContinueBtn.textContent = '';
+
+        let lastUsed = 0;
+        try { lastUsed = parseInt(localStorage.getItem('emojimachine.trollGambit'), 10) || 0; } catch (e) {}
+        const isRecharging = (Date.now() - lastUsed) < TROLL_COOLDOWN;
+
+        if (isRecharging) {
+            trollFlavorEl.textContent = "The troll eyes you suspiciously. It's not in the mood right now. Give it some space and come back later.";
+            trollActionsEl.hidden = true;
+            trollContinueBtn.textContent = 'Back away slowly';
+            trollContinueBtn.hidden = false;
+            trollContinueBtn.onclick = closeTrollModal;
+        } else {
+            trollFlavorEl.textContent = 'The neon-haired troll leers at you from the side of the machine. It could bring great fortune… or it might just rob you blind. Such is the nature of trolls.';
+            trollPokeBtn.onclick = pokeTroll;
+            trollLeaveBtn.onclick = closeTrollModal;
+        }
+
+        trollModal.hidden = false;
+        sfx.glitch.play();
+    }
+
+    function closeTrollModal() {
+        if (trollModal) trollModal.hidden = true;
+    }
+
+    function pokeTroll() {
+        trollPokeBtn.disabled = true;
+        trollLeaveBtn.disabled = true;
+        try { localStorage.setItem('emojimachine.trollGambit', String(Date.now())); } catch (e) {}
+
+        const coins = +coinsEl.textContent;
+        const won   = Math.random() < 0.4; // 40% win, 60% lose
+
+        // Animate the troll emoji
+        trollEmojiEl.classList.remove('reacting');
+        void trollEmojiEl.offsetWidth; // force reflow to restart animation
+        trollEmojiEl.classList.add('reacting');
+
+        setTimeout(() => {
+            trollResultEl.hidden = false;
+            if (won) {
+                const gain     = Math.min(Math.max(Math.floor(coins * 0.25), 20), 100);
+                const newTotal = coins + gain;
+                trollResultEl.className  = 'troll-modal__result success';
+                trollResultTextEl.textContent = `The troll cackles and showers you with grubby coins! You gain ${gain} coins!`;
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+                trollContinueBtn.textContent = 'Collect!';
+                trollContinueBtn.hidden = false;
+                trollContinueBtn.onclick = () => {
+                    closeTrollModal();
+                    countCoins(coins, newTotal, false, `+${gain} 🧌`);
+                };
+            } else {
+                const lose     = Math.max(Math.floor(coins * 0.20), 10);
+                const newTotal = Math.max(0, coins - lose);
+                trollResultEl.className  = 'troll-modal__result failure';
+                trollResultTextEl.textContent = `The troll SNARLS and swipes a fistful of your coins! You lose ${lose} coins.`;
+                sfx.lose.play();
+                trollContinueBtn.textContent = 'Slink away';
+                trollContinueBtn.hidden = false;
+                trollContinueBtn.onclick = () => {
+                    closeTrollModal();
+                    countCoins(coins, newTotal, false, `-${lose} 🧌`);
+                };
+            }
+            trollActionsEl.hidden = true;
+        }, 700);
+    }
+
     // ── Win feature alternator ────────────────────────────────────────────────
-    // Tracks which bonus feature fired last so wins alternate: DON ↔ HL
     let lastWinFeature = 'higherLower'; // first spin-win will launch doubleOrNothing
 
     // ── Gamble helpers ────────────────────────────────────────────────────────
@@ -2155,6 +2250,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const fluffyDice = e.target.closest('.fluffy-dice');
         if (fluffyDice) {
             openLuckyDiceModal();
+            return;
+        }
+
+        const trollCharm = e.target.closest('.troll-charm');
+        if (trollCharm) {
+            openTrollModal();
             return;
         }
 
