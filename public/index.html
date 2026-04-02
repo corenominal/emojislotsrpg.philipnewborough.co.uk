@@ -24,11 +24,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=5c09f84d">
+<link rel="stylesheet" href="css/main.css?v=f182f9f0">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=dc328eb8"></script>
+<script defer src="js/main.js?v=caad3f47"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
@@ -183,6 +183,26 @@
                 <p id="rpg-result-text"></p>
             </div>
             <button class="rpg-modal__continue" id="rpg-continue" hidden>Continue</button>
+        </div>
+    </div>
+
+    <!-- Lucky Dice modal -->
+    <div id="lucky-dice-modal" class="lucky-dice-modal" hidden>
+        <div class="lucky-dice-modal__inner">
+            <div class="lucky-dice-modal__scanlines" aria-hidden="true"></div>
+            <div class="lucky-dice-modal__header">
+                <span class="lucky-dice-modal__tag">LUCKY DICE</span>
+                <h2 class="lucky-dice-modal__title">Double Your Coins?</h2>
+            </div>
+            <p class="lucky-dice-modal__flavor" id="lucky-dice-flavor"></p>
+            <div class="lucky-dice-modal__dice-area">
+                <div class="lucky-dice-modal__dice" id="lucky-dice-die">🎲</div>
+                <div class="lucky-dice-modal__dice-label" id="lucky-dice-label"></div>
+            </div>
+            <div class="lucky-dice-modal__result" id="lucky-dice-result" hidden>
+                <p id="lucky-dice-result-text"></p>
+            </div>
+            <button class="lucky-dice-modal__btn" id="lucky-dice-btn"></button>
         </div>
     </div>
 

@@ -319,6 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const rpgResultTextEl = document.getElementById('rpg-result-text');
     const rpgContinueBtn  = document.getElementById('rpg-continue');
 
+    // Lucky Dice DOM refs + constant
+    const luckyDiceModal        = document.getElementById('lucky-dice-modal');
+    const luckyDiceFlavorEl     = document.getElementById('lucky-dice-flavor');
+    const luckyDiceDieEl        = document.getElementById('lucky-dice-die');
+    const luckyDiceLabelEl      = document.getElementById('lucky-dice-label');
+    const luckyDiceResultEl     = document.getElementById('lucky-dice-result');
+    const luckyDiceResultTextEl = document.getElementById('lucky-dice-result-text');
+    const luckyDiceBtn          = document.getElementById('lucky-dice-btn');
+    const LUCKY_DICE_COOLDOWN   = 3 * 60 * 1000; // 3 minutes in ms
+
     async function loadScenarios() {
         if (rpgScenarios) return rpgScenarios;
         try {
@@ -536,6 +546,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         btnSpin.classList.remove('ready');
         triggerEvent();
+    }
+
+    // ── Lucky Dice ────────────────────────────────────────────────────────────
+
+    function openLuckyDiceModal() {
+        if (!luckyDiceModal) return;
+        // Reset visual state
+        luckyDiceDieEl.textContent = '🎲';
+        luckyDiceDieEl.classList.remove('rolling');
+        luckyDiceResultEl.hidden = true;
+        luckyDiceResultEl.className = 'lucky-dice-modal__result';
+        luckyDiceResultTextEl.textContent = '';
+        luckyDiceLabelEl.textContent = '';
+        luckyDiceBtn.disabled = false;
+
+        let lastUsed = 0;
+        try { lastUsed = parseInt(localStorage.getItem('emojimachine.luckyDice'), 10) || 0; } catch (e) {}
+        const isRecharging = (Date.now() - lastUsed) < LUCKY_DICE_COOLDOWN;
+
+        if (isRecharging) {
+            luckyDiceFlavorEl.textContent = 'The lucky dice magic is still recharging… Give them a rub and come back soon!';
+            luckyDiceLabelEl.textContent  = '';
+            luckyDiceBtn.textContent = 'Close';
+            luckyDiceBtn.onclick = closeLuckyDiceModal;
+        } else {
+            luckyDiceFlavorEl.textContent = 'The fluffy dice twist in the stale arcade air. Roll 4 or higher and your coins will be doubled!';
+            luckyDiceBtn.textContent = 'Roll the Dice!';
+            luckyDiceBtn.onclick = rollLuckyDice;
+        }
+
+        luckyDiceModal.hidden = false;
+        sfx.glitch.play();
+    }
+
+    function closeLuckyDiceModal() {
+        if (luckyDiceModal) luckyDiceModal.hidden = true;
+    }
+
+    function rollLuckyDice() {
+        luckyDiceBtn.disabled = true;
+        // Record cooldown start
+        try { localStorage.setItem('emojimachine.luckyDice', String(Date.now())); } catch (e) {}
+
+        const NEEDED    = 4;  // roll 4+ to win — exactly 50% (faces 4, 5, 6)
+        const dieRoll   = Math.ceil(Math.random() * 6);
+        const won       = dieRoll >= NEEDED;
+        const finalFace = DICE_FACES[dieRoll - 1];
+        const duringLabel   = 'Roll 4+ to double your coins';
+        const resolvedLabel = `Roll 4+ to double your coins (rolled ${dieRoll})`;
+
+        luckyDiceDieEl.classList.add('rolling');
+        luckyDiceLabelEl.textContent = duringLabel;
+
+        const start    = performance.now();
+        const duration = 1800;
+        const tick = () => {
+            const elapsed  = performance.now() - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const interval = Math.round(80 + 220 * Math.pow(progress, 2));
+            luckyDiceDieEl.textContent = elapsed < duration
+                ? DICE_FACES[Math.floor(Math.random() * 6)]
+                : finalFace;
+            if (elapsed < duration) {
+                setTimeout(tick, interval);
+            } else {
+                luckyDiceDieEl.classList.remove('rolling');
+                luckyDiceLabelEl.textContent = resolvedLabel;
+                finishLuckyDiceRoll(won);
+            }
+        };
+        tick();
+    }
+
+    function finishLuckyDiceRoll(won) {
+        luckyDiceResultEl.hidden = false;
+        if (won) {
+            const coins   = +coinsEl.textContent;
+            const doubled = coins * 2;
+            luckyDiceResultEl.className = 'lucky-dice-modal__result success';
+            luckyDiceResultTextEl.textContent = `The dice are on your side! Your ${coins} coins have been DOUBLED to ${doubled}!`;
+            sfx.epicWin.stop();
+            sfx.epicWin.play();
+            luckyDiceBtn.textContent = 'Collect!';
+            luckyDiceBtn.disabled    = false;
+            luckyDiceBtn.onclick = () => {
+                closeLuckyDiceModal();
+                countCoins(coins, doubled, false, '🎲 DOUBLED! 🎲');
+            };
+        } else {
+            luckyDiceResultEl.className = 'lucky-dice-modal__result failure';
+            luckyDiceResultTextEl.textContent = 'The dice are cold today… No luck this time. Come back soon and try again!';
+            sfx.lose.play();
+            luckyDiceBtn.textContent = 'Continue';
+            luckyDiceBtn.disabled    = false;
+            luckyDiceBtn.onclick     = closeLuckyDiceModal;
+        }
     }
 
     // ── Win feature alternator ────────────────────────────────────────────────
@@ -2043,6 +2149,12 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (pbActive) { collectPickABox(); }
             else if (swActive) { collectSpinTheWheel(); }
             else { collectGamble(); }
+            return;
+        }
+
+        const fluffyDice = e.target.closest('.fluffy-dice');
+        if (fluffyDice) {
+            openLuckyDiceModal();
             return;
         }
 
