@@ -125,6 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
         bgmVolumeEl.addEventListener('input', (e) => { setBgmVolume(parseFloat(e.target.value)); updateSliderFill(e.target); });
     }
 
+    // ── Charm persistence ──────────────────────────────────────────────────────
+    // Maps charm function name → localStorage key and → scenario ID.
+    // Used to persist, restore, and exclude charm scenarios after a resume.
+    const CHARM_STORAGE_KEYS = {
+        showArcadeCat:  'emojimachine.charm.cat',
+        showFluffyDice: 'emojimachine.charm.dice',
+        showTrollCharm: 'emojimachine.charm.troll',
+    };
+    const CHARM_SCENARIO_IDS = {
+        showArcadeCat:  'arcade_cat',
+        showFluffyDice: 'lucky_charm_2',
+        showTrollCharm: 'troll_charm',
+    };
+
     // Load saved coins from localStorage (persisted score)
     try {
         const savedRaw = localStorage.getItem('emojimachine.coins');
@@ -142,6 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (headerEl) headerEl.textContent = `[ SYSTEM RESTORED: ${timeStr} ]`;
                 welcomeBackModal.hidden = false;
             }
+            // Restore any charms the player had earned
+            Object.entries(CHARM_STORAGE_KEYS).forEach(([fn, key]) => {
+                try {
+                    if (localStorage.getItem(key) === '1' && typeof window[fn] === 'function') {
+                        window[fn]();
+                    }
+                } catch (e) { /* ignore */ }
+            });
         }
     } catch (e) {
         // ignore storage errors (privacy modes)
@@ -179,7 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
             settingsResetBtn.hidden = false;
         });
         settingsResetYes.addEventListener('click', (e) => {
-            try { localStorage.removeItem('emojimachine.coins'); } catch (err) { /* ignore */ }
+            try {
+                localStorage.removeItem('emojimachine.coins');
+                Object.values(CHARM_STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+            } catch (err) { /* ignore */ }
             window.location.reload();
         });
     }
@@ -367,7 +392,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pickScenario(scenarios) {
-        const available = scenarios.filter(s => !usedScenarios.includes(s.id));
+        // Exclude scenarios whose charm is already active on the machine
+        const activeCharmIds = new Set(
+            Object.entries(CHARM_STORAGE_KEYS)
+                .filter(([, key]) => { try { return localStorage.getItem(key) === '1'; } catch (e) { return false; } })
+                .map(([fn]) => CHARM_SCENARIO_IDS[fn])
+        );
+        const available = scenarios.filter(s => !usedScenarios.includes(s.id) && !activeCharmIds.has(s.id));
         // All used — reset (except keep last few out to avoid immediate repeats)
         if (available.length === 0) {
             usedScenarios = usedScenarios.slice(-2);
@@ -469,6 +500,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (data.function && typeof window[data.function] === 'function') {
                     window[data.function]();
+                    if (CHARM_STORAGE_KEYS[data.function]) {
+                        try { localStorage.setItem(CHARM_STORAGE_KEYS[data.function], '1'); } catch (e) { /* ignore */ }
+                    }
                 }
                 const change = data.creditChange || (data.creditMultiplier ? Math.round(curCoins * (data.creditMultiplier - 1)) : 0);
                 if (change !== 0 && !data.setCreditsToZero) {
