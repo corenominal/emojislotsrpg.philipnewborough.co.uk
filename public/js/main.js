@@ -546,6 +546,8 @@ document.addEventListener('DOMContentLoaded', () => {
         gambleTimerId = setInterval(() => {
             gambleLabel = gambleLabel === 'double' ? 'nothing' : 'double';
             infoSpan.innerHTML = labelHTML();
+            sfx.bleep.stop();
+            sfx.bleep.play();
         }, gambleSpeed);
         btnSpin.textContent = 'GAMBLE';
         btnSpin.classList.add('ready');
