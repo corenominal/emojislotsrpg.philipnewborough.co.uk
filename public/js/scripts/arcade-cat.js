@@ -9,7 +9,6 @@ function showArcadeCat() {
     img.src = 'img/cat.png';
     img.alt = 'Lucky ginger cat';
     img.className = 'arcade-cat';
-    img.addEventListener('click', () => { if (window.sfx && window.sfx.cat) window.sfx.cat.play(); });
     machine.appendChild(img);
 
     if (window.sfx && window.sfx.cat) window.sfx.cat.play();

@@ -341,6 +341,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const trollContinueBtn   = document.getElementById('troll-continue-btn');
     const TROLL_COOLDOWN     = 5 * 60 * 1000; // 5 minutes in ms
 
+    // Cat's Walk DOM refs + constants
+    const catModal          = document.getElementById('cat-modal');
+    const catFlavorEl       = document.getElementById('cat-flavor');
+    const catImgEl          = document.getElementById('cat-img');
+    const catWalkingLabelEl = document.getElementById('cat-walking-label');
+    const catResultEl       = document.getElementById('cat-result');
+    const catResultTextEl   = document.getElementById('cat-result-text');
+    const catActionsEl      = document.getElementById('cat-actions');
+    const catSendBtn        = document.getElementById('cat-send-btn');
+    const catLeaveBtn       = document.getElementById('cat-leave-btn');
+    const catContinueBtn    = document.getElementById('cat-continue-btn');
+    const CAT_COOLDOWN      = 10 * 60 * 1000; // 10 minutes in ms
+    const CAT_COIN_PRIZES   = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 1000, 10000];
+
     async function loadScenarios() {
         if (rpgScenarios) return rpgScenarios;
         try {
@@ -738,6 +752,91 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             trollActionsEl.hidden = true;
         }, 700);
+    }
+
+    // ── Cat's Walk ─────────────────────────────────────────────────────────────
+
+    function openCatModal() {
+        if (!catModal) return;
+        // Reset state
+        catImgEl.classList.remove('walking');
+        catWalkingLabelEl.textContent = '';
+        catResultEl.hidden = true;
+        catResultEl.className = 'cat-modal__result';
+        catResultTextEl.textContent = '';
+        catActionsEl.hidden = false;
+        catSendBtn.disabled = false;
+        catLeaveBtn.disabled = false;
+        catContinueBtn.hidden = true;
+        catContinueBtn.textContent = '';
+
+        let lastUsed = 0;
+        try { lastUsed = parseInt(localStorage.getItem('emojimachine.catWalk'), 10) || 0; } catch (e) {}
+        const isRecharging = (Date.now() - lastUsed) < CAT_COOLDOWN;
+
+        if (isRecharging) {
+            catFlavorEl.textContent = "The cat is curled up napping after its last walk around the arcade. Give it some rest and come back later.";
+            catActionsEl.hidden = true;
+            catContinueBtn.textContent = 'Leave it to nap';
+            catContinueBtn.hidden = false;
+            catContinueBtn.onclick = closeCatModal;
+        } else {
+            catFlavorEl.textContent = 'The ginger cat eyes the arcade corridors with curiosity. Send it on a walk and it might return with something good…';
+            catSendBtn.onclick = sendCatOnWalk;
+            catLeaveBtn.onclick = closeCatModal;
+        }
+
+        catModal.hidden = false;
+        sfx.cat.stop();
+        sfx.cat.play();
+    }
+
+    function closeCatModal() {
+        if (catModal) catModal.hidden = true;
+    }
+
+    function sendCatOnWalk() {
+        catSendBtn.disabled = true;
+        catLeaveBtn.disabled = true;
+        try { localStorage.setItem('emojimachine.catWalk', String(Date.now())); } catch (e) {}
+
+        const prize = CAT_COIN_PRIZES[Math.floor(Math.random() * CAT_COIN_PRIZES.length)];
+
+        // Animate the cat walking
+        catImgEl.classList.add('walking');
+        catWalkingLabelEl.textContent = '…off on a walk';
+        catActionsEl.hidden = true;
+
+        setTimeout(() => {
+            catImgEl.classList.remove('walking');
+            catWalkingLabelEl.textContent = '';
+            catResultEl.hidden = false;
+            catResultEl.className = 'cat-modal__result success';
+
+            const coins    = +coinsEl.textContent;
+            const newTotal = coins + prize;
+            let resultMsg;
+            if (prize >= 10000) {
+                resultMsg = `The cat struts back draped in golden coins! An extraordinary haul — the cat brought back ${prize.toLocaleString()} coins!`;
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+            } else if (prize >= 1000) {
+                resultMsg = `The cat trots back with a heavy bag of coins! What incredible luck — ${prize.toLocaleString()} coins!`;
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+            } else {
+                resultMsg = `The cat pads back in and drops ${prize} coins at your feet. Good kitty!`;
+                sfx.win.play();
+            }
+            catResultTextEl.textContent = resultMsg;
+
+            catContinueBtn.textContent = 'Collect!';
+            catContinueBtn.hidden = false;
+            catContinueBtn.onclick = () => {
+                closeCatModal();
+                countCoins(coins, newTotal, false, `+${prize} 🐱`);
+            };
+        }, 1800);
     }
 
     // ── Win feature alternator ────────────────────────────────────────────────
@@ -2256,6 +2355,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const trollCharm = e.target.closest('.troll-charm');
         if (trollCharm) {
             openTrollModal();
+            return;
+        }
+
+        const arcadeCat = e.target.closest('.arcade-cat');
+        if (arcadeCat) {
+            openCatModal();
             return;
         }
 
