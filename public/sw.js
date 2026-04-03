@@ -2,7 +2,7 @@
 // To push an update to users: bump this version string (e.g. v2, v3 …),
 // then deploy.  The browser will install the new SW, delete the old cache,
 // and serve fresh assets on the next page load.
-const CACHE_NAME = 'emojislotsrpg-v1.54';
+const CACHE_NAME = 'emojislotsrpg-v1.55';
 
 // ─── Assets to pre-cache on install ───────────────────────────────────────────
 const ASSETS = [
@@ -10,7 +10,7 @@ const ASSETS = [
     '/index.html',
     '/manifest.json',
     '/scenarios-rpg.json',
-    '/css/main.css?v=3dbf52b3',
+    '/css/main.css?v=a0d811bc',
     '/js/main.js?v=109c262c',
     '/js/vendor/howler.js',
     '/fonts/BitcountGridSingleInk.css',
