@@ -45,6 +45,7 @@ body {
              max(12px, env(safe-area-inset-left));
     -webkit-user-select: none;
     user-select: none;
+    touch-action: none;
 }
 
 main.machine {
