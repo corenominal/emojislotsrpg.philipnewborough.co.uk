@@ -2,27 +2,27 @@
 // To push an update to users: bump this version string (e.g. v2, v3 …),
 // then deploy.  The browser will install the new SW, delete the old cache,
 // and serve fresh assets on the next page load.
-const CACHE_NAME = 'emojislotsrpg-v1.56';
+const CACHE_NAME = 'emojislotsrpg-v1.57';
 
 // ─── Assets to pre-cache on install ───────────────────────────────────────────
 const ASSETS = [
     '/',
-    '/index.html',
+    '/index.html?v=afa94648',
     '/manifest.json',
-    '/scenarios-rpg.json',
+    '/scenarios-rpg.json?v=c2ead35c',
     '/css/main.css?v=a0d811bc',
     '/js/main.js?v=c9936ef8',
-    '/js/vendor/howler.js',
+    '/js/vendor/howler.js?v=4d344e5f',
     '/fonts/BitcountGridSingleInk.css',
     '/fonts/BitcountGridSingleInk.woff2',
     '/fonts/BitcountGridSingleInk.woff',
     '/img/background.png',
     '/img/coin_color.svg',
     '/img/dice.png',
-    '/js/scripts/show-fluffy-dice.js',
-    '/js/scripts/arcade-cat.js',
-    '/js/scripts/troll-charm.js',
-    '/js/scripts/show-wizard-charm.js',
+    '/js/scripts/show-fluffy-dice.js?v=55ca46c2',
+    '/js/scripts/arcade-cat.js?v=a8a52a24',
+    '/js/scripts/troll-charm.js?v=da78e21f',
+    '/js/scripts/show-wizard-charm.js?v=30add6a9',
     '/img/cat.png',
     '/img/troll.png',
     '/img/wizard.png',
