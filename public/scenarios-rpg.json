@@ -504,6 +504,7 @@
     {
       "id": "troll_charm",
       "_debug": "__debugScenario('troll_charm')",
+      "isCharm": true,
       "title": "THE LUCKY TROLL",
       "flavorText": "A neon-haired Troll doll is sitting on the machine. Someone must have forgotten it.",
       "options": [
@@ -595,6 +596,7 @@
     {
       "id": "arcade_cat",
       "_debug": "__debugScenario('arcade_cat')",
+      "isCharm": true,
       "title": "THE LUCKY GINGA",
       "flavorText": "The arcade's resident ginger cat jumps onto your machine and starts purring.",
       "options": [
@@ -738,6 +740,7 @@
     {
       "id": "lucky_charm_2",
       "_debug": "__debugScenario('lucky_charm_2')",
+      "isCharm": true,
       "title": "THE LUCKY DICE",
       "flavorText": "You find a pair of fuzzy dice on a stool. They look like they fell off a cool car.",
       "options": [
@@ -829,6 +832,7 @@
     {
       "id": "zoltan_machine",
       "_debug": "__debugScenario('zoltan_machine')",
+      "isCharm": true,
       "title": "ZOLTAN KNOWS ALL",
       "flavorText": "In the corner, half-hidden behind a broken air-hockey table, stands a dusty fortune-teller cabinet. 'ZOLTAN — ALL IS KNOWN.' A painted wizard stares at you through cracked glass. The coin slot glows faintly.",
       "options": [

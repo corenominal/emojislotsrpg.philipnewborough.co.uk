@@ -160,6 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) { /* ignore */ }
     }
 
+    // ── New-game charm flags ────────────────────────────────────────────────
+    // isNewGame is true for a fresh session (no saved coins found).
+    // newGameCharmTriggered ensures the guaranteed charm fires exactly once.
+    let isNewGame             = false;
+    let newGameCharmTriggered = false;
+
     // Load saved coins from localStorage (persisted score)
     try {
         const savedRaw = localStorage.getItem('emojimachine.coins');
@@ -185,9 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } catch (e) { /* ignore */ }
             });
+        } else {
+            isNewGame = true; // no saved session — this is a brand-new game
         }
     } catch (e) {
         // ignore storage errors (privacy modes)
+        isNewGame = true;
     }
 
     function openSettings() { if (settingsModalEl) { settingsModalEl.hidden = false; settingsModalEl.classList.add('settings-modal--in'); } }
@@ -470,6 +479,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return rpgScenarios;
     }
 
+    // Returns a random charm scenario (isCharm: true in JSON), or null if none available.
+    function pickCharmScenario(scenarios) {
+        const activeCharmIds = new Set(
+            Object.entries(CHARM_STORAGE_KEYS)
+                .filter(([, key]) => { try { return localStorage.getItem(key) === '1'; } catch (e) { return false; } })
+                .map(([fn]) => CHARM_SCENARIO_IDS[fn])
+        );
+        const available = scenarios.filter(s => s.isCharm === true && !activeCharmIds.has(s.id));
+        if (!available.length) return null;
+        return available[Math.floor(Math.random() * available.length)];
+    }
+
     function pickScenario(scenarios) {
         // Exclude scenarios whose charm is already active on the machine
         const activeCharmIds = new Set(
@@ -623,7 +644,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const scenarios = await loadScenarios();
         if (!scenarios.length) { rpgActive = false; btnSpin.classList.add('ready'); setReadyInfo(); return; }
 
-        const scenario = forcedScenario || pickScenario(scenarios);
+        let scenario;
+        if (forcedScenario) {
+            scenario = forcedScenario;
+        } else if (isNewGame && !newGameCharmTriggered) {
+            newGameCharmTriggered = true;
+            scenario = pickCharmScenario(scenarios) || pickScenario(scenarios);
+        } else {
+            scenario = pickScenario(scenarios);
+        }
 
         rpgTitleEl.textContent  = scenario.title;
         rpgFlavorEl.textContent = scenario.flavorText;
