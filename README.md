@@ -1,5 +1,7 @@
 # Emoji Slots RPG
 
+**Live:** https://emojislotsrpg.philipnewborough.co.uk/
+
 ![Emoji Slots RPG](public/img/og-image-1200x630.png)
 
 > Step into a glowing neon arcade, circa 1988. Emoji Slots is a browser-based fruit machine with full UK pub-style mechanics: spin three emoji reels, hold wheels between spins, nudge them up or down into line, and gamble your winnings through bonus rounds — Higher/Lower, Pick a Box, and Spin the Wheel. Random arcade encounters throw RPG-style events into the mix. Match cherries, unicorns, or the elusive 💯 to fill your pockets. Hit a triple 💩 and watch your coins vanish. Hit 💀💀💀 and it's game over. Built with a synthwave CRT aesthetic, arcade sound effects, and background music. Your coins are saved — come back any time.
