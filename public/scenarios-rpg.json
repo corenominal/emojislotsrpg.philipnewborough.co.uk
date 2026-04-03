@@ -93,7 +93,7 @@
       "id": "nosy_neighbor",
       "_debug": "__debugScenario('nosy_neighbor')",
       "title": "NEIGHBOURHOOD WATCH",
-      "flavorText": "You spot Mrs. Higgins, your mum's nosy neighbor, peering through the window. If she sees you here, you're dead meat.",
+      "flavorText": "You spot Mrs. Higgins, your mum's nosy neighbour, peering through the window. If she sees you here, you're dead meat.",
       "options": [
         {
           "text": "Duck into the 'After Burner' cockpit.",
@@ -115,7 +115,7 @@
           "outcome": "random",
           "chance": 0.3,
           "success": {
-            "text": "She doesn't recognize you without your school tie! You feel like a master of disguise.",
+            "text": "She doesn't recognise you without your school tie! You feel like a master of disguise.",
             "creditChange": 0,
             "gameOver": false
           },
@@ -430,7 +430,7 @@
     {
       "id": "arcade_clerk",
       "_debug": "__debugScenario('arcade_clerk')",
-      "title": "THE BORED CLERK",
+      "title": "THE BORED CASHIER",
       "flavorText": "The girl behind the glass counter looks bored out of her mind. She's fiddling with a key.",
       "options": [
         {
@@ -773,7 +773,7 @@
       "id": "arcade_music",
       "_debug": "__debugScenario('arcade_music')",
       "title": "BEAT BOX",
-      "flavorText": "A new song comes on the jukebox. It's your favorite synth-pop hit. Your rhythm is peaking.",
+      "flavorText": "A new song comes on the jukebox. It's your favourite synth-pop hit. Your rhythm is peaking.",
       "options": [
         {
           "text": "Tap the buttons to the beat.",
