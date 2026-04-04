@@ -629,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadScenarios() {
         if (rpgScenarios) return rpgScenarios;
         try {
-            const res = await fetch('./scenarios-rpg.json');
+            const res = await fetch('./scenarios.json');
             rpgScenarios = await res.json();
         } catch (e) {
             rpgScenarios = [];
