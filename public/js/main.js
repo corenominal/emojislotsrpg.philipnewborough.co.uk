@@ -348,24 +348,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cherries are the lowest, unicorn the highest; 💯 always pays exactly 100.
     // ── Spin the Wheel segments ─────────────────────────────────────────────
     const SW_SEGMENTS = [
-        { label: '×2',   emoji: '💰', type: 'mult', value: 2   },
-        { label: 'LOSE', emoji: '💀', type: 'lose', value: 0   },
-        { label: '×3',   emoji: '💎', type: 'mult', value: 3   },
-        { label: '×2',   emoji: '💰', type: 'mult', value: 2   },
-        { label: 'BANK', emoji: '🤑', type: 'bank', value: 1   },
-        { label: 'LOSE', emoji: '💀', type: 'lose', value: 0   },
-        { label: '×1.5', emoji: '⭐', type: 'mult', value: 1.5 },
-        { label: '×2',   emoji: '💰', type: 'mult', value: 2   },
+        { label: '×2',    emoji: '💰', type: 'mult',      value: 2   },
+        { label: 'LOSE',  emoji: '💀', type: 'lose',      value: 0   },
+        { label: '×3',    emoji: '💎', type: 'mult',      value: 3   },
+        { label: 'AGAIN!',emoji: '🎡', type: 'spinagain', value: 3   },
+        { label: 'BANK',  emoji: '🤑', type: 'bank',      value: 1   },
+        { label: 'LOSE',  emoji: '💀', type: 'lose',      value: 0   },
+        { label: '×1.5',  emoji: '⭐', type: 'mult',      value: 1.5 },
+        { label: '×2',    emoji: '💰', type: 'mult',      value: 2   },
     ];
     const SW_COLORS = [
-        '#aa00cc',  // ×2    – neon magenta
-        '#06020f',  // LOSE  – near-black deep space
-        '#0055aa',  // ×3    – electric blue
-        '#880099',  // ×2    – deep neon purple
-        '#006688',  // BANK  – teal cyan
-        '#0a0020',  // LOSE  – deep space
-        '#0099bb',  // ×1.5  – bright cyan
-        '#6600bb',  // ×2    – synthwave purple
+        '#aa00cc',  // ×2     – neon magenta
+        '#06020f',  // LOSE   – near-black deep space
+        '#0055aa',  // ×3     – electric blue
+        '#995500',  // AGAIN! – amber gold
+        '#006688',  // BANK   – teal cyan
+        '#0a0020',  // LOSE   – deep space
+        '#0099bb',  // ×1.5   – bright cyan
+        '#6600bb',  // ×2     – synthwave purple
     ];
 
     const PRIZES = {
@@ -1839,6 +1839,17 @@ document.addEventListener('DOMContentLoaded', () => {
         swSpinning = false;
         if (swAnimId) { cancelAnimationFrame(swAnimId); swAnimId = null; }
         swCanvas.classList.remove('active');
+
+        if (seg.type === 'spinagain') {
+            swCoins = Math.round(swCoins * seg.value);
+            sfx.epicWin.stop();
+            sfx.epicWin.play();
+            infoSpan.className = 'flash-fast';
+            infoSpan.innerHTML = `🎡 🎡 Win & Spin Again! ×${seg.value} → ${swCoins} coins!`;
+            setTimeout(() => doSpinWheel(), 2200);
+            return;
+        }
+
         swActive = false;
         btnSpin.textContent = 'Play';
         if (seg.type === 'mult') {
