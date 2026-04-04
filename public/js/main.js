@@ -241,26 +241,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (aboutCloseBtn)  aboutCloseBtn.addEventListener('click', closeAbout);
     if (aboutModalEl)   aboutModalEl.addEventListener('click', (e) => { if (e.target === aboutModalEl) closeAbout(); });
 
-    // Secret scenario picker — click the profile picture 6× within 2 s to open
+    // Secret scenario picker — press and hold the profile picture for 6 s to open
     const aboutAvatarEl         = document.getElementById('about-avatar');
     const scenarioPickerModal   = document.getElementById('scenario-picker-modal');
     const scenarioPickerList    = document.getElementById('scenario-picker-list');
     const scenarioPickerCloseBtn = document.getElementById('scenario-picker-close');
 
-    let _avatarClickCount = 0;
-    let _avatarClickTimer = null;
+    let _avatarHoldTimer = null;
 
     if (aboutAvatarEl) {
-        aboutAvatarEl.addEventListener('click', () => {
-            _avatarClickCount++;
-            clearTimeout(_avatarClickTimer);
-            _avatarClickTimer = setTimeout(() => { _avatarClickCount = 0; }, 2000);
-            if (_avatarClickCount >= 6) {
-                _avatarClickCount = 0;
-                clearTimeout(_avatarClickTimer);
-                openScenarioPicker();
-            }
-        });
+        const startHold = () => {
+            _avatarHoldTimer = setTimeout(() => { openScenarioPicker(); }, 6000);
+        };
+        const cancelHold = () => {
+            clearTimeout(_avatarHoldTimer);
+            _avatarHoldTimer = null;
+        };
+        aboutAvatarEl.addEventListener('mousedown',  startHold);
+        aboutAvatarEl.addEventListener('touchstart', startHold,  { passive: true });
+        aboutAvatarEl.addEventListener('mouseup',    cancelHold);
+        aboutAvatarEl.addEventListener('mouseleave', cancelHold);
+        aboutAvatarEl.addEventListener('touchend',   cancelHold);
+        aboutAvatarEl.addEventListener('touchcancel',cancelHold);
+        // Prevent the context menu on long-press (iOS/Android)
+        aboutAvatarEl.addEventListener('contextmenu', (e) => { e.preventDefault(); });
     }
 
     async function openScenarioPicker() {
