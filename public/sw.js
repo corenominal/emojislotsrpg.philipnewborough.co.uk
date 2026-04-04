@@ -2,16 +2,16 @@
 // To push an update to users: bump this version string (e.g. v2, v3 …),
 // then deploy.  The browser will install the new SW, delete the old cache,
 // and serve fresh assets on the next page load.
-const CACHE_NAME = 'emojislotsrpg-v1.70';
+const CACHE_NAME = 'emojislotsrpg-v1.75';
 
 // ─── Assets to pre-cache on install ───────────────────────────────────────────
 const ASSETS = [
     '/',
-    '/index.html?v=dac0761c',
+    '/index.html?v=41050ead',
     '/manifest.json',
-    '/scenarios-rpg.json?v=c2f8289d',
-    '/css/main.css?v=57a7e5d9',
-    '/js/main.js?v=df2bf2ee',
+    '/scenarios-rpg.json?v=037c1a1c',
+    '/css/main.css?v=41a095a8',
+    '/js/main.js?v=32aa4bbd',
     '/js/vendor/howler.js?v=4d344e5f',
     '/fonts/BitcountGridSingleInk.css',
     '/fonts/BitcountGridSingleInk.woff2',
@@ -23,9 +23,11 @@ const ASSETS = [
     '/js/scripts/arcade-cat.js?v=a8a52a24',
     '/js/scripts/troll-charm.js?v=da78e21f',
     '/js/scripts/show-wizard-charm.js?v=30add6a9',
+    '/js/scripts/show-magic-8-ball.js?v=42afe0c8',
     '/img/cat.png',
     '/img/troll.png',
     '/img/wizard.png',
+    '/img/8ball.png',
     '/img/philip-newborough-yellow-512x512-rounded.png',
     '/audio/cat.mp3',
     '/audio/troll.mp3',

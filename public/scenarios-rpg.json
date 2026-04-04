@@ -852,5 +852,29 @@
           "gameOver": false
         }
       ]
+    },
+    {
+      "id": "magic_8_ball",
+      "_debug": "__debugScenario('magic_8_ball')",
+      "isCharm": true,
+      "title": "SHAKE IT AND SEE",
+      "flavorText": "Wedged under a broken cabinet near the exit, half-buried under a crumpled crisp bag, you spot a battered Magic 8-Ball. The attendant clocks you looking at it. 'That's been there since '86, love. Every answer it ever gave was wrong — or maybe too right. Take it if you want. The machine's scrap anyway.'",
+      "options": [
+        {
+          "text": "Pocket the 8-Ball.",
+          "outcome": "fixed",
+          "textSuccess": "You turn it over. The dark window clears for just a moment — 'IT IS CERTAIN.' You tuck it into your jacket. Something tells you it knows things.",
+          "creditChange": 0,
+          "gameOver": false,
+          "function": "showMagic8Ball"
+        },
+        {
+          "text": "Leave it — you make your own luck.",
+          "outcome": "fixed",
+          "textSuccess": "You step over the 8-Ball and walk back to the reels. Behind you, the dark window briefly flickers: 'OUTLOOK NOT SO GOOD.' You didn't see it.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
     }
 ]

@@ -71,6 +71,11 @@ const SW_TARGETS = [
     swRef: /\/js\/scripts\/show-wizard-charm\.js(?:\?v=[a-f0-9]+)?/,
     swNew: (h) => `/js/scripts/show-wizard-charm.js?v=${h}`,
   },
+  {
+    file:  join(__dirname, 'public', 'js', 'scripts', 'show-magic-8-ball.js'),
+    swRef: /\/js\/scripts\/show-magic-8-ball\.js(?:\?v=[a-f0-9]+)?/,
+    swNew: (h) => `/js/scripts/show-magic-8-ball.js?v=${h}`,
+  },
 ];
 
 function shortHash(content) {

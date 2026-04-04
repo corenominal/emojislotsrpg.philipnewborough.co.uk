@@ -140,12 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
         showFluffyDice:  'emojimachine.charm.dice',
         showTrollCharm:  'emojimachine.charm.troll',
         showWizardCharm: 'emojimachine.charm.wizard',
+        showMagic8Ball:  'emojimachine.charm.8ball',
     };
     const CHARM_SCENARIO_IDS = {
         showArcadeCat:   'arcade_cat',
         showFluffyDice:  'lucky_charm_2',
         showTrollCharm:  'troll_charm',
         showWizardCharm: 'zoltan_machine',
+        showMagic8Ball:  'magic_8_ball',
     };
 
     // ── All-charms bonus ────────────────────────────────────────────────────────
@@ -293,8 +295,120 @@ document.addEventListener('DOMContentLoaded', () => {
     const wizardModalEl  = document.getElementById('wizard-modal');
     const wizardCloseBtn = document.getElementById('wizard-modal-close');
     function closeWizardModal() { if (wizardModalEl) wizardModalEl.hidden = true; }
+
+    // Magic 8-Ball DOM refs + constants
+    const eightBallModal      = document.getElementById('eight-ball-modal');
+    const eightBallFlavorEl   = document.getElementById('eight-ball-flavor');
+    const eightBallImgEl      = document.getElementById('eight-ball-img');
+    const eightBallFortuneEl  = document.getElementById('eight-ball-fortune');
+    const eightBallResultEl   = document.getElementById('eight-ball-result');
+    const eightBallResultText = document.getElementById('eight-ball-result-text');
+    const eightBallBtn        = document.getElementById('eight-ball-btn');
+    const EIGHT_BALL_COOLDOWN = 4 * 60 * 1000; // 4 minutes in ms
+    const EIGHT_BALL_FORTUNES = {
+        positive: [
+            'IT IS CERTAIN', 'IT IS DECIDEDLY SO', 'WITHOUT A DOUBT',
+            'YES — DEFINITELY', 'YOU MAY RELY ON IT', 'AS I SEE IT, YES',
+            'MOST LIKELY', 'OUTLOOK GOOD', 'YES', 'SIGNS POINT TO YES',
+        ],
+        neutral: [
+            'REPLY HAZY, TRY AGAIN', 'ASK AGAIN LATER',
+            'BETTER NOT TELL YOU NOW', 'CANNOT PREDICT NOW',
+            'CONCENTRATE AND ASK AGAIN',
+        ],
+        negative: [
+            "DON'T COUNT ON IT", 'MY REPLY IS NO',
+            'MY SOURCES SAY NO', 'OUTLOOK NOT SO GOOD', 'VERY DOUBTFUL',
+        ],
+    };
     if (wizardCloseBtn) wizardCloseBtn.addEventListener('click', closeWizardModal);
     if (wizardModalEl)  wizardModalEl.addEventListener('click', (e) => { if (e.target === wizardModalEl) closeWizardModal(); });
+
+    // Magic 8-Ball modal wiring
+    function closeEightBallModal() { if (eightBallModal) eightBallModal.hidden = true; }
+    if (eightBallModal) eightBallModal.addEventListener('click', (e) => { if (e.target === eightBallModal) closeEightBallModal(); });
+
+    function openEightBallModal() {
+        if (!eightBallModal) return;
+        // Reset state
+        eightBallImgEl.classList.remove('shaking');
+        eightBallFortuneEl.textContent = '';
+        eightBallResultEl.hidden = true;
+        eightBallResultEl.className = 'eight-ball-modal__result';
+        eightBallResultText.textContent = '';
+        eightBallBtn.disabled = false;
+
+        let lastUsed = 0;
+        try { lastUsed = parseInt(localStorage.getItem('emojimachine.8ballUsed'), 10) || 0; } catch (e) {}
+        const isRecharging = (Date.now() - lastUsed) < EIGHT_BALL_COOLDOWN;
+
+        if (isRecharging) {
+            eightBallFlavorEl.textContent = 'The 8-Ball\'s window is clouded. The mystic energy is still recharging — come back soon.';
+            eightBallBtn.textContent = 'Close';
+            eightBallBtn.onclick = closeEightBallModal;
+        } else {
+            eightBallFlavorEl.textContent = 'The battered 8-Ball sits heavy in your hand. Give it a shake and ask if fortune favours you on the next spin…';
+            eightBallBtn.textContent = 'Shake It!';
+            eightBallBtn.onclick = shakeEightBall;
+        }
+
+        eightBallModal.hidden = false;
+        sfx.glitch.play();
+    }
+    window.openEightBallModal = openEightBallModal;
+
+    function shakeEightBall() {
+        eightBallBtn.disabled = true;
+        try { localStorage.setItem('emojimachine.8ballUsed', String(Date.now())); } catch (e) {}
+
+        // Pick a fortune tier: 10 positive, 5 neutral, 5 negative
+        const rand = Math.random();
+        let tier, fortunes;
+        if (rand < 0.5) {
+            tier = 'positive';
+            fortunes = EIGHT_BALL_FORTUNES.positive;
+        } else if (rand < 0.75) {
+            tier = 'neutral';
+            fortunes = EIGHT_BALL_FORTUNES.neutral;
+        } else {
+            tier = 'negative';
+            fortunes = EIGHT_BALL_FORTUNES.negative;
+        }
+        const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+
+        // Animate shake
+        eightBallImgEl.classList.remove('shaking');
+        void eightBallImgEl.offsetWidth; // reflow to restart animation
+        eightBallImgEl.classList.add('shaking');
+
+        setTimeout(() => {
+            eightBallFortuneEl.textContent = fortune;
+
+            eightBallResultEl.hidden = false;
+            eightBallResultEl.className = `eight-ball-modal__result ${tier}`;
+
+            if (tier === 'positive') {
+                // Activate the next-spin buff
+                try { localStorage.setItem('emojimachine.8ball.buff', '1'); } catch (e) {}
+                const ballEl = document.getElementById('magic-8-ball');
+                if (ballEl) ballEl.classList.add('magic-8-ball--buffed');
+                eightBallResultText.textContent = 'The 8-Ball glows bright! Your next spin is energised — winnings will be ×10!';
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+            } else if (tier === 'neutral') {
+                eightBallResultText.textContent = 'The window stays murky. No blessing, no curse — the next spin is yours alone.';
+                sfx.bleep.play();
+            } else {
+                // Negative: pure bluff, no mechanical effect
+                eightBallResultText.textContent = 'The 8-Ball delivers its verdict. Or does it? The reels have a way of ignoring prophecy…';
+                sfx.lose.play();
+            }
+
+            eightBallBtn.textContent = 'Back to the reels';
+            eightBallBtn.disabled = false;
+            eightBallBtn.onclick = closeEightBallModal;
+        }, 950);
+    }
 
     // All Charms Bonus modal wiring
     const allCharmsModalEl  = document.getElementById('all-charms-modal');
@@ -1447,6 +1561,19 @@ document.addEventListener('DOMContentLoaded', () => {
             try { return localStorage.getItem('emojimachine.charm.wizard') === '1' ? 10 : 1; }
             catch (e) { return 1; }
         })();
+        const eightBallMultQS = (() => {
+            let m = 1;
+            try {
+                if (localStorage.getItem('emojimachine.8ball.buff') === '1') {
+                    m = 10;
+                    localStorage.removeItem('emojimachine.8ball.buff');
+                    const ballEl = document.getElementById('magic-8-ball');
+                    if (ballEl) ballEl.classList.remove('magic-8-ball--buffed');
+                }
+            } catch (e) {}
+            return m;
+        })();
+        const qsMultiplier = wizardMultiplier * eightBallMultQS;
         if (allSame && c[0] === '💀') {
             infoSpan.className = 'flash-fast';
             infoSpan.innerHTML = '💀 INSTANT DEATH! 💀';
@@ -1458,7 +1585,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sfx.epicWin.stop();
             sfx.epicWin.play();
             triggerWinExplosion(c[0], true);
-            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).three * wizardMultiplier;
+            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).three * qsMultiplier;
             infoSpan.className = 'flash-fast';
             infoSpan.innerHTML = `⚡ JACKPOT! ${c[0]} ${c[0]} ${c[0]}! Moving to next feature…`;
             setTimeout(() => startWinFeature(prize), 1500);
@@ -1467,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (firstTwo && c[0] !== '💩') {
             sfx.win.play();
             triggerWinExplosion(c[0], false);
-            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).two * wizardMultiplier;
+            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).two * qsMultiplier;
             infoSpan.className = 'flash-fast';
             infoSpan.innerHTML = `⚡ Match! ${c[0]} ${c[0]}! Moving to next feature…`;
             setTimeout(() => startWinFeature(prize), 1500);
@@ -2465,6 +2592,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check for Wizard charm multiplier (x10 all wins)
         const wizardMultiplier = (() => { try { return localStorage.getItem('emojimachine.charm.wizard') === '1' ? 10 : 1; } catch (e) { return 1; } })();
 
+        // Check for 8-ball next-spin buff (x10, consumed on this spin regardless of outcome)
+        const eightBallMult = (() => {
+            let m = 1;
+            try {
+                if (localStorage.getItem('emojimachine.8ball.buff') === '1') {
+                    m = 10;
+                    localStorage.removeItem('emojimachine.8ball.buff');
+                    const ballEl = document.getElementById('magic-8-ball');
+                    if (ballEl) ballEl.classList.remove('magic-8-ball--buffed');
+                }
+            } catch (e) {}
+            return m;
+        })();
+        const spinMultiplier = wizardMultiplier * eightBallMult;
+
         // Wins go straight to a bonus feature — no coins awarded yet
         if (allSame && c[0] !== '💩') {
             sfx.epicWin.stop();
@@ -2472,7 +2614,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gamblePendingPair    = anyPair;
             gamblePendingAllSame = true;
             triggerWinExplosion(c[0], true);
-            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).three * wizardMultiplier);
+            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).three * spinMultiplier);
             return;
         }
         if (firstTwo && c[0] !== '💩') {
@@ -2480,7 +2622,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gamblePendingPair    = anyPair;
             gamblePendingAllSame = false;
             triggerWinExplosion(c[0], false);
-            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).two * wizardMultiplier);
+            startWinFeature((PRIZES[c[0]] ?? PRIZES['🍒']).two * spinMultiplier);
             return;
         }
 

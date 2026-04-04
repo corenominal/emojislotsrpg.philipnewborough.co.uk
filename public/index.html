@@ -25,15 +25,16 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=57a7e5d9">
+<link rel="stylesheet" href="css/main.css?v=41a095a8">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=df2bf2ee"></script>
+<script defer src="js/main.js?v=32aa4bbd"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
 <script defer src="js/scripts/show-wizard-charm.js"></script>
+<script defer src="js/scripts/show-magic-8-ball.js"></script>
 <!-- Service Worker registration -->
 <script>
     if ('serviceWorker' in navigator) {
@@ -341,6 +342,26 @@
         <span class="about-button__icon">ℹ</span>
         <span class="about-button__label">ABOUT</span>
     </button>
+
+    <!-- Magic 8-Ball modal -->
+    <div id="eight-ball-modal" class="eight-ball-modal" hidden>
+        <div class="eight-ball-modal__inner">
+            <div class="eight-ball-modal__scanlines" aria-hidden="true"></div>
+            <div class="eight-ball-modal__header">
+                <span class="eight-ball-modal__tag">MAGIC 8-BALL</span>
+                <h2 class="eight-ball-modal__title">Ask Your Fortune</h2>
+            </div>
+            <p class="eight-ball-modal__flavor" id="eight-ball-flavor"></p>
+            <div class="eight-ball-modal__ball-area">
+                <img src="img/8ball.png" alt="Magic 8-Ball" class="eight-ball-modal__ball" id="eight-ball-img">
+                <div class="eight-ball-modal__fortune" id="eight-ball-fortune"></div>
+            </div>
+            <div class="eight-ball-modal__result" id="eight-ball-result" hidden>
+                <p id="eight-ball-result-text"></p>
+            </div>
+            <button class="eight-ball-modal__btn" id="eight-ball-btn"></button>
+        </div>
+    </div>
 
     <!-- Wizard charm info modal -->
     <div id="wizard-modal" class="wizard-modal" hidden>
