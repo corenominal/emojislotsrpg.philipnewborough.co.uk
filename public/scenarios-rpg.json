@@ -863,7 +863,7 @@
         {
           "text": "Pocket the 8-Ball.",
           "outcome": "fixed",
-          "textSuccess": "You turn it over. The dark window clears for just a moment — 'IT IS CERTAIN.' You tuck it into your jacket. Something tells you it knows things.",
+          "textSuccess": "You turn it over. The dark window clears for just a moment - 'IT IS CERTAIN.' You tuck it into your jacket. Something tells you it knows things.",
           "creditChange": 0,
           "gameOver": false,
           "function": "showMagic8Ball"
