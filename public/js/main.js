@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         spinner:  new Howl({ src: './audio/spinner.mp3' }),
         glitch:   new Howl({ src: './audio/glitch.mp3' }),
         rewind:   new Howl({ src: './audio/rewind.mp3' }),
+        eightBall: new Howl({ src: './audio/8ball.mp3' }),
         cat:      new Howl({ src: './audio/cat.mp3' }),
         cowabunga: new Howl({ src: './audio/cowabunga.mp3' }),
         troll:    new Howl({ src: './audio/troll.mp3' }),
@@ -361,12 +362,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         eightBallModal.hidden = false;
-        sfx.glitch.play();
+        sfx.eightBall.play();
     }
     window.openEightBallModal = openEightBallModal;
 
     function shakeEightBall() {
         eightBallBtn.disabled = true;
+        sfx.eightBall.play();
         try { localStorage.setItem('emojimachine.8ballUsed', String(Date.now())); } catch (e) {}
 
         // Pick a fortune tier: 10 positive, 5 neutral, 5 negative
