@@ -2406,7 +2406,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── UI helpers ────────────────────────────────────────────────────────────
     function setReadyInfo() {
         infoSpan.className = 'flash';
-        infoSpan.innerHTML = `<img src="img/coin_color.svg" alt="coin" class="score-coin"> ${coinsEl.textContent}`;
+        infoSpan.innerHTML = `<img src="img/coin.png" alt="coin" class="score-coin"> ${coinsEl.textContent}`;
     }
 
     function setGameOver() {
@@ -2497,7 +2497,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const showCount = n => {
             infoSpan.className = 'score';
-            infoSpan.innerHTML = `<img src="img/coin_color.svg" alt="coin" class="score-coin"> ${n}`;
+            infoSpan.innerHTML = `<img src="img/coin.png" alt="coin" class="score-coin"> ${n}`;
             try { localStorage.setItem('emojimachine.coins', String(n)); } catch (e) { /* ignore */ }
         };
 
