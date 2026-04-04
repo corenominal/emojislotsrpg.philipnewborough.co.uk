@@ -1,0 +1,19 @@
+# DISABLE CACHING FOR ALL PWA ASSETS
+<IfModule mod_headers.c>
+    # Match HTML, JSON, JS, and CSS files
+    <FilesMatch "\.(html|htm|json|js|css)$">
+        # Kill all caching headers
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+        
+        # Ensure proxies don't serve stale content
+        Header set Vary "*"
+    </IfModule>
+</IfModule>
+
+# Optional: Disable Etags to prevent 304 Not Modified responses
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
