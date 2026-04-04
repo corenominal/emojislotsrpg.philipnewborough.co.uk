@@ -440,6 +440,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let swSpinning = false;
     let swAnimId   = null;
 
+    // ── Quick Stop state ──────────────────────────────────────────────────────
+    // Reel advance interval in ms — lower = faster/harder. Tweak to adjust difficulty.
+    const QS_REEL_SPEED = 300;
+    let qsActive  = false;
+    let qsCoins   = 0;
+    let qsPhase   = -1;   // -1=offer, 0–2=reel i spinning, 3=resolved
+    let qsTimerId = null;
+
     // ── RPG Event System ──────────────────────────────────────────────────────
     // Percentage chance (0–100) that a Random Encounter fires on every 3rd spin.
     // Set to 100 to guarantee an event every 3rd spin, 0 to disable entirely.
@@ -736,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Called at the end of a fully-settled spin (no pending nudges / win features)
     function checkRpgTrigger() {
         // Don't interrupt an active bonus feature or another RPG event
-        if (rpgActive || gambleActive || hlActive || pbActive || swActive) return;
+        if (rpgActive || gambleActive || hlActive || pbActive || swActive || qsActive) return;
         if (!rpgPending) {
             if (+coinsEl.textContent >= 10) {
                 btnSpin.textContent = 'Play';
@@ -1100,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(checkRpgTrigger, 2400);
     }
 
-    // Cycle: Double-or-Nothing → Pick a Box → Spin the Wheel → Higher-or-Lower → repeat
+    // Cycle: Double-or-Nothing → Pick a Box → Spin the Wheel → Quick Stop → Higher-or-Lower → repeat
     function startWinFeature(amount) {
         if (lastWinFeature === 'higherLower') {
             lastWinFeature = 'doubleOrNothing';
@@ -1111,6 +1119,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (lastWinFeature === 'pickABox') {
             lastWinFeature = 'spinTheWheel';
             startSpinTheWheel(amount);
+        } else if (lastWinFeature === 'spinTheWheel') {
+            lastWinFeature = 'quickStop';
+            startQuickStop(amount);
         } else {
             lastWinFeature = 'higherLower';
             startHigherLower(amount);
@@ -1360,6 +1371,138 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(checkRpgTrigger, 2400);
     }
 
+    // ── Quick Stop helpers ────────────────────────────────────────────────────
+
+    function startQuickStop(winAmount) {
+        qsActive = true;
+        qsCoins  = winAmount;
+        qsPhase  = -1;
+        btnSpin.textContent = 'PLAY';
+        btnSpin.classList.add('ready');
+        btnCollect.classList.add('ready');
+        infoSpan.className = 'qs-game';
+        infoSpan.innerHTML =
+            `⚡ QUICK STOP! Match reels to claim a bigger prize!` +
+            `<br><span style="font-size:0.55em;opacity:0.65">PLAY to spin · collect to bank: +${qsCoins}</span>`;
+    }
+
+    function acceptQuickStop() {
+        qsPhase = 0;
+        btnSpin.classList.remove('ready');
+        btnCollect.classList.remove('ready');
+        startQsReel(0);
+    }
+
+    function startQsReel(reelIdx) {
+        qsPhase = reelIdx;
+        wheelSpinning[reelIdx] = true;
+        wheelsHoldable.fill(false);
+        wheelsHoldable[reelIdx] = true;
+        updateHoldButtons();
+        infoSpan.className = 'qs-game';
+        infoSpan.innerHTML =
+            `⚡ Stop Reel ${reelIdx + 1}!` +
+            `<br><span style="font-size:0.55em;opacity:0.65">Press HOLD ${reelIdx + 1} to stop the reel!</span>`;
+        qsTimerId = setInterval(() => advanceReel(reelIdx), QS_REEL_SPEED);
+        startLoop();
+        sfx.spinning.volume(settings.sfxVolume * 0.3);
+        sfx.spinning.play();
+    }
+
+    function stopQsReel(reelIdx) {
+        clearInterval(qsTimerId);
+        qsTimerId = null;
+        wheelSpinning[reelIdx] = false;
+        wheelsHoldable.fill(false);
+        updateHoldButtons();
+        sfx.reelStop.play();
+        sfx.spinning.stop();
+
+        // The animation loop catches up at a fixed px/frame rate, but rapid advances
+        // accumulate a negative offset faster than the loop can compensate.  At the
+        // moment of stopping, roll[reelIdx] is `pending` steps ahead of the visual
+        // centre.  Advance the array those extra steps (without touching the offset),
+        // then snap the offset to 0 so what the player sees is exactly what they get.
+        const pending = Math.round(-wheelOffsets[reelIdx] / ROW_HEIGHT);
+        const reel = roll[reelIdx];
+        for (let k = 0; k < pending; k++) reel.unshift(reel.pop());
+        wheelOffsets[reelIdx] = 0;
+        drawCanvas();
+
+        if (reelIdx < 2) {
+            setTimeout(() => startQsReel(reelIdx + 1), 400);
+        } else {
+            qsPhase = 3;
+            setTimeout(resolveQuickStop, 400);
+        }
+    }
+
+    function resolveQuickStop() {
+        qsActive = false;
+        btnSpin.textContent = 'Play';
+        const c        = [roll[0][3], roll[1][3], roll[2][3]];
+        const allSame  = c[0] === c[1] && c[1] === c[2];
+        const firstTwo = c[0] === c[1];
+        const wizardMultiplier = (() => {
+            try { return localStorage.getItem('emojimachine.charm.wizard') === '1' ? 10 : 1; }
+            catch (e) { return 1; }
+        })();
+        if (allSame && c[0] === '💀') {
+            infoSpan.className = 'flash-fast';
+            infoSpan.innerHTML = '💀 INSTANT DEATH! 💀';
+            rpgPending = false;
+            setTimeout(() => setGameOver(), 1500);
+            return;
+        }
+        if (allSame && c[0] !== '💩') {
+            sfx.epicWin.stop();
+            sfx.epicWin.play();
+            triggerWinExplosion(c[0], true);
+            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).three * wizardMultiplier;
+            infoSpan.className = 'flash-fast';
+            infoSpan.innerHTML = `⚡ JACKPOT! ${c[0]} ${c[0]} ${c[0]}! Moving to next feature…`;
+            setTimeout(() => startWinFeature(prize), 1500);
+            return;
+        }
+        if (firstTwo && c[0] !== '💩') {
+            sfx.win.play();
+            triggerWinExplosion(c[0], false);
+            const prize = (PRIZES[c[0]] ?? PRIZES['🍒']).two * wizardMultiplier;
+            infoSpan.className = 'flash-fast';
+            infoSpan.innerHTML = `⚡ Match! ${c[0]} ${c[0]}! Moving to next feature…`;
+            setTimeout(() => startWinFeature(prize), 1500);
+            return;
+        }
+        sfx.lose.play();
+        infoSpan.className = 'flash-fast';
+        infoSpan.innerHTML = `⚡ No Match! Better luck next time! 😭`;
+        const coins = +coinsEl.textContent;
+        if (coins >= 10) {
+            setTimeout(() => {
+                checkRpgTrigger();
+                resetInfo = setTimeout(setReadyInfo, 3000);
+            }, 1800);
+        } else {
+            rpgPending = false;
+            setTimeout(() => setGameOver(), 1800);
+        }
+    }
+
+    function collectQuickStop() {
+        if (qsPhase !== -1) return;
+        qsActive = false;
+        btnCollect.classList.remove('ready');
+        btnSpin.classList.remove('ready');
+        btnSpin.textContent = 'Play';
+        const oldCoins = +coinsEl.textContent;
+        const newCoins = oldCoins + qsCoins;
+        countCoins(oldCoins, newCoins, true, 'Collected! 🤑');
+        const wasAllSame = gamblePendingAllSame;
+        gamblePendingAllSame = false;
+        if (newCoins >= 10 && !wasAllSame) offerHolds(gamblePendingPair);
+        setTimeout(checkRpgTrigger, 2400);
+    }
+
     // ── Canvas helpers ────────────────────────────────────────────────────────
 
     // Sync canvas resolution, recompute responsive sizes, invalidate gradient cache.
@@ -1427,9 +1570,14 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#0f0b1f';
 
             const halfH = H / 2;
-            for (let j = 0; j < reel.length; j++) {
-                const y = halfH + (j - ACTIVE_ROW) * ROW_HEIGHT + offset;
-                if (y > -ROW_HEIGHT && y < H + ROW_HEIGHT) ctx.fillText(reel[j], cx, y);
+            // Compute the range of logical row indices that fall within the visible canvas,
+            // then use modular indexing so the reel tiles regardless of how large the offset grows.
+            const jMin = Math.floor(ACTIVE_ROW + (-ROW_HEIGHT       - halfH - offset) / ROW_HEIGHT);
+            const jMax = Math.ceil( ACTIVE_ROW + (H + ROW_HEIGHT    - halfH - offset) / ROW_HEIGHT);
+            for (let j = jMin; j <= jMax; j++) {
+                const y   = halfH + (j - ACTIVE_ROW) * ROW_HEIGHT + offset;
+                const idx = ((j % reel.length) + reel.length) % reel.length;
+                ctx.fillText(reel[idx], cx, y);
             }
 
             ctx.filter    = 'none';
@@ -2142,6 +2290,9 @@ document.addEventListener('DOMContentLoaded', () => {
         swCanvas.classList.remove('active');
         swActive   = false;
         swSpinning = false;
+        if (qsTimerId !== null) { clearInterval(qsTimerId); qsTimerId = null; }
+        qsActive = false;
+        qsPhase  = -1;
         updateNudgeButtonsHL();
         updateHoldButtonsPB();
         btnCollect.classList.remove('ready');
@@ -2167,6 +2318,9 @@ document.addEventListener('DOMContentLoaded', () => {
         swCanvas.classList.remove('active');
         swActive   = false;
         swSpinning = false;
+        if (qsTimerId !== null) { clearInterval(qsTimerId); qsTimerId = null; }
+        qsActive = false;
+        qsPhase  = -1;
         updateNudgeButtonsHL();
         updateHoldButtonsPB();
         btnCollect.classList.remove('ready');
@@ -2577,6 +2731,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const holdBtn = e.target.closest('.btn-hold');
         if (holdBtn) {
             const i = +holdBtn.dataset.wheel;
+            if (qsActive) {
+                if (qsPhase >= 0 && qsPhase < 3 && i === qsPhase && wheelsHoldable[i]) stopQsReel(i);
+                return;
+            }
             if (wheelsHoldable[i]) {
                 wheelsHeld[i] = !wheelsHeld[i];
                 sfx.start.play();
@@ -2593,6 +2751,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (hlActive) { collectHigherLower(); }
             else if (pbActive) { collectPickABox(); }
             else if (swActive) { collectSpinTheWheel(); }
+            else if (qsActive) { collectQuickStop(); }
             else { collectGamble(); }
             return;
         }
@@ -2623,6 +2782,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 resolveGamble();
                 return;
             }
+            if (qsActive && qsPhase === -1) { acceptQuickStop(); return; }
             if (swActive && !swSpinning) { doSpinWheel(); return; }
             clearTimeout(resetInfo);
             nudgesActive    = false;

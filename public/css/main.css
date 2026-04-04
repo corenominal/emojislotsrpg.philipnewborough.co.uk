@@ -317,6 +317,13 @@ main.machine {
     line-height: 1.15;
 }
 
+/* ── Quick Stop info ──────────────────────────────────────────────────────── */
+.info span.qs-game {
+    font-size: clamp(18.2px, 4.55vw, 31.2px);
+    color: var(--gold);
+    line-height: 1.15;
+}
+
 /* ── Nudge buttons ──────────────────────────────────────────────────────── */
 .nudge-btns {
     display: flex;
