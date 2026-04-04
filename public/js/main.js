@@ -1147,7 +1147,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!hlActive || hlResolving) return;
         hlResolving = true;
 
-        const next    = Math.ceil(Math.random() * 10);
+        let next;
+        do { next = Math.ceil(Math.random() * 10); } while (next === hlCurrent);
         const correct = guess === 'higher' ? next > hlCurrent : next < hlCurrent;
 
         // Animate random number flicker for 2 seconds before revealing result
@@ -1191,9 +1192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hlResolving = false;
                 updateNudgeButtonsHL();
                 btnCollect.classList.remove('ready');
-                const msg = next === hlCurrent
-                    ? `🤝 Tie! Both ${next}! You lose! 💀`
-                    : `❌ Wrong! It was ${next}! You lose! 💀`;
+                const msg = `❌ Wrong! It was ${next}! You lose! 💀`;
                 sfx.lose.play();
                 infoSpan.className = 'flash-fast';
                 infoSpan.innerHTML = msg;
