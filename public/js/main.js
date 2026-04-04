@@ -1188,8 +1188,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         turtleModal.hidden = false;
-        sfx.bleep.stop();
-        sfx.bleep.play();
+        sfx.cowabunga.stop();
+        sfx.cowabunga.play();
     }
 
     function closeTurtleModal() {
@@ -1200,8 +1200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         turtleCowabungaBtn.disabled = true;
         turtleLeaveBtn.disabled = true;
         try { localStorage.setItem('emojimachine.turtleCharm', String(Date.now())); } catch (e) {}
-        sfx.cowabunga.stop();
-        sfx.cowabunga.play();
 
         // Random multiple of 100, from 100 to 10000 inclusive (100 possible values)
         const prize = Math.floor(Math.random() * 100 + 1) * 100;
