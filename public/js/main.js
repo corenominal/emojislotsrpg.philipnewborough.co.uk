@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let resetInfo = null;
 
     // ── Gamble state ─────────────────────────────────────────────────────────────
-    const GAMBLE_BASE_SPEED = 330; // ms per label flip
+    const GAMBLE_BASE_SPEED = 500; // ms per label flip
     const GAMBLE_MIN_SPEED  = 80;  // fastest allowed
     let gambleActive        = false;
     let gambleCoins         = 0;       // win stake being wagered
