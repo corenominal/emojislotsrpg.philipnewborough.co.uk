@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         glitch:   new Howl({ src: './audio/glitch.mp3' }),
         rewind:   new Howl({ src: './audio/rewind.mp3' }),
         cat:      new Howl({ src: './audio/cat.mp3' }),
+        cowabunga: new Howl({ src: './audio/cowabunga.mp3' }),
         troll:    new Howl({ src: './audio/troll.mp3' }),
         wizard:   new Howl({ src: './audio/wizard.mp3' }),
     };
@@ -1199,6 +1200,8 @@ document.addEventListener('DOMContentLoaded', () => {
         turtleCowabungaBtn.disabled = true;
         turtleLeaveBtn.disabled = true;
         try { localStorage.setItem('emojimachine.turtleCharm', String(Date.now())); } catch (e) {}
+        sfx.cowabunga.stop();
+        sfx.cowabunga.play();
 
         // Random multiple of 100, from 100 to 10000 inclusive (100 possible values)
         const prize = Math.floor(Math.random() * 100 + 1) * 100;
