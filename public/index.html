@@ -25,16 +25,17 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=1775316342279">
+<link rel="stylesheet" href="css/main.css?v=1775317593465">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=1775316342279"></script>
+<script defer src="js/main.js?v=1775317593465"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
 <script defer src="js/scripts/show-wizard-charm.js"></script>
 <script defer src="js/scripts/show-magic-8-ball.js"></script>
+<script defer src="js/scripts/show-turtle-charm.js"></script>
 <!-- Service Worker registration -->
 <script>
     if ('serviceWorker' in navigator) {
@@ -267,6 +268,29 @@
                 <button class="troll-modal__btn troll-modal__btn--leave" id="troll-leave-btn">Leave it alone</button>
             </div>
             <button class="troll-modal__btn troll-modal__btn--continue" id="troll-continue-btn" hidden></button>
+        </div>
+    </div>
+
+    <!-- Turtle Charm (COWABUNGA!) modal -->
+    <div id="turtle-modal" class="turtle-modal" hidden>
+        <div class="turtle-modal__inner">
+            <div class="turtle-modal__scanlines" aria-hidden="true"></div>
+            <div class="turtle-modal__header">
+                <span class="turtle-modal__tag">HERO IN A HALF SHELL</span>
+                <h2 class="turtle-modal__title">COWABUNGA!</h2>
+            </div>
+            <p class="turtle-modal__flavor" id="turtle-flavor"></p>
+            <div class="turtle-modal__turtle-area">
+                <img src="img/turtle.png" alt="Hero turtle" class="turtle-modal__turtle" id="turtle-img">
+            </div>
+            <div class="turtle-modal__result" id="turtle-result" hidden>
+                <p id="turtle-result-text"></p>
+            </div>
+            <div class="turtle-modal__actions" id="turtle-actions">
+                <button class="turtle-modal__btn turtle-modal__btn--cowabunga" id="turtle-cowabunga-btn">COWABUNGA!</button>
+                <button class="turtle-modal__btn turtle-modal__btn--leave" id="turtle-leave-btn">Back off</button>
+            </div>
+            <button class="turtle-modal__btn turtle-modal__btn--continue" id="turtle-continue-btn" hidden></button>
         </div>
     </div>
 

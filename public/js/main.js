@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showTrollCharm:  'emojimachine.charm.troll',
         showWizardCharm: 'emojimachine.charm.wizard',
         showMagic8Ball:  'emojimachine.charm.8ball',
+        showTurtleCharm: 'emojimachine.charm.turtle',
     };
     const CHARM_SCENARIO_IDS = {
         showArcadeCat:   'arcade_cat',
@@ -148,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showTrollCharm:  'troll_charm',
         showWizardCharm: 'zoltan_machine',
         showMagic8Ball:  'magic_8_ball',
+        showTurtleCharm: 'turtle_sticker',
     };
 
     // ── All-charms bonus ────────────────────────────────────────────────────────
@@ -626,10 +628,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const CAT_COOLDOWN      = 10 * 60 * 1000; // 10 minutes in ms
     const CAT_COIN_PRIZES   = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 1000, 10000];
 
+    // Turtle Charm DOM refs + constants
+    const turtleModal         = document.getElementById('turtle-modal');
+    const turtleFlavorEl      = document.getElementById('turtle-flavor');
+    const turtleImgEl         = document.getElementById('turtle-img');
+    const turtleResultEl      = document.getElementById('turtle-result');
+    const turtleResultTextEl  = document.getElementById('turtle-result-text');
+    const turtleActionsEl     = document.getElementById('turtle-actions');
+    const turtleCowabungaBtn  = document.getElementById('turtle-cowabunga-btn');
+    const turtleLeaveBtn      = document.getElementById('turtle-leave-btn');
+    const turtleContinueBtn   = document.getElementById('turtle-continue-btn');
+    const TURTLE_COOLDOWN     = 7 * 60 * 1000; // 7 minutes in ms
+
     async function loadScenarios() {
         if (rpgScenarios) return rpgScenarios;
         try {
-            const res = await fetch('./scenarios.json');
+            const res = await fetch('./scenarios-cowabunga.json');
             rpgScenarios = await res.json();
         } catch (e) {
             rpgScenarios = [];
@@ -1140,6 +1154,94 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }, 1800);
     }
+
+    // ── Turtle Charm (COWABUNGA!) ─────────────────────────────────────────────
+
+    function openTurtleModal() {
+        if (!turtleModal) return;
+        // Reset state
+        turtleImgEl.classList.remove('bursting');
+        turtleResultEl.hidden = true;
+        turtleResultEl.className = 'turtle-modal__result';
+        turtleResultTextEl.textContent = '';
+        turtleActionsEl.hidden = false;
+        turtleCowabungaBtn.disabled = false;
+        turtleLeaveBtn.disabled = false;
+        turtleContinueBtn.hidden = true;
+        turtleContinueBtn.textContent = '';
+
+        let lastUsed = 0;
+        try { lastUsed = parseInt(localStorage.getItem('emojimachine.turtleCharm'), 10) || 0; } catch (e) {}
+        const isRecharging = (Date.now() - lastUsed) < TURTLE_COOLDOWN;
+
+        if (isRecharging) {
+            turtleFlavorEl.textContent = "Leonardo is meditating — ninjutsu takes time to recharge. Give him a bit, and he'll be ready to unleash turtle power again.";
+            turtleActionsEl.hidden = true;
+            turtleContinueBtn.textContent = 'Leave him to it';
+            turtleContinueBtn.hidden = false;
+            turtleContinueBtn.onclick = closeTurtleModal;
+        } else {
+            turtleFlavorEl.textContent = 'The Leonardo sticker gleams under the arcade lights. One tap and he might just channel some serious turtle power…';
+            turtleCowabungaBtn.onclick = cowabungaBurst;
+            turtleLeaveBtn.onclick = closeTurtleModal;
+        }
+
+        turtleModal.hidden = false;
+        sfx.bleep.stop();
+        sfx.bleep.play();
+    }
+
+    function closeTurtleModal() {
+        if (turtleModal) turtleModal.hidden = true;
+    }
+
+    function cowabungaBurst() {
+        turtleCowabungaBtn.disabled = true;
+        turtleLeaveBtn.disabled = true;
+        try { localStorage.setItem('emojimachine.turtleCharm', String(Date.now())); } catch (e) {}
+
+        // Random multiple of 100, from 100 to 10000 inclusive (100 possible values)
+        const prize = Math.floor(Math.random() * 100 + 1) * 100;
+
+        // Animate the turtle image
+        turtleImgEl.classList.remove('bursting');
+        void turtleImgEl.offsetWidth; // force reflow to restart animation
+        turtleImgEl.classList.add('bursting');
+        turtleActionsEl.hidden = true;
+
+        setTimeout(() => {
+            turtleImgEl.classList.remove('bursting');
+            turtleResultEl.hidden = false;
+            turtleResultEl.className = 'turtle-modal__result success';
+
+            const coins    = +coinsEl.textContent;
+            const newTotal = coins + prize;
+            let resultMsg;
+            if (prize >= 5000) {
+                resultMsg = `COWABUNGA! Leonardo goes full hero mode — an absolutely radical haul of ${prize.toLocaleString()} coins!`;
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+            } else if (prize >= 1000) {
+                resultMsg = `Turtle power ACTIVATED! Leonardo delivers the goods — ${prize.toLocaleString()} coins!`;
+                sfx.epicWin.stop();
+                sfx.epicWin.play();
+            } else {
+                resultMsg = `COWABUNGA! Leonardo comes through with ${prize} coins. Totally tubular!`;
+                sfx.win.play();
+            }
+            turtleResultTextEl.textContent = resultMsg;
+
+            turtleContinueBtn.textContent = 'Radical!';
+            turtleContinueBtn.hidden = false;
+            turtleContinueBtn.onclick = () => {
+                closeTurtleModal();
+                countCoins(coins, newTotal, false, `+${prize} 🐢`);
+            };
+        }, 900);
+    }
+
+    window.openTurtleModal = openTurtleModal;
+    if (turtleModal) turtleModal.addEventListener('click', (e) => { if (e.target === turtleModal) closeTurtleModal(); });
 
     // ── Win feature alternator ────────────────────────────────────────────────
     let lastWinFeature = 'higherLower'; // first spin-win will launch doubleOrNothing
@@ -2918,6 +3020,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const arcadeCat = e.target.closest('.arcade-cat');
         if (arcadeCat) {
             openCatModal();
+            return;
+        }
+
+        const turtleCharm = e.target.closest('.turtle-charm');
+        if (turtleCharm) {
+            openTurtleModal();
             return;
         }
 

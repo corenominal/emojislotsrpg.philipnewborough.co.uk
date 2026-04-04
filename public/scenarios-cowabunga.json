@@ -876,5 +876,29 @@
           "gameOver": false
         }
       ]
+    },
+    {
+      "id": "turtle_sticker",
+      "_debug": "__debugScenario('turtle_sticker')",
+      "isCharm": true,
+      "title": "HERO IN A HALF SHELL",
+      "flavorText": "A kid in Reebok Classics shoves a sticker at you - Leonardo, blue bandana, looking well 'ard. 'Ten pee,' he says. 'Found it in a Panini pack. It's a hero turtle, not a ninja one - they changed it for telly cos ninja was too violent or somethin'.' He looks extremely knowledgeable about this.",
+      "options": [
+        {
+          "text": "Hand over the 10p.",
+          "outcome": "fixed",
+          "textSuccess": "He snatches the coin and legs it. You slap the sticker on your machine. Leonardo stares back at you, radiating concentrated turtle power.",
+          "creditChange": -10,
+          "gameOver": false,
+          "function": "showTurtleCharm"
+        },
+        {
+          "text": "It's ninja turtles, not hero.",
+          "outcome": "fixed",
+          "textSuccess": "'It is NOT,' he snaps, going very red. He snatches the sticker back and storms off. You've made an enemy today.",
+          "creditChange": 0,
+          "gameOver": false
+        }
+      ]
     }
 ]

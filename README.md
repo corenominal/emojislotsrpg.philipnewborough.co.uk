@@ -65,7 +65,7 @@ public/
   index.html              # App shell and all modal markup
   manifest.json           # PWA manifest
   sw.js                   # Service worker (cache-first, auto-update)
-  scenarios.json          # 29 RPG encounter definitions
+  scenarios-cowabunga.json # 29 RPG encounter definitions
   css/
     main.css              # Synthwave CRT styling
   fonts/

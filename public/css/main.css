@@ -539,6 +539,7 @@ main.machine {
 
 /* ── Pay table ──────────────────────────────────────────────────────────── */
 .pay-table {
+    position: relative;
     background: var(--surface);
     border: 1px solid rgba(199, 125, 255, 0.15);
     border-radius: var(--radius);
@@ -2400,6 +2401,218 @@ main.machine {
 @keyframes cat-btn-pulse {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.6; }
+}
+
+/* ── Turtle charm ─────────────────────────────────────────────────────────── */
+
+@keyframes turtle-pulse {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(50, 200, 80, 0.55)); }
+    50%       { filter: drop-shadow(0 0 14px rgba(50, 220, 100, 0.95)); }
+}
+
+@keyframes turtle-burst {
+    0%    { transform: scale(1) rotate(0deg); }
+    20%   { transform: scale(1.45) rotate(-14deg); }
+    45%   { transform: scale(1.25) rotate(11deg); }
+    65%   { transform: scale(1.35) rotate(-7deg); }
+    85%   { transform: scale(1.1) rotate(4deg); }
+    100%  { transform: scale(1) rotate(0deg); }
+}
+
+.turtle-charm {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 60px;
+    height: auto;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 10;
+    animation: turtle-pulse 2.2s ease-in-out infinite;
+}
+
+.turtle-charm.bursting {
+    animation: turtle-burst 0.65s ease both;
+}
+
+/* ── Turtle Charm modal ──────────────────────────────────────────────────── */
+
+.turtle-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 350;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.10) 3px,
+            rgba(0, 0, 0, 0.10) 4px
+        ),
+        radial-gradient(ellipse at 50% 40%, rgba(0, 22, 8, 0.97) 0%, rgba(0, 12, 4, 0.99) 72%);
+    animation: modal-fadein 0.35s ease both;
+}
+.turtle-modal[hidden] { display: none; }
+
+.turtle-modal__inner {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background: rgba(0, 20, 8, 0.97);
+    border: 2px solid rgba(0, 200, 80, 0.35);
+    border-radius: 12px;
+    padding: 22px 24px 20px;
+    box-shadow: 0 0 40px rgba(0, 180, 60, 0.12), 0 0 80px rgba(0, 140, 40, 0.07), inset 0 2px 8px rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+}
+
+.turtle-modal__scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
+    );
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.turtle-modal__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.turtle-modal__tag {
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #22dd88;
+    text-shadow: 0 0 10px #22dd88;
+}
+
+.turtle-modal__title {
+    margin: 0;
+    font-size: clamp(15px, 3.5vw, 22px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #88f5b0;
+    text-shadow: 0 0 12px rgba(0, 200, 80, 0.55);
+    text-transform: uppercase;
+}
+
+.turtle-modal__flavor {
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    color: rgba(140, 230, 160, 0.85);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.turtle-modal__turtle-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.turtle-modal__turtle {
+    width: clamp(60px, 14vw, 90px);
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 200, 80, 0.45));
+}
+
+.turtle-modal__turtle.bursting {
+    animation: turtle-burst 0.65s ease both;
+}
+
+.turtle-modal__result {
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    line-height: 1.6;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+    display: none;
+}
+.turtle-modal__result:not([hidden]) { display: block; }
+.turtle-modal__result.success {
+    background: rgba(0, 180, 60, 0.12);
+    border: 1px solid rgba(0, 200, 80, 0.35);
+    color: #88f5b0;
+}
+
+.turtle-modal__actions {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.turtle-modal__actions[hidden] { display: none; }
+
+.turtle-modal__btn {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 200, 80, 0.4);
+    background: rgba(0, 180, 60, 0.12);
+    color: #88f5b0;
+    font-family: inherit;
+    font-size: clamp(11px, 2.5vw, 14px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 130ms, border-color 130ms, box-shadow 130ms;
+    position: relative;
+    z-index: 2;
+}
+.turtle-modal__btn:hover:not(:disabled) {
+    background: rgba(0, 200, 80, 0.22);
+    border-color: rgba(0, 220, 90, 0.7);
+    box-shadow: 0 0 12px rgba(0, 200, 80, 0.3);
+}
+.turtle-modal__btn:active:not(:disabled) { transform: scale(0.97); }
+.turtle-modal__btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.turtle-modal__btn--cowabunga {
+    background: rgba(0, 180, 60, 0.2);
+    border-color: rgba(0, 220, 90, 0.6);
+    color: #aaffd0;
+    animation: turtle-btn-pulse 1.8s ease-in-out infinite;
+}
+.turtle-modal__btn--cowabunga:disabled {
+    animation: none;
+}
+
+.turtle-modal__btn--continue {
+    width: 100%;
+    margin-top: 4px;
+}
+
+@keyframes turtle-btn-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.65; }
 }
 
 /* ── Wizard charm ─────────────────────────────────────────────────────────── */

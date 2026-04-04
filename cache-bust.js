@@ -5,7 +5,7 @@
  *
  * Applies a Date.now() timestamp as query strings (?v={timestamp}) for:
  *   - main.css and main.js  → in index.html and sw.js
- *   - index.html, scenarios.json, howler.js, and all script JS files → in sw.js
+ *   - index.html, scenarios-cowabunga.json, howler.js, and all script JS files → in sw.js
  * Also bumps the SW CACHE_NAME so stale caches are purged.
  *
  * Usage: node cache-bust.js
@@ -40,7 +40,7 @@ const TARGETS = [
 const SW_TARGETS = [
   {
     swRef: /\/scenarios-rpg\.json(?:\?v=[a-zA-Z0-9]+)?/,
-    swNew: (t) => `/scenarios.json?v=${t}`,
+    swNew: (t) => `/scenarios-cowabunga.json?v=${t}`,
   },
   {
     swRef: /\/js\/vendor\/howler\.js(?:\?v=[a-zA-Z0-9]+)?/,
