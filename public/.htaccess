@@ -1,0 +1,26 @@
+# 1. DISABLE MOD_EXPIRES
+<IfModule mod_expires.c>
+    ExpiresActive Off
+</IfModule>
+
+# 2. FORCE NO-CACHE FOR CORE PWA FILES
+# This targets HTML, JSON, JS, and CSS to ensure they are always fresh.
+<FilesMatch "\.(html|htm|json|js|css|sw\.js|service-worker\.js)$">
+    <IfModule mod_headers.c>
+        # Directives for modern browsers
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        # Directives for legacy support
+        Header set Pragma "no-cache"
+        Header set Expires 0
+        # Ensures that proxies/CDNs don't serve a cached version based on previous headers
+        Header set Vary "*"
+    </IfModule>
+</FilesMatch>
+
+# 3. DISABLE ETags
+# This prevents the server from sending a "304 Not Modified" response,
+# forcing a full "200 OK" download of the file every time.
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
