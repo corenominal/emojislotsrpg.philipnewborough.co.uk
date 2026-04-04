@@ -25,11 +25,11 @@
 <!-- Opengraph end -->
 <!-- Stylesheets -->
 <link rel="stylesheet" href="fonts/BitcountGridSingleInk.css">
-<link rel="stylesheet" href="css/main.css?v=a0d811bc">
+<link rel="stylesheet" href="css/main.css?v=9108fd72">
 <!-- CodeMirror end -->
 <!-- JavaScript -->
 <script defer src="js/vendor/howler.js"></script>
-<script defer src="js/main.js?v=c9936ef8"></script>
+<script defer src="js/main.js?v=0a2f527a"></script>
 <script defer src="js/scripts/show-fluffy-dice.js"></script>
 <script defer src="js/scripts/arcade-cat.js"></script>
 <script defer src="js/scripts/troll-charm.js"></script>
@@ -359,6 +359,26 @@
                 <span class="wizard-modal__buff-label">All wins &times;10 until game reset</span>
             </div>
             <button class="wizard-modal__btn" id="wizard-modal-close">Back to the reels</button>
+        </div>
+    </div>
+
+    <!-- All Charms Bonus modal (shown once when every charm is unlocked) -->
+    <div id="all-charms-modal" class="all-charms-modal" hidden>
+        <div class="all-charms-modal__inner">
+            <div class="all-charms-modal__scanlines" aria-hidden="true"></div>
+            <div class="all-charms-modal__header">
+                <span class="all-charms-modal__tag">BONUS GIFT</span>
+                <h2 class="all-charms-modal__title">All Charms Unlocked!</h2>
+            </div>
+            <div class="all-charms-modal__icon-area">
+                <span class="all-charms-modal__icon">🎁</span>
+            </div>
+            <p class="all-charms-modal__flavor">Every charm on the machine glows at once. Deep inside the cabinet, a hidden relay clicks — and the hopper unleashes a secret cascade of bonus coins reserved for only the most charmed of players.</p>
+            <div class="all-charms-modal__reward">
+                <span class="all-charms-modal__reward-icon">🪙</span>
+                <span class="all-charms-modal__reward-label">50,000 Credits Awarded!</span>
+            </div>
+            <button class="all-charms-modal__btn" id="all-charms-modal-close">Collect your reward!</button>
         </div>
     </div>
 

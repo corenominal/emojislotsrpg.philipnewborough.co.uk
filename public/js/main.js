@@ -148,6 +148,29 @@ document.addEventListener('DOMContentLoaded', () => {
         showWizardCharm: 'zoltan_machine',
     };
 
+    // ── All-charms bonus ────────────────────────────────────────────────────────
+    // Awards 50,000 credits once, the first time every charm in CHARM_STORAGE_KEYS
+    // is active. Adding new charms to CHARM_STORAGE_KEYS automatically raises the bar.
+    const ALL_CHARMS_BONUS        = 50000;
+    const ALL_CHARMS_BONUS_KEY    = 'emojimachine.bonus.allcharms';
+
+    function checkAllCharmsBonus() {
+        try {
+            if (localStorage.getItem(ALL_CHARMS_BONUS_KEY) === '1') return;
+            const allActive = Object.values(CHARM_STORAGE_KEYS).every(
+                key => localStorage.getItem(key) === '1'
+            );
+            if (!allActive) return;
+            localStorage.setItem(ALL_CHARMS_BONUS_KEY, '1');
+        } catch (e) { return; }
+
+        // Delay so any in-progress RPG-modal close and coin-counter animations finish first.
+        setTimeout(() => {
+            const modal = document.getElementById('all-charms-modal');
+            if (modal) modal.hidden = false;
+        }, 2700);
+    }
+
     // Clears all localStorage items except volume settings.
     function clearGameStorage() {
         try {
@@ -272,6 +295,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeWizardModal() { if (wizardModalEl) wizardModalEl.hidden = true; }
     if (wizardCloseBtn) wizardCloseBtn.addEventListener('click', closeWizardModal);
     if (wizardModalEl)  wizardModalEl.addEventListener('click', (e) => { if (e.target === wizardModalEl) closeWizardModal(); });
+
+    // All Charms Bonus modal wiring
+    const allCharmsModalEl  = document.getElementById('all-charms-modal');
+    const allCharmsCloseBtn = document.getElementById('all-charms-modal-close');
+    function closeAllCharmsModal() { if (allCharmsModalEl) allCharmsModalEl.hidden = true; }
+    if (allCharmsCloseBtn) allCharmsCloseBtn.addEventListener('click', () => {
+        const curCoins = +coinsEl.textContent;
+        const newCoins = curCoins + ALL_CHARMS_BONUS;
+        closeAllCharmsModal();
+        countCoins(curCoins, newCoins, false, `+${ALL_CHARMS_BONUS.toLocaleString()} 🎁`);
+    });
+    if (allCharmsModalEl)  allCharmsModalEl.addEventListener('click', (e) => { if (e.target === allCharmsModalEl) closeAllCharmsModal(); });
 
     // Settings: Reset Game — use inline confirm UI (no native confirm)
     const settingsResetBtn = document.getElementById('settings-reset');
@@ -598,6 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window[data.function]();
                     if (CHARM_STORAGE_KEYS[data.function]) {
                         try { localStorage.setItem(CHARM_STORAGE_KEYS[data.function], '1'); } catch (e) { /* ignore */ }
+                        checkAllCharmsBonus();
                     }
                 }
                 const change = data.creditChange || (data.creditMultiplier ? Math.round(curCoins * (data.creditMultiplier - 1)) : 0);

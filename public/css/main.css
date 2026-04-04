@@ -2589,3 +2589,157 @@ main.machine {
 .wizard-modal__btn:active {
     transform: scale(0.97);
 }
+
+/* ── All Charms Bonus modal ───────────────────────────────────────────────── */
+.all-charms-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 360;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.10) 3px,
+            rgba(0, 0, 0, 0.10) 4px
+        ),
+        radial-gradient(ellipse at 50% 40%, rgba(40, 28, 0, 0.97) 0%, rgba(20, 12, 0, 0.99) 72%);
+    animation: modal-fadein 0.35s ease both;
+}
+.all-charms-modal[hidden] { display: none; }
+
+.all-charms-modal__inner {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(40, 28, 0, 0.97);
+    border: 2px solid rgba(255, 200, 0, 0.4);
+    border-radius: 12px;
+    padding: 22px 24px 20px;
+    box-shadow:
+        0 0 40px rgba(255, 180, 0, 0.2),
+        0 0 80px rgba(200, 120, 0, 0.12),
+        inset 0 2px 8px rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    text-align: center;
+}
+
+.all-charms-modal__scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
+    );
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.all-charms-modal__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.all-charms-modal__tag {
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffd700;
+    text-shadow: 0 0 10px #ffd700;
+}
+
+.all-charms-modal__title {
+    margin: 0;
+    font-size: clamp(15px, 3.5vw, 22px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #ffe87c;
+    text-shadow: 0 0 14px rgba(255, 200, 0, 0.7);
+    text-transform: uppercase;
+}
+
+.all-charms-modal__icon-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.all-charms-modal__icon {
+    font-size: clamp(48px, 12vw, 72px);
+    filter: drop-shadow(0 0 14px rgba(255, 200, 0, 0.65));
+    animation: wizard-float 2.4s ease-in-out infinite;
+    display: block;
+}
+
+.all-charms-modal__flavor {
+    font-size: clamp(12.5px, 2.7vw, 15px);
+    color: rgba(255, 230, 150, 0.85);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.all-charms-modal__reward {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 180, 0, 0.12);
+    border: 1px solid rgba(255, 200, 0, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.all-charms-modal__reward-icon {
+    font-size: 1.5rem;
+}
+
+.all-charms-modal__reward-label {
+    font-size: 0.88rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 200, 0, 0.5);
+}
+
+.all-charms-modal__btn {
+    font-family: inherit;
+    width: 100%;
+    padding: clamp(12px, 2.4vw, 18px) 0;
+    border: 0;
+    border-radius: 8px;
+    font-size: clamp(13px, 3vw, 17px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(180deg, #ffd700, #c87900);
+    color: #1a0e00;
+    box-shadow: 0 0 22px rgba(255, 180, 0, 0.4);
+    position: relative;
+    z-index: 2;
+}
+.all-charms-modal__btn:active {
+    transform: scale(0.97);
+}
